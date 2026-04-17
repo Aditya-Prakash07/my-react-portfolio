@@ -1,624 +1,656 @@
 import { useState, useEffect, useRef } from "react";
 
-const data = {
+const DATA = {
   name: "Aditya Prakash",
-  title: "Software Engineer",
-  tagline: "Backend Systems · Microservices · Cloud & DevOps",
-  contact: {
-    phone: "+91 9529338081",
-    email: "toadityarajput@gmail.com",
-    linkedin: "aditya-prakash-996538170",
-    github: "Aditya-Prakash07",
-  },
-  summary:
-    "Software Engineer delivering backend systems in Java and Spring Boot. Specialized in RESTful API design, microservices, and CI/CD automation. Shipped production systems handling 1M+ daily events at sub-100ms response times.",
+  roles: ["Software Engineer", "Backend Architect", "API Specialist", "Microservices Dev", "Cloud Engineer"],
+  summary: "Specialized in RESTful API design, microservices, and CI/CD automation. Shipped production systems handling 1M+ daily events at sub-100ms response times.",
+  contact: { phone: "+91 9529338081", email: "toadityarajput@gmail.com", linkedin: "aditya-prakash-996538170", github: "Aditya-Prakash07" },
   stats: [
-    { value: "1M+", label: "Daily Events Handled" },
-    { value: "<100ms", label: "Response Times" },
-    { value: "35%", label: "Query Performance Boost" },
-    { value: "40%", label: "Faster Deployments" },
+    { value: 1000000, prefix: "", suffix: "+", label: "Daily Events", icon: "⚡" },
+    { value: 100, prefix: "<", suffix: "ms", label: "Response Time", icon: "🚀" },
+    { value: 35, prefix: "", suffix: "%", label: "Query Boost", icon: "📈" },
+    { value: 40, prefix: "", suffix: "%", label: "Faster Deploy", icon: "🔧" },
   ],
-  skills: {
-    Languages: ["Java", "JavaScript (ES6)", "TypeScript", "SQL", "HTML", "CSS"],
-    "Frameworks & Libraries": ["Spring Boot", "Spring MVC", "Spring Data JPA", "Hibernate", "React.js", "Node.js"],
-    Databases: ["MySQL", "PostgreSQL", "SQL Server", "Redis"],
-    "Messaging & Integration": ["Apache Kafka", "WebSocket", "REST APIs", "JWT"],
-    "Cloud & DevOps": ["Azure", "AWS (EC2, S3)", "Docker", "Kubernetes", "GitHub Actions", "Jenkins"],
-    Architecture: ["Microservices", "Event-Driven", "SOLID", "Design Patterns", "CI/CD", "TDD", "Agile/Scrum"],
-  },
+  skills: [
+    { cat: "Languages", color: "#00D4FF", items: ["Java", "JavaScript", "TypeScript", "SQL", "HTML", "CSS"] },
+    { cat: "Frameworks", color: "#7C3AED", items: ["Spring Boot", "Spring MVC", "Spring Data JPA", "Hibernate", "React.js", "Node.js"] },
+    { cat: "Databases", color: "#10B981", items: ["MySQL", "PostgreSQL", "SQL Server", "Redis"] },
+    { cat: "Messaging", color: "#F59E0B", items: ["Apache Kafka", "WebSocket", "REST APIs", "JWT"] },
+    { cat: "Cloud & DevOps", color: "#EF4444", items: ["Azure", "AWS (EC2, S3)", "Docker", "Kubernetes", "GitHub Actions", "Jenkins"] },
+    { cat: "Architecture", color: "#EC4899", items: ["Microservices", "Event-Driven", "SOLID", "Design Patterns", "CI/CD", "TDD"] },
+  ],
   experience: [
     {
-      company: "System Infra Solutions",
-      role: "Software Engineer",
-      period: "Jul 2024 – Present",
+      company: "System Infra Solutions", role: "Software Engineer", period: "Jul 2024 – Present", current: true, color: "#00D4FF",
       bullets: [
-        "Developed APIs & frontend components for sensor telemetry monitoring across 10+ sites — 99.9% uptime, sub-100ms response.",
-        "Implemented microservices architecture for 5+ independently deployable components, cutting inter-service coupling by 60%.",
-        "Established CI/CD pipelines via Azure DevOps — reduced release cycle time by 40%, eliminated manual deployment errors.",
-        "Sustained 95% on-time delivery rate over 12+ Agile sprints with UI/UX, QA, and Product teams.",
+        "APIs & frontend for sensor telemetry monitoring across 10+ sites — 99.9% uptime, sub-100ms response.",
+        "Microservices for 5+ independently deployable components — cut inter-service coupling 60%.",
+        "CI/CD via Azure DevOps — release cycle 40% faster, zero manual deployment errors.",
+        "95% on-time delivery over 12+ consecutive Agile sprints.",
       ],
     },
     {
-      company: "Nanomindz Technologies Pvt. Ltd.",
-      role: "Software Engineer Intern",
-      period: "Mar 2024 – Jun 2024",
+      company: "Nanomindz Technologies", role: "Software Engineer Intern", period: "Mar 2024 – Jun 2024", current: false, color: "#7C3AED",
       bullets: [
-        "Built Java backend with JDBC and MySQL sustaining 10,000+ daily record operations with zero data-loss.",
-        "Authored JWT-based authentication with RBAC — zero unauthorized-access breaches post-launch.",
-        "Tuned 20+ SQL queries, yielding 35% drop in p95 query execution time under peak load.",
-        "Delivered 15+ RESTful endpoints, slashing cross-team defects by 50% and accelerating UI release by 2 weeks.",
+        "Java backend with JDBC + MySQL — 10,000+ daily record ops, zero data-loss.",
+        "JWT auth + RBAC — zero unauthorized-access breaches post-launch.",
+        "Tuned 20+ SQL queries — 35% drop in p95 execution time under peak load.",
+        "15+ RESTful endpoints — cross-team defects down 50%, UI release 2 weeks faster.",
       ],
     },
   ],
   projects: [
-    {
-      name: "iProtect",
-      tags: ["Spring Boot", "WebSocket", "React"],
-      description:
-        "Real-time site monitoring & alarm platform tracking communication health, battery status, theft detection, and power-outage alerts for 50+ locations. Cut alert-to-action time by 45%.",
-    },
-    {
-      name: "SISAXS",
-      tags: ["Kafka", "IoT", "Microservices"],
-      description:
-        "Fault-tolerant IoT sensor system ingesting 1M+ telemetry events daily via distributed message broker. Automatic failover kept uptime above 99.8%. Trimmed end-to-end processing overhead by 30%.",
-    },
-    {
-      name: "E-Commerce Application",
-      tags: ["Spring Boot", "React", "Redis", "JWT"],
-      description:
-        "Full-stack store supporting 500+ concurrent shoppers with JWT-secured RBAC. Introduced Redis caching and JPA optimizations, dropping API p99 response time by 25%.",
-    },
+    { name: "iProtect", num: "01", color: "#00D4FF", accent: "#0099CC", tags: ["Spring Boot", "WebSocket", "React"], desc: "Real-time site monitoring & alarm platform for 50+ locations. Cut alert-to-action time by 45% via event-driven backend + WebSocket-powered React frontend.", metric: "45% faster alerts" },
+    { name: "SISAXS", num: "02", color: "#7C3AED", accent: "#5B21B6", tags: ["Kafka", "IoT", "Microservices"], desc: "Fault-tolerant IoT system ingesting 1M+ telemetry events daily. Automatic failover kept uptime above 99.8%. Trimmed processing overhead by 30%.", metric: "1M+ events/day" },
+    { name: "E-Commerce App", num: "03", color: "#10B981", accent: "#059669", tags: ["Spring Boot", "React", "Redis", "JWT"], desc: "Full-stack store for 500+ concurrent shoppers. Redis caching + JPA optimizations dropped API p99 response time by 25%. Zero security incidents.", metric: "500+ concurrent users" },
   ],
-  education: {
-    school: "SRM Institute of Science and Technology",
-    degree: "Master of Computer Applications – Computer Science",
-    period: "2023 – 2025",
-    gpa: "9.35 / 10.0",
-    location: "Chennai, India",
-  },
+  education: { school: "SRM Institute of Science and Technology", degree: "Master of Computer Applications", field: "Computer Science", period: "2023 – 2025", gpa: "9.35", location: "Chennai, India" },
   certifications: [
-    { name: "Full Stack Java Developer", issuer: "AccioJob" },
-    { name: "Claude AI Certification", issuer: "Anthropic" },
+    { name: "Full Stack Java Developer", issuer: "AccioJob", icon: "☕" },
+    { name: "Claude AI Certification", issuer: "Anthropic", icon: "🤖" },
   ],
   achievements: [
-    "Completed 1,100+ coding challenges on AccioJob — top 5% of all active participants.",
-    "Solved 100+ LeetCode problems: graph algorithms, tree traversal, memoization.",
-    "Nominated for internal API Performance Award — boosted throughput by 20%, trimmed mean response by 30ms.",
+    { text: "1,100+ coding challenges on AccioJob", highlight: "Top 5%", icon: "🏆" },
+    { text: "100+ LeetCode problems solved", highlight: "Graphs · Trees · DP", icon: "💡" },
+    { text: "API Performance Award nominee", highlight: "+20% throughput", icon: "⚡" },
   ],
 };
 
-const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Education", "Contact"];
+const NAV = ["About", "Skills", "Experience", "Projects", "Education", "Contact"];
 
-function useTheme() {
-  const [dark, setDark] = useState(true);
-  return { dark, toggle: () => setDark((d) => !d) };
+// ── Aurora Background ────────────────────────────────────────────────────────
+function AuroraBg({ dark }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 0, overflow: "hidden", pointerEvents: "none" }}>
+      <div style={{ position: "absolute", inset: 0, background: dark ? "radial-gradient(ellipse at 20% 50%, #04001a 0%, #010008 50%, #000003 100%)" : "radial-gradient(ellipse at 20% 50%, #eef2ff 0%, #e0e7ff 50%, #dbeafe 100%)" }} />
+      {dark && (
+        <>
+          <div style={{ position: "absolute", width: 800, height: 800, borderRadius: "50%", top: "-25%", left: "-15%", background: "radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 65%)", animation: "au1 14s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", width: 1000, height: 700, borderRadius: "50%", top: "10%", right: "-25%", background: "radial-gradient(circle, rgba(124,58,237,0.09) 0%, transparent 65%)", animation: "au2 17s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", width: 700, height: 700, borderRadius: "50%", bottom: "-15%", left: "25%", background: "radial-gradient(circle, rgba(236,72,153,0.06) 0%, transparent 65%)", animation: "au3 11s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(rgba(0,212,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,1) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
+        </>
+      )}
+      {!dark && (
+        <>
+          <div style={{ position: "absolute", width: 800, height: 800, borderRadius: "50%", top: "-25%", left: "-15%", background: "radial-gradient(circle, rgba(99,179,237,0.18) 0%, transparent 65%)", animation: "au1 14s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", width: 1000, height: 700, borderRadius: "50%", top: "10%", right: "-25%", background: "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 65%)", animation: "au2 17s ease-in-out infinite" }} />
+        </>
+      )}
+      <div style={{ position: "absolute", inset: 0, opacity: dark ? 0.025 : 0.012, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundSize: "150px 150px" }} />
+    </div>
+  );
 }
 
-function AnimatedCanvas({ dark }) {
-  const canvasRef = useRef(null);
+// ── Magnetic Cursor ──────────────────────────────────────────────────────────
+function MagneticCursor({ dark }) {
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
+  const pos = useRef({ x: 0, y: 0 });
+  const ring = useRef({ x: 0, y: 0 });
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const onMove = (e) => { pos.current = { x: e.clientX, y: e.clientY }; };
+    window.addEventListener("mousemove", onMove);
+    let id;
+    const tick = () => {
+      ring.current.x += (pos.current.x - ring.current.x) * 0.1;
+      ring.current.y += (pos.current.y - ring.current.y) * 0.1;
+      if (dotRef.current) dotRef.current.style.transform = `translate(${pos.current.x - 5}px,${pos.current.y - 5}px)`;
+      if (ringRef.current) ringRef.current.style.transform = `translate(${ring.current.x - 18}px,${ring.current.y - 18}px)`;
+      id = requestAnimationFrame(tick);
+    };
+    tick();
+    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(id); };
+  }, []);
+  const c = dark ? "#00D4FF" : "#7C3AED";
+  return (
+    <>
+      <div ref={dotRef} style={{ position: "fixed", top: 0, left: 0, width: 10, height: 10, borderRadius: "50%", background: c, zIndex: 9999, pointerEvents: "none", mixBlendMode: dark ? "screen" : "multiply" }} />
+      <div ref={ringRef} style={{ position: "fixed", top: 0, left: 0, width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${c}70`, zIndex: 9998, pointerEvents: "none" }} />
+    </>
+  );
+}
+
+// ── Particle Field ───────────────────────────────────────────────────────────
+function ParticleField({ dark }) {
+  const ref = useRef(null);
+  const mouse = useRef({ x: -999, y: -999 });
+  useEffect(() => {
+    const canvas = ref.current; if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    let animId;
-    let w, h;
-    const PARTICLE_COUNT = 55;
-    const particles = [];
-
-    function resize() {
-      w = canvas.width = canvas.offsetWidth;
-      h = canvas.height = canvas.offsetHeight;
-    }
-
-    function initParticles() {
-      particles.length = 0;
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particles.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
-          r: Math.random() * 2 + 1,
-        });
-      }
-    }
-
+    let id, w, h;
+    const N = 90, pts = [];
+    const resize = () => { w = canvas.width = canvas.offsetWidth; h = canvas.height = canvas.offsetHeight; };
     resize();
-    initParticles();
-    window.addEventListener("resize", () => { resize(); initParticles(); });
-
-    function draw() {
+    for (let i = 0; i < N; i++) pts.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35, r: Math.random() * 1.5 + 0.4 });
+    const onM = (e) => { const r = canvas.getBoundingClientRect(); mouse.current = { x: e.clientX - r.left, y: e.clientY - r.top }; };
+    window.addEventListener("mousemove", onM);
+    window.addEventListener("resize", resize);
+    const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      const dotColor = dark ? "rgba(99,179,237,0.55)" : "rgba(66,133,244,0.45)";
-      const lineColor = dark ? "rgba(99,179,237,0.12)" : "rgba(66,133,244,0.1)";
-
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
+      const { x: mx, y: my } = mouse.current;
+      for (let i = 0; i < N; i++) {
+        const p = pts[i];
+        const dx = mx - p.x, dy = my - p.y, d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 140) { p.vx -= (dx / d) * 0.18; p.vy -= (dy / d) * 0.18; }
+        p.vx *= 0.985; p.vy *= 0.985;
+        p.x += p.vx; p.y += p.vy;
         if (p.x < 0 || p.x > w) p.vx *= -1;
         if (p.y < 0 || p.y > h) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = dotColor;
-        ctx.fill();
-
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j];
-          const dx = p.x - q.x, dy = p.y - q.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 130) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = lineColor;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = dark ? "rgba(0,212,255,0.7)" : "rgba(124,58,237,0.55)"; ctx.fill();
+        for (let j = i + 1; j < N; j++) {
+          const q = pts[j], ex = p.x - q.x, ey = p.y - q.y, dist = Math.sqrt(ex * ex + ey * ey);
+          if (dist < 110) {
+            const a = (1 - dist / 110) * 0.3;
+            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = dark ? `rgba(0,212,255,${a})` : `rgba(124,58,237,${a})`; ctx.lineWidth = 0.6; ctx.stroke();
           }
         }
       }
-      animId = requestAnimationFrame(draw);
-    }
+      id = requestAnimationFrame(draw);
+    };
     draw();
-    return () => { cancelAnimationFrame(animId); window.removeEventListener("resize", resize); };
+    return () => { cancelAnimationFrame(id); window.removeEventListener("mousemove", onM); window.removeEventListener("resize", resize); };
   }, [dark]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: "absolute", inset: 0, width: "100%", height: "100%",
-        opacity: 0.7, pointerEvents: "none",
-      }}
-    />
-  );
+  return <canvas ref={ref} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "all" }} />;
 }
 
-function Tag({ label, dark }) {
+// ── Typewriter ───────────────────────────────────────────────────────────────
+function Typewriter({ words, color }) {
+  const [idx, setIdx] = useState(0);
+  const [txt, setTxt] = useState("");
+  const [del, setDel] = useState(false);
+  const [blink, setBlink] = useState(true);
+  useEffect(() => {
+    const id = setInterval(() => setBlink(b => !b), 530);
+    return () => clearInterval(id);
+  }, []);
+  useEffect(() => {
+    const word = words[idx];
+    let t;
+    if (!del && txt === word) { t = setTimeout(() => setDel(true), 2200); }
+    else if (del && txt === "") { setDel(false); setIdx(i => (i + 1) % words.length); }
+    else { t = setTimeout(() => setTxt(del ? txt.slice(0, -1) : word.slice(0, txt.length + 1)), del ? 35 : 75); }
+    return () => clearTimeout(t);
+  }, [txt, del, idx, words]);
+  return <span style={{ color }}>{txt}<span style={{ opacity: blink ? 1 : 0, color }}>|</span></span>;
+}
+
+// ── Animated Counter ─────────────────────────────────────────────────────────
+function Counter({ value, prefix = "", suffix = "" }) {
+  const [n, setN] = useState(0);
+  const ref = useRef(null);
+  const done = useRef(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !done.current) {
+        done.current = true;
+        const steps = 60, dur = 1600;
+        let s = 0;
+        const t = setInterval(() => {
+          s++;
+          const ease = s / steps;
+          setN(Math.round(value * (1 - Math.pow(1 - ease, 3))));
+          if (s >= steps) { setN(value); clearInterval(t); }
+        }, dur / steps);
+      }
+    }, { threshold: 0.5 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [value]);
+  const display = value >= 1000000 ? prefix + (n >= 1000000 ? Math.floor(n / 1000000) + "M" : Math.floor(n / 1000) + "K") + suffix : prefix + n + suffix;
+  return <span ref={ref}>{display}</span>;
+}
+
+// ── 3D Tilt Card ─────────────────────────────────────────────────────────────
+function TiltCard({ children, dark, style, glow = "#00D4FF" }) {
+  const ref = useRef(null);
+  const onMove = (e) => {
+    const el = ref.current; if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(900px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.025)`;
+    el.style.boxShadow = `${x * -25}px ${y * -25}px 50px ${glow}18, 0 0 30px ${glow}10`;
+  };
+  const onLeave = () => {
+    const el = ref.current; if (!el) return;
+    el.style.transform = "perspective(900px) rotateY(0deg) rotateX(0deg) scale(1)";
+    el.style.boxShadow = "none";
+  };
   return (
-    <span style={{
-      fontSize: 12, fontWeight: 600, padding: "3px 10px",
-      borderRadius: 20,
-      background: dark ? "rgba(99,179,237,0.15)" : "rgba(66,133,244,0.12)",
-      color: dark ? "#63B3ED" : "#185fa5",
-      border: dark ? "1px solid rgba(99,179,237,0.3)" : "1px solid rgba(66,133,244,0.25)",
-      letterSpacing: "0.04em",
+    <div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave} style={{
+      background: dark ? "rgba(255,255,255,0.025)" : "rgba(255,255,255,0.82)",
+      border: dark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(124,58,237,0.12)",
+      borderRadius: 20, backdropFilter: "blur(24px)",
+      transition: "transform 0.12s ease, box-shadow 0.12s ease",
+      willChange: "transform", ...style,
     }}>
-      {label}
-    </span>
-  );
-}
-
-function Section({ id, children, style }) {
-  return (
-    <section id={id} style={{ padding: "80px 0", ...style }}>
       {children}
-    </section>
+    </div>
   );
 }
 
-function SectionTitle({ children, dark }) {
+// ── Scroll Reveal ────────────────────────────────────────────────────────────
+function Reveal({ children, delay = 0 }) {
+  const ref = useRef(null);
+  const [v, setV] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setV(true); }, { threshold: 0.08 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
   return (
-    <div style={{ marginBottom: 48, display: "flex", alignItems: "center", gap: 16 }}>
-      <h2 style={{
-        fontSize: 32, fontWeight: 800, margin: 0,
-        fontFamily: "'Space Grotesk', 'DM Sans', sans-serif",
-        color: dark ? "#63B3ED" : "#185fa5",
-      }}>
-        {children}
-      </h2>
+    <div ref={ref} style={{ opacity: v ? 1 : 0, transform: v ? "translateY(0px)" : "translateY(48px)", transition: `opacity 0.75s ease ${delay}s, transform 0.75s cubic-bezier(.22,1,.36,1) ${delay}s` }}>
+      {children}
+    </div>
+  );
+}
+
+// ── Skill Pill ───────────────────────────────────────────────────────────────
+function Pill({ label, color, dark }) {
+  const [h, setH] = useState(false);
+  return (
+    <span onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{
+      display: "inline-block", padding: "5px 13px", borderRadius: 30, fontSize: 11.5,
+      fontWeight: 600, fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.02em",
+      background: h ? color + "28" : dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
+      border: `1px solid ${h ? color : dark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.09)"}`,
+      color: h ? color : dark ? "#94a3b8" : "#475569",
+      transition: "all 0.18s ease", cursor: "default",
+      boxShadow: h ? `0 0 14px ${color}35` : "none",
+    }}>{label}</span>
+  );
+}
+
+// ── Theme Toggle ─────────────────────────────────────────────────────────────
+function ThemeToggle({ dark, toggle }) {
+  const c = dark ? "#00D4FF" : "#7C3AED";
+  return (
+    <button onClick={toggle} aria-label="Toggle theme" style={{
+      position: "relative", width: 54, height: 28, borderRadius: 14,
+      background: dark ? "rgba(0,212,255,0.12)" : "rgba(124,58,237,0.1)",
+      border: `1px solid ${c}50`, cursor: "pointer", padding: 0,
+      transition: "all 0.3s", flexShrink: 0,
+    }}>
       <div style={{
-        flex: 1, height: 1,
-        background: dark
-          ? "linear-gradient(90deg,rgba(99,179,237,0.4),transparent)"
-          : "linear-gradient(90deg,rgba(66,133,244,0.3),transparent)",
-      }} />
-    </div>
+        position: "absolute", top: 3, left: dark ? 28 : 3, width: 20, height: 20, borderRadius: "50%",
+        background: c, transition: "left 0.35s cubic-bezier(.34,1.56,.64,1)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: `0 0 10px ${c}90`,
+      }}>
+        {dark
+          ? <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></svg>
+          : <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        }
+      </div>
+    </button>
   );
 }
 
-function GlassCard({ children, dark, style, hover }) {
-  const [hovered, setHovered] = useState(false);
+// ── Section Label ────────────────────────────────────────────────────────────
+function SectionHead({ num, title, accent, dark }) {
   return (
-    <div
-      onMouseEnter={() => hover && setHovered(true)}
-      onMouseLeave={() => hover && setHovered(false)}
-      style={{
-        background: dark
-          ? hovered ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.04)"
-          : hovered ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.7)",
-        border: dark
-          ? `1px solid rgba(99,179,237,${hovered ? 0.35 : 0.15})`
-          : `1px solid rgba(66,133,244,${hovered ? 0.4 : 0.2})`,
-        borderRadius: 16,
-        backdropFilter: "blur(12px)",
-        padding: "28px 32px",
-        transition: "all 0.25s ease",
-        transform: hovered ? "translateY(-3px)" : "none",
-        boxShadow: hovered
-          ? dark ? "0 12px 40px rgba(99,179,237,0.12)" : "0 12px 40px rgba(66,133,244,0.12)"
-          : "none",
-        ...style,
-      }}
-    >
-      {children}
+    <div style={{ marginBottom: 60 }}>
+      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: accent, letterSpacing: "0.18em", marginBottom: 14, opacity: 0.9 }}>{num}</div>
+      <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: "clamp(34px,4.5vw,58px)", color: dark ? "#e2e8f0" : "#1e293b", lineHeight: 1.05 }}>
+        {title[0]}<br /><span style={{ color: accent }}>{title[1]}</span>
+      </h2>
     </div>
   );
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
 export default function Portfolio() {
-  const { dark, toggle } = useTheme();
+  const [dark, setDark] = useState(true);
   const [activeNav, setActiveNav] = useState("About");
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const bg = dark
-    ? "linear-gradient(135deg, #0a0e1a 0%, #0d1b2e 40%, #0a0e1a 100%)"
-    : "linear-gradient(135deg, #e8f0fe 0%, #f0f4ff 50%, #e0e8fd 100%)";
-
-  const textPrimary = dark ? "#e2e8f0" : "#1a202c";
-  const textSecondary = dark ? "#94a3b8" : "#4a5568";
-  const accent = dark ? "#63B3ED" : "#185fa5";
+  const toggle = () => setDark(d => !d);
 
   const scrollTo = (id) => {
-    const el = document.getElementById(id.toLowerCase());
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
     setActiveNav(id);
-    setMenuOpen(false);
   };
 
+  const T = dark ? "#e2e8f0" : "#1e293b";
+  const TS = dark ? "#64748b" : "#64748b";
+  const A = dark ? "#00D4FF" : "#7C3AED";
+  const A2 = dark ? "#7C3AED" : "#EC4899";
+
   return (
-    <div style={{ background: bg, minHeight: "100vh", color: textPrimary, fontFamily: "'DM Sans', 'Inter', sans-serif", position: "relative", overflowX: "hidden" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <div style={{ minHeight: "100vh", color: T, fontFamily: "'DM Sans', sans-serif", overflowX: "hidden", cursor: "none" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;600&display=swap');
+        *{box-sizing:border-box;margin:0;padding:0;}
+        html{scroll-behavior:smooth;}
+        ::selection{background:${A}30;color:${A};}
+        ::-webkit-scrollbar{width:4px;}
+        ::-webkit-scrollbar-track{background:transparent;}
+        ::-webkit-scrollbar-thumb{background:${dark ? "rgba(0,212,255,0.3)" : "rgba(124,58,237,0.3)"};border-radius:2px;}
+        @keyframes au1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(70px,-50px) scale(1.12);}}
+        @keyframes au2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-90px,70px) scale(0.88);}}
+        @keyframes au3{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(50px,90px) scale(1.08);}}
+        @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+        @keyframes spin{to{transform:rotate(360deg);}}
+        @keyframes spin-rev{to{transform:rotate(-360deg);}}
+        @keyframes pring{0%{transform:scale(1);opacity:.7;}100%{transform:scale(1.8);opacity:0;}}
+        @keyframes line-down{0%{height:0;opacity:0;}100%{height:60px;opacity:1;}}
+        .navbtn:hover{color:${A} !important;}
+        .glow-btn:hover{transform:translateY(-3px) !important; filter:brightness(1.1);}
+        .contact-chip:hover{border-color:${A} !important; background:${A}12 !important; transform:translateY(-2px); color:${A} !important;}
+        .social-btn:hover{border-color:${A} !important; color:${A} !important; background:${A}10 !important;}
+      `}</style>
 
-      {/* Navbar */}
+      <AuroraBg dark={dark} />
+      <MagneticCursor dark={dark} />
+
+      {/* ───── NAVBAR ───── */}
       <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        background: dark ? "rgba(10,14,26,0.85)" : "rgba(232,240,254,0.85)",
-        backdropFilter: "blur(20px)",
-        borderBottom: dark ? "1px solid rgba(99,179,237,0.12)" : "1px solid rgba(66,133,244,0.15)",
-        padding: "0 5vw",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        height: 64,
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 500, height: 64,
+        display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 6vw",
+        background: dark ? "rgba(4,0,18,0.75)" : "rgba(238,242,255,0.75)",
+        backdropFilter: "blur(28px) saturate(1.4)",
+        borderBottom: dark ? "1px solid rgba(0,212,255,0.07)" : "1px solid rgba(124,58,237,0.09)",
       }}>
-        <span style={{
-          fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 20,
-          color: dark ? "#63B3ED" : "#185fa5",
-        }}>AP</span>
-
-        <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-          {NAV_LINKS.map((l) => (
-            <button key={l} onClick={() => scrollTo(l)} style={{
-              background: activeNav === l
-                ? dark ? "rgba(99,179,237,0.15)" : "rgba(66,133,244,0.12)"
-                : "transparent",
-              border: "none", color: activeNav === l ? accent : textSecondary,
-              padding: "6px 14px", borderRadius: 8, cursor: "pointer",
-              fontFamily: "inherit", fontSize: 14, fontWeight: 500,
-              transition: "all 0.2s",
-            }}>
-              {l}
-            </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 34, height: 34, borderRadius: 10, background: `linear-gradient(135deg,${A},${A2})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: 13, color: "#fff", boxShadow: `0 0 18px ${A}50`, letterSpacing: "0.02em" }}>AP</div>
+          <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 700, fontSize: 15, color: T }}>Aditya Prakash</span>
+        </div>
+        <div style={{ display: "flex", gap: 2, alignItems: "center" }}>
+          {NAV.map(l => (
+            <button key={l} className="navbtn" onClick={() => scrollTo(l)} style={{
+              background: activeNav === l ? A + "12" : "transparent",
+              border: activeNav === l ? `1px solid ${A}25` : "1px solid transparent",
+              color: activeNav === l ? A : TS, padding: "5px 15px", borderRadius: 8, cursor: "pointer",
+              fontFamily: "inherit", fontSize: 13, fontWeight: 500, transition: "all 0.2s", letterSpacing: "0.01em",
+            }}>{l}</button>
           ))}
-          <button onClick={toggle} style={{
-            marginLeft: 8, background: dark ? "rgba(99,179,237,0.1)" : "rgba(66,133,244,0.1)",
-            border: dark ? "1px solid rgba(99,179,237,0.3)" : "1px solid rgba(66,133,244,0.3)",
-            borderRadius: 8, width: 36, height: 36, cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            transition: "all 0.2s", color: accent, padding: 0,
-          }}>
-            {dark ? (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-              </svg>
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-              </svg>
-            )}
-          </button>
+          <div style={{ marginLeft: 14 }}><ThemeToggle dark={dark} toggle={toggle} /></div>
         </div>
       </nav>
 
-      {/* HERO */}
-      <div id="about" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
-        <AnimatedCanvas dark={dark} />
-        <div style={{
-          position: "relative", zIndex: 2, padding: "0 8vw", width: "100%",
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          gap: 48, flexWrap: "wrap",
-        }}>
-          {/* Left: text */}
-          <div style={{ maxWidth: 580, flex: "1 1 320px" }}>
-          <div style={{ marginBottom: 16, display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{
-              width: 8, height: 8, borderRadius: "50%", background: "#48BB78",
-              boxShadow: "0 0 8px #48BB78",
-            }} />
-            <span style={{ fontSize: 13, color: "#48BB78", fontWeight: 600, letterSpacing: "0.08em", fontFamily: "'JetBrains Mono', monospace" }}>
-              AVAILABLE FOR OPPORTUNITIES
-            </span>
+      {/* ───── HERO ───── */}
+      <section id="about" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", padding: "80px 6vw 0", overflow: "hidden" }}>
+        <ParticleField dark={dark} />
+        <div style={{ position: "relative", zIndex: 2, width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 48, flexWrap: "wrap" }}>
+          {/* Left */}
+          <div style={{ flex: "1 1 460px", maxWidth: 600 }}>
+            {/* Badge */}
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 30, padding: "6px 14px 6px 8px", borderRadius: 30, background: dark ? "rgba(0,212,255,0.05)" : "rgba(124,58,237,0.05)", border: dark ? "1px solid rgba(0,212,255,0.18)" : "1px solid rgba(124,58,237,0.18)" }}>
+              <div style={{ position: "relative", width: 9, height: 9, flexShrink: 0 }}>
+                <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#10B981" }} />
+                <div style={{ position: "absolute", inset: -2, borderRadius: "50%", border: "2px solid #10B981", animation: "pring 1.8s ease-out infinite" }} />
+              </div>
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#10B981", fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.08em" }}>AVAILABLE FOR WORK</span>
+            </div>
+
+            <h1 style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, lineHeight: 1.0, marginBottom: 10 }}>
+              <span style={{ display: "block", fontSize: "clamp(54px,7.5vw,98px)", color: T, letterSpacing: "-0.02em" }}>Aditya</span>
+              <span style={{ display: "block", fontSize: "clamp(54px,7.5vw,98px)", color: A, letterSpacing: "-0.02em", filter: dark ? `drop-shadow(0 0 35px ${A}55)` : "none" }}>Prakash</span>
+            </h1>
+
+            <div style={{ height: 44, display: "flex", alignItems: "center", marginBottom: 22, gap: 6 }}>
+              <span style={{ fontSize: 19, fontWeight: 300, color: TS }}>I am a</span>
+              <span style={{ fontSize: 19, fontWeight: 700, fontFamily: "'Space Grotesk',sans-serif" }}><Typewriter words={DATA.roles} color={A} /></span>
+            </div>
+
+            <p style={{ fontSize: 15.5, color: TS, lineHeight: 1.9, maxWidth: 490, marginBottom: 42 }}>{DATA.summary}</p>
+
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 38 }}>
+              <button className="glow-btn" onClick={() => scrollTo("Projects")} style={{
+                padding: "13px 30px", borderRadius: 12, fontWeight: 700, fontSize: 13, cursor: "pointer",
+                fontFamily: "inherit", transition: "all 0.25s",
+                background: `linear-gradient(135deg,${A},${A2})`, color: "#fff", border: "none",
+                letterSpacing: "0.05em", boxShadow: `0 6px 28px ${A}45`,
+              }}>VIEW PROJECTS</button>
+              <a href={`mailto:${DATA.contact.email}`} className="glow-btn" style={{
+                padding: "13px 30px", borderRadius: 12, fontWeight: 700, fontSize: 13, cursor: "pointer",
+                fontFamily: "inherit", transition: "all 0.25s", textDecoration: "none",
+                background: "transparent", color: A, border: `1px solid ${A}55`,
+                letterSpacing: "0.05em", display: "flex", alignItems: "center", gap: 8,
+              }}>
+                CONTACT ME
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+
+            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+              <span style={{ fontSize: 11, color: TS, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.1em" }}>FIND ME ON</span>
+              {[
+                { href: `https://github.com/${DATA.contact.github}`, svg: <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg> },
+                { href: `https://linkedin.com/in/${DATA.contact.linkedin}`, svg: <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
+              ].map((s, i) => (
+                <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className="social-btn" style={{ width: 38, height: 38, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", background: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)", border: dark ? "1px solid rgba(255,255,255,0.09)" : "1px solid rgba(0,0,0,0.09)", color: TS, transition: "all 0.2s", textDecoration: "none" }}>{s.svg}</a>
+              ))}
+            </div>
           </div>
 
-          <h1 style={{
-            fontSize: "clamp(42px, 7vw, 84px)", fontWeight: 800, lineHeight: 1.05,
-            fontFamily: "'Space Grotesk', sans-serif", margin: "0 0 12px",
-            color: textPrimary,
-          }}>
-            Aditya
-            <span style={{
-              display: "block",
-              color: dark ? "#63B3ED" : "#185fa5",
-              textShadow: dark
-                ? "0 0 40px rgba(99,179,237,0.4)"
-                : "0 0 40px rgba(24,95,165,0.2)",
-            }}>Prakash</span>
-          </h1>
-
-          <p style={{ fontSize: 20, color: textSecondary, margin: "0 0 28px", fontWeight: 300, maxWidth: 560, lineHeight: 1.6 }}>
-            {data.tagline}
-          </p>
-
-          <p style={{ fontSize: 16, color: textSecondary, maxWidth: 520, lineHeight: 1.8, margin: "0 0 40px" }}>
-            {data.summary}
-          </p>
-
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <button onClick={() => scrollTo("Projects")} style={{
-              padding: "12px 28px", borderRadius: 10, fontWeight: 600, fontSize: 15,
-              cursor: "pointer", fontFamily: "inherit", transition: "all 0.2s",
-              background: dark ? "linear-gradient(135deg,#63B3ED,#9F7AEA)" : "linear-gradient(135deg,#185fa5,#6b46c1)",
-              color: "#fff", border: "none",
-              boxShadow: dark ? "0 4px 20px rgba(99,179,237,0.3)" : "0 4px 20px rgba(24,95,165,0.3)",
-            }}>
-              View Projects
-            </button>
-            <a href={`mailto:${data.contact.email}`} style={{
-              padding: "12px 28px", borderRadius: 10, fontWeight: 600, fontSize: 15,
-              textDecoration: "none", fontFamily: "inherit", transition: "all 0.2s",
-              background: "transparent",
-              color: accent,
-              border: dark ? "1px solid rgba(99,179,237,0.4)" : "1px solid rgba(24,95,165,0.4)",
-            }}>
-              Get In Touch
-            </a>
-          </div>
-          </div>
-
-          {/* Right: photo */}
-          <div style={{ flex: "0 0 auto", display: "flex", justifyContent: "center" }}>
-            <div style={{
-              width: 260, height: 260, borderRadius: "50%", position: "relative",
-              background: dark
-                ? "linear-gradient(135deg,rgba(99,179,237,0.2),rgba(159,122,234,0.2))"
-                : "linear-gradient(135deg,rgba(24,95,165,0.15),rgba(107,70,193,0.15))",
-              border: dark ? "2px solid rgba(99,179,237,0.35)" : "2px solid rgba(24,95,165,0.3)",
-              boxShadow: dark
-                ? "0 0 60px rgba(99,179,237,0.15), 0 0 120px rgba(99,179,237,0.08)"
-                : "0 0 60px rgba(24,95,165,0.12)",
-              display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden",
-            }}>
-              {/* Replace src below with your actual photo URL or import */}
-              <img
-                src="https://avatars.githubusercontent.com/Aditya-Prakash07"
-                alt="Aditya Prakash"
-                onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }}
-                style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
-              />
-              {/* Fallback initials avatar */}
+          {/* Right: Avatar with orbits */}
+          <div style={{ flex: "0 0 auto", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ position: "relative", width: 340, height: 340, display: "flex", alignItems: "center", justifyContent: "center", animation: "float 5s ease-in-out infinite" }}>
+              {/* Outer orbit */}
+              <div style={{ position: "absolute", inset: -30, borderRadius: "50%", border: dark ? "1px dashed rgba(0,212,255,0.22)" : "1px dashed rgba(124,58,237,0.18)", animation: "spin 22s linear infinite" }}>
+                <div style={{ position: "absolute", top: "8%", left: "-5px", width: 10, height: 10, borderRadius: "50%", background: A, boxShadow: `0 0 12px ${A}` }} />
+                <div style={{ position: "absolute", bottom: "20%", right: "-4px", width: 6, height: 6, borderRadius: "50%", background: "#10B981", boxShadow: "0 0 8px #10B981" }} />
+              </div>
+              {/* Inner orbit */}
+              <div style={{ position: "absolute", inset: -60, borderRadius: "50%", border: dark ? "1px dashed rgba(124,58,237,0.15)" : "1px dashed rgba(236,72,153,0.15)", animation: "spin-rev 34s linear infinite" }}>
+                <div style={{ position: "absolute", top: "50%", right: "-5px", width: 8, height: 8, borderRadius: "50%", background: A2, boxShadow: `0 0 10px ${A2}` }} />
+              </div>
+              {/* Photo */}
               <div style={{
-                display: "none", width: "100%", height: "100%", borderRadius: "50%",
-                alignItems: "center", justifyContent: "center",
-                fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 64,
-                color: dark ? "#63B3ED" : "#185fa5",
-              }}>AP</div>
+                width: 280, height: 280, borderRadius: "50%", overflow: "hidden",
+                background: dark ? `linear-gradient(135deg,${A}20,${A2}18)` : `linear-gradient(135deg,${A}15,${A2}12)`,
+                border: dark ? `2px solid ${A}35` : `2px solid ${A}28`,
+                boxShadow: dark ? `0 0 60px ${A}22, 0 0 120px ${A2}14` : `0 0 40px ${A}18`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <img src="https://avatars.githubusercontent.com/Aditya-Prakash07" alt="Aditya Prakash"
+                  onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+                <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: 72, color: A }}>AP</div>
+              </div>
             </div>
           </div>
         </div>
-        <div style={{
-          position: "absolute", bottom: 40, left: "50%", transform: "translateX(-50%)",
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-          color: textSecondary, fontSize: 12, letterSpacing: "0.08em",
-          animation: "bounce 2s infinite",
-        }}>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace" }}>SCROLL</span>
-          <div style={{ fontSize: 18 }}>↓</div>
+
+        {/* Scroll line */}
+        <div style={{ position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 1, height: 60, background: dark ? `linear-gradient(${A},transparent)` : `linear-gradient(${A},transparent)`, animation: "line-down 1s ease forwards" }} />
+          <span style={{ fontSize: 9, letterSpacing: "0.2em", color: TS, fontFamily: "'JetBrains Mono',monospace" }}>SCROLL</span>
         </div>
+      </section>
+
+      {/* ───── STATS STRIP ───── */}
+      <div style={{ position: "relative", zIndex: 1, padding: "0 6vw" }}>
+        <Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", background: dark ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.65)", border: dark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(124,58,237,0.1)", borderRadius: 20, overflow: "hidden", backdropFilter: "blur(20px)" }}>
+            {DATA.stats.map((s, i) => (
+              <div key={i} style={{ padding: "36px 20px", textAlign: "center", borderRight: i < 3 ? (dark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(124,58,237,0.07)") : "none" }}>
+                <div style={{ fontSize: 26, marginBottom: 8 }}>{s.icon}</div>
+                <div style={{ fontSize: 38, fontWeight: 800, fontFamily: "'Space Grotesk',sans-serif", color: A, lineHeight: 1 }}>
+                  <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} />
+                </div>
+                <div style={{ fontSize: 12, color: TS, marginTop: 10, fontWeight: 500, letterSpacing: "0.03em" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
 
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 5vw" }}>
-
-        {/* STATS */}
-        <div style={{
-          display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 20, marginBottom: 40,
-        }}>
-          {data.stats.map((s) => (
-            <GlassCard key={s.label} dark={dark} hover style={{ textAlign: "center", padding: "24px 20px" }}>
-              <div style={{
-                fontSize: 36, fontWeight: 800, fontFamily: "'Space Grotesk', sans-serif",
-                color: dark ? "#63B3ED" : "#185fa5",
-              }}>{s.value}</div>
-              <div style={{ fontSize: 13, color: textSecondary, marginTop: 6, fontWeight: 500 }}>{s.label}</div>
-            </GlassCard>
-          ))}
-        </div>
+      {/* ───── CONTENT ───── */}
+      <div style={{ position: "relative", zIndex: 1, padding: "0 6vw", maxWidth: 1200, margin: "0 auto" }}>
 
         {/* SKILLS */}
-        <Section id="skills">
-          <SectionTitle dark={dark}>Skills</SectionTitle>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 20 }}>
-            {Object.entries(data.skills).map(([cat, items]) => (
-              <GlassCard key={cat} dark={dark} hover>
-                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", color: accent, fontFamily: "'JetBrains Mono', monospace", marginBottom: 14 }}>
-                  {cat.toUpperCase()}
-                </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
-                  {items.map((item) => <Tag key={item} label={item} dark={dark} />)}
-                </div>
-              </GlassCard>
+        <section id="skills" style={{ padding: "110px 0 60px" }}>
+          <Reveal><SectionHead num="02 / SKILLS" title={["Technical", "Arsenal"]} accent={A} dark={dark} /></Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(290px,1fr))", gap: 18 }}>
+            {DATA.skills.map((sk, i) => (
+              <Reveal key={sk.cat} delay={i * 0.07}>
+                <TiltCard dark={dark} glow={sk.color} style={{ padding: "26px 28px 22px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 17 }}>
+                    <div style={{ width: 4, height: 22, borderRadius: 3, background: sk.color, boxShadow: `0 0 10px ${sk.color}90` }} />
+                    <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 700, fontSize: 13.5, color: T }}>{sk.cat}</span>
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+                    {sk.items.map(it => <Pill key={it} label={it} color={sk.color} dark={dark} />)}
+                  </div>
+                </TiltCard>
+              </Reveal>
             ))}
           </div>
-        </Section>
+        </section>
 
         {/* EXPERIENCE */}
-        <Section id="experience">
-          <SectionTitle dark={dark}>Experience</SectionTitle>
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {data.experience.map((exp) => (
-              <GlassCard key={exp.company} dark={dark} hover>
-                <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
-                  <div>
-                    <div style={{ fontSize: 20, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: textPrimary }}>{exp.role}</div>
-                    <div style={{ fontSize: 15, color: accent, fontWeight: 600, marginTop: 2 }}>{exp.company}</div>
+        <section id="experience" style={{ padding: "60px 0" }}>
+          <Reveal><SectionHead num="03 / EXPERIENCE" title={["Work", "History"]} accent={A} dark={dark} /></Reveal>
+          <div style={{ position: "relative", paddingLeft: 52 }}>
+            {/* Vertical line */}
+            <div style={{ position: "absolute", left: 16, top: 0, bottom: 0, width: 1, background: dark ? `linear-gradient(180deg,${A}70,${A2}50,transparent)` : `linear-gradient(180deg,${A}60,transparent)` }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+              {DATA.experience.map((exp, i) => (
+                <Reveal key={exp.company} delay={i * 0.12}>
+                  <div style={{ position: "relative" }}>
+                    {/* Dot */}
+                    <div style={{ position: "absolute", left: -44, top: 28, width: 18, height: 18, borderRadius: "50%", background: exp.color, border: dark ? "2.5px solid #04001a" : "2.5px solid #eef2ff", boxShadow: `0 0 14px ${exp.color}` }}>
+                      {exp.current && <div style={{ position: "absolute", inset: -5, borderRadius: "50%", border: `1.5px solid ${exp.color}50`, animation: "pring 2s ease-out infinite" }} />}
+                    </div>
+                    <TiltCard dark={dark} glow={exp.color} style={{ padding: "30px 34px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10, marginBottom: 18 }}>
+                        <div>
+                          <div style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: 19, color: T }}>{exp.role}</div>
+                          <div style={{ fontSize: 14, fontWeight: 600, color: exp.color, marginTop: 2 }}>{exp.company}</div>
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
+                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: TS, padding: "3px 11px", borderRadius: 20, background: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)", border: dark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.07)" }}>{exp.period}</span>
+                          {exp.current && <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: "#10B981", padding: "2px 9px", borderRadius: 20, background: "rgba(16,185,129,0.09)", border: "1px solid rgba(16,185,129,0.28)" }}>CURRENT</span>}
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+                        {exp.bullets.map((b, bi) => (
+                          <div key={bi} style={{ display: "flex", gap: 11, alignItems: "flex-start" }}>
+                            <div style={{ width: 6, height: 6, borderRadius: "50%", background: exp.color, marginTop: 8, flexShrink: 0, boxShadow: `0 0 5px ${exp.color}` }} />
+                            <span style={{ fontSize: 13.5, color: TS, lineHeight: 1.8 }}>{b}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </TiltCard>
                   </div>
-                  <div style={{
-                    fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: textSecondary,
-                    background: dark ? "rgba(99,179,237,0.08)" : "rgba(66,133,244,0.08)",
-                    padding: "4px 12px", borderRadius: 6, height: "fit-content",
-                    border: dark ? "1px solid rgba(99,179,237,0.2)" : "1px solid rgba(66,133,244,0.2)",
-                  }}>
-                    {exp.period}
-                  </div>
-                </div>
-                <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
-                  {exp.bullets.map((b, i) => (
-                    <li key={i} style={{ display: "flex", gap: 10, fontSize: 14, color: textSecondary, lineHeight: 1.7 }}>
-                      <span style={{ color: accent, marginTop: 2, flexShrink: 0, fontSize: 10 }}>◆</span>
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              </GlassCard>
-            ))}
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </Section>
+        </section>
 
         {/* PROJECTS */}
-        <Section id="projects">
-          <SectionTitle dark={dark}>Projects</SectionTitle>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 24 }}>
-            {data.projects.map((p) => (
-              <GlassCard key={p.name} dark={dark} hover style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <span style={{ fontSize: 20, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: textPrimary }}>{p.name}</span>
-                  <span style={{ fontSize: 22, opacity: 0.5 }}>⬡</span>
-                </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                  {p.tags.map((t) => <Tag key={t} label={t} dark={dark} />)}
-                </div>
-                <p style={{ fontSize: 14, color: textSecondary, margin: 0, lineHeight: 1.75 }}>{p.description}</p>
-              </GlassCard>
+        <section id="projects" style={{ padding: "60px 0" }}>
+          <Reveal><SectionHead num="04 / PROJECTS" title={["Featured", "Work"]} accent={A} dark={dark} /></Reveal>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {DATA.projects.map((p, i) => (
+              <Reveal key={p.name} delay={i * 0.09}>
+                <TiltCard dark={dark} glow={p.color} style={{ overflow: "hidden", padding: 0 }}>
+                  <div style={{ display: "flex", minHeight: 170 }}>
+                    <div style={{ width: 5, flexShrink: 0, background: `linear-gradient(180deg,${p.color},${p.accent})` }} />
+                    <div style={{ padding: "8px 20px", display: "flex", alignItems: "flex-start", borderRight: dark ? "1px solid rgba(255,255,255,0.04)" : "1px solid rgba(0,0,0,0.05)" }}>
+                      <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: 44, color: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)", lineHeight: 1, marginTop: 20 }}>{p.num}</span>
+                    </div>
+                    <div style={{ flex: 1, padding: "26px 30px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 10, marginBottom: 13 }}>
+                        <div>
+                          <h3 style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: 21, color: T, marginBottom: 9 }}>{p.name}</h3>
+                          <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
+                            {p.tags.map(t => <Pill key={t} label={t} color={p.color} dark={dark} />)}
+                          </div>
+                        </div>
+                        <div style={{ padding: "5px 15px", borderRadius: 20, background: p.color + "14", border: `1px solid ${p.color}30`, color: p.color, fontSize: 11, fontWeight: 700, fontFamily: "'JetBrains Mono',monospace", whiteSpace: "nowrap" }}>{p.metric}</div>
+                      </div>
+                      <p style={{ fontSize: 13.5, color: TS, lineHeight: 1.82, maxWidth: 560 }}>{p.desc}</p>
+                    </div>
+                  </div>
+                </TiltCard>
+              </Reveal>
             ))}
           </div>
-        </Section>
+        </section>
 
         {/* EDUCATION */}
-        <Section id="education">
-          <SectionTitle dark={dark}>Education</SectionTitle>
-          <GlassCard dark={dark}>
-            <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16, alignItems: "flex-start" }}>
-              <div>
-                <div style={{ fontSize: 22, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: textPrimary }}>{data.education.school}</div>
-                <div style={{ fontSize: 15, color: accent, fontWeight: 500, marginTop: 4 }}>{data.education.degree}</div>
-                <div style={{ fontSize: 14, color: textSecondary, marginTop: 8 }}>{data.education.location}</div>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <div style={{
-                  fontSize: 28, fontWeight: 800, fontFamily: "'Space Grotesk', sans-serif",
-                  color: dark ? "#63B3ED" : "#185fa5",
-                }}>{data.education.gpa}</div>
-                <div style={{ fontSize: 12, color: textSecondary, marginTop: 2 }}>GPA</div>
-                <div style={{ fontSize: 13, color: textSecondary, marginTop: 4, fontFamily: "'JetBrains Mono', monospace" }}>{data.education.period}</div>
-              </div>
-            </div>
-          </GlassCard>
-
-          {/* Certifications */}
-          <div style={{ marginTop: 32 }}>
-            <h3 style={{ fontSize: 20, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: textPrimary, marginBottom: 16 }}>Certifications</h3>
-            <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-              {data.certifications.map((c) => (
-                <GlassCard key={c.name} dark={dark} style={{ padding: "18px 24px", display: "flex", gap: 12, alignItems: "center" }}>
-                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: dark ? "rgba(99,179,237,0.15)" : "rgba(66,133,244,0.12)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 16 }}>🏆</div>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: textPrimary }}>{c.name}</div>
-                    <div style={{ fontSize: 12, color: accent, marginTop: 2 }}>{c.issuer}</div>
-                  </div>
-                </GlassCard>
+        <section id="education" style={{ padding: "60px 0" }}>
+          <Reveal><SectionHead num="05 / EDUCATION" title={["Academic", "Background"]} accent={A} dark={dark} /></Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))", gap: 22 }}>
+            <Reveal>
+              <TiltCard dark={dark} glow={A} style={{ padding: "34px 34px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 18 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: A + "14", border: `1px solid ${A}20`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>🎓</div>
+                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: TS }}>{DATA.education.period}</span>
+                </div>
+                <div style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: 17, color: T, marginBottom: 6, lineHeight: 1.3 }}>{DATA.education.school}</div>
+                <div style={{ fontSize: 13.5, color: A, fontWeight: 600, marginBottom: 4 }}>{DATA.education.degree}</div>
+                <div style={{ fontSize: 13, color: TS, marginBottom: 22 }}>{DATA.education.field} · {DATA.education.location}</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 18px", borderRadius: 12, background: A + "08", border: `1px solid ${A}15` }}>
+                  <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: 30, color: A }}>{DATA.education.gpa}</span>
+                  <div><div style={{ fontSize: 12, fontWeight: 700, color: T }}>GPA</div><div style={{ fontSize: 11, color: TS }}>out of 10.0</div></div>
+                  <div style={{ marginLeft: "auto", padding: "4px 10px", borderRadius: 8, background: "#10B98115", border: "1px solid #10B98130", color: "#10B981", fontSize: 11, fontWeight: 700, fontFamily: "'JetBrains Mono',monospace" }}>TOP GRADE</div>
+                </div>
+              </TiltCard>
+            </Reveal>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {DATA.certifications.map((c, i) => (
+                <Reveal key={c.name} delay={i * 0.1}>
+                  <TiltCard dark={dark} glow={A2} style={{ padding: "20px 26px", display: "flex", gap: 15, alignItems: "center" }}>
+                    <div style={{ width: 42, height: 42, borderRadius: 12, background: A2 + "12", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>{c.icon}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: T }}>{c.name}</div>
+                      <div style={{ fontSize: 12.5, color: A2, marginTop: 2, fontWeight: 500 }}>{c.issuer}</div>
+                    </div>
+                    <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#10B98112", border: "1px solid #10B98125", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                  </TiltCard>
+                </Reveal>
+              ))}
+              {DATA.achievements.map((a, i) => (
+                <Reveal key={i} delay={(i + 2) * 0.1}>
+                  <TiltCard dark={dark} glow="#10B981" style={{ padding: "16px 22px", display: "flex", gap: 13, alignItems: "flex-start" }}>
+                    <span style={{ fontSize: 18, flexShrink: 0 }}>{a.icon}</span>
+                    <div><span style={{ fontSize: 13, color: TS, lineHeight: 1.7 }}>{a.text} </span><span style={{ fontSize: 13, fontWeight: 700, color: "#10B981" }}>{a.highlight}</span></div>
+                  </TiltCard>
+                </Reveal>
               ))}
             </div>
           </div>
-
-          {/* Achievements */}
-          <div style={{ marginTop: 32 }}>
-            <h3 style={{ fontSize: 20, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", color: textPrimary, marginBottom: 16 }}>Competitive Programming</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {data.achievements.map((a, i) => (
-                <GlassCard key={i} dark={dark} style={{ padding: "16px 24px", display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <span style={{ color: accent, fontSize: 12, marginTop: 4, flexShrink: 0 }}>◆</span>
-                  <p style={{ margin: 0, fontSize: 14, color: textSecondary, lineHeight: 1.7 }}>{a}</p>
-                </GlassCard>
-              ))}
-            </div>
-          </div>
-        </Section>
+        </section>
 
         {/* CONTACT */}
-        <Section id="contact">
-          <SectionTitle dark={dark}>Contact</SectionTitle>
-          <GlassCard dark={dark} style={{ textAlign: "center", padding: "52px 32px" }}>
-            <h3 style={{ fontSize: 28, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", margin: "0 0 12px", color: textPrimary }}>
-              Let's build something great
-            </h3>
-            <p style={{ color: textSecondary, fontSize: 16, margin: "0 0 36px", maxWidth: 420, marginLeft: "auto", marginRight: "auto" }}>
-              Open to backend engineering roles, internships, and collaboration opportunities.
-            </p>
-            <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 14 }}>
-              {[
-                { icon: "✉️", label: "Email", href: `mailto:${data.contact.email}`, text: data.contact.email },
-                { icon: "📞", label: "Phone", href: `tel:${data.contact.phone}`, text: data.contact.phone },
-                { icon: "💼", label: "LinkedIn", href: `https://linkedin.com/in/${data.contact.linkedin}`, text: "LinkedIn Profile" },
-                { icon: "⬡", label: "GitHub", href: `https://github.com/${data.contact.github}`, text: "GitHub Profile" },
-              ].map((c) => (
-                <a key={c.label} href={c.href} target="_blank" rel="noopener noreferrer" style={{
-                  display: "flex", alignItems: "center", gap: 8,
-                  padding: "12px 20px", borderRadius: 10, textDecoration: "none",
-                  background: dark ? "rgba(99,179,237,0.08)" : "rgba(66,133,244,0.08)",
-                  border: dark ? "1px solid rgba(99,179,237,0.25)" : "1px solid rgba(66,133,244,0.25)",
-                  color: accent, fontSize: 14, fontWeight: 500, transition: "all 0.2s",
-                }}>
-                  <span style={{ fontSize: 16 }}>{c.icon}</span>
-                  {c.text}
-                </a>
-              ))}
+        <section id="contact" style={{ padding: "60px 0 130px" }}>
+          <Reveal><SectionHead num="06 / CONTACT" title={["Let's", "Connect"]} accent={A} dark={dark} /></Reveal>
+          <TiltCard dark={dark} glow={A} style={{ padding: "72px 48px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: -100, right: -100, width: 400, height: 400, borderRadius: "50%", background: `radial-gradient(circle,${A}07 0%,transparent 65%)`, pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: -80, left: -80, width: 300, height: 300, borderRadius: "50%", background: `radial-gradient(circle,${A2}06 0%,transparent 65%)`, pointerEvents: "none" }} />
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <p style={{ fontSize: 15, color: TS, marginBottom: 10, fontWeight: 300 }}>Open to</p>
+              <h3 style={{ fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: "clamp(26px,3.5vw,44px)", color: T, marginBottom: 14 }}>Backend Engineering Roles</h3>
+              <p style={{ fontSize: 15, color: TS, maxWidth: 380, margin: "0 auto 52px" }}>Internships, full-time positions, and collaboration opportunities.</p>
+              <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 12, marginBottom: 44 }}>
+                {[
+                  { svg: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>, text: DATA.contact.email, href: `mailto:${DATA.contact.email}` },
+                  { svg: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>, text: DATA.contact.phone, href: `tel:${DATA.contact.phone}` },
+                  { svg: <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>, text: "LinkedIn", href: `https://linkedin.com/in/${DATA.contact.linkedin}` },
+                  { svg: <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>, text: "GitHub", href: `https://github.com/${DATA.contact.github}` },
+                ].map((c, i) => (
+                  <a key={i} href={c.href} target="_blank" rel="noopener noreferrer" className="contact-chip" style={{ display: "flex", alignItems: "center", gap: 9, padding: "12px 22px", borderRadius: 12, textDecoration: "none", background: dark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)", border: dark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.07)", color: TS, fontSize: 13.5, fontWeight: 600, transition: "all 0.2s" }}>
+                    {c.svg}{c.text}
+                  </a>
+                ))}
+              </div>
+              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: TS, letterSpacing: "0.1em", opacity: 0.7 }}>
+                BUILT WITH REACT · {new Date().getFullYear()} · ADITYA PRAKASH
+              </div>
             </div>
-          </GlassCard>
-
-          {/* Footer */}
-          <div style={{ textAlign: "center", marginTop: 60, paddingBottom: 40, color: textSecondary, fontSize: 13 }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.06em" }}>
-              Built with React · Designed by Aditya Prakash · {new Date().getFullYear()}
-            </div>
-          </div>
-        </Section>
+          </TiltCard>
+        </section>
 
       </div>
-
-      <style>{`
-        @keyframes bounce {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(-8px); }
-        }
-        * { box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: ${dark ? "rgba(99,179,237,0.3)" : "rgba(66,133,244,0.3)"}; border-radius: 3px; }
-        html { scroll-behavior: smooth; }
-      `}</style>
     </div>
   );
 }
