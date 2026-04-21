@@ -430,9 +430,23 @@ const Icon = {
       <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   ),
+  menu: (s = 22, c = "currentColor") => (
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={c}
+      strokeWidth="2"
+      strokeLinecap="round"
+    >
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+  ),
 };
 
-// ─── DATA ────────────────────────────────────────────────────────────────────
 const RESUME_URL =
   "https://drive.google.com/file/d/1TAYYm0UEs-mXcZ8ATtbT6v5keA_C578_/view?usp=sharing";
 
@@ -724,7 +738,19 @@ const NAV = [
   "Contact",
 ];
 
-// ─── SCROLL PROGRESS BAR ─────────────────────────────────────────────────────
+// ─── HOOKS ───────────────────────────────────────────────────────────────────
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
+
+// ─── SCROLL PROGRESS ─────────────────────────────────────────────────────────
 function ScrollProgress({ dark }) {
   const [pct, setPct] = useState(0);
   useEffect(() => {
@@ -735,8 +761,8 @@ function ScrollProgress({ dark }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const A = dark ? "#00D4FF" : "#6244e8";
-  const A2 = dark ? "#7C3AED" : "#d03a8c";
+  const A = dark ? "#00D4FF" : "#6244e8",
+    A2 = dark ? "#7C3AED" : "#d03a8c";
   return (
     <div
       style={{
@@ -744,9 +770,8 @@ function ScrollProgress({ dark }) {
         top: 0,
         left: 0,
         right: 0,
-        height: 2.5,
+        height: 3,
         zIndex: 9999,
-        background: "transparent",
       }}
     >
       <div
@@ -762,7 +787,7 @@ function ScrollProgress({ dark }) {
   );
 }
 
-// ─── AURORA BG ────────────────────────────────────────────────────────────────
+// ─── AURORA BG ───────────────────────────────────────────────────────────────
 function AuroraBg({ dark }) {
   return (
     <div
@@ -824,16 +849,6 @@ function AuroraBg({ dark }) {
               animation: "au3 13s ease-in-out infinite",
             }}
           />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              opacity: 0.028,
-              backgroundImage:
-                "linear-gradient(rgba(0,212,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,1) 1px, transparent 1px)",
-              backgroundSize: "88px 88px",
-            }}
-          />
         </>
       )}
       {!dark && (
@@ -866,93 +881,21 @@ function AuroraBg({ dark }) {
           />
         </>
       )}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          opacity: dark ? 0.022 : 0.01,
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          backgroundSize: "160px 160px",
-        }}
-      />
     </div>
   );
 }
 
-// ─── MAGNETIC CURSOR ──────────────────────────────────────────────────────────
-function MagneticCursor({ dark }) {
-  const dot = useRef(null),
-    ring = useRef(null);
-  const pos = useRef({ x: 0, y: 0 }),
-    rpos = useRef({ x: 0, y: 0 });
-  useEffect(() => {
-    const onM = (e) => {
-      pos.current = { x: e.clientX, y: e.clientY };
-    };
-    window.addEventListener("mousemove", onM);
-    let id;
-    const tick = () => {
-      rpos.current.x += (pos.current.x - rpos.current.x) * 0.1;
-      rpos.current.y += (pos.current.y - rpos.current.y) * 0.1;
-      if (dot.current)
-        dot.current.style.transform = `translate(${pos.current.x - 4}px,${pos.current.y - 4}px)`;
-      if (ring.current)
-        ring.current.style.transform = `translate(${rpos.current.x - 16}px,${rpos.current.y - 16}px)`;
-      id = requestAnimationFrame(tick);
-    };
-    tick();
-    return () => {
-      window.removeEventListener("mousemove", onM);
-      cancelAnimationFrame(id);
-    };
-  }, []);
-  const c = dark ? "#00D4FF" : "#7C3AED";
-  return (
-    <>
-      <div
-        ref={dot}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: 8,
-          height: 8,
-          borderRadius: "50%",
-          background: c,
-          zIndex: 9999,
-          pointerEvents: "none",
-          mixBlendMode: dark ? "screen" : "multiply",
-        }}
-      />
-      <div
-        ref={ring}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: 32,
-          height: 32,
-          borderRadius: "50%",
-          border: `1px solid ${c}60`,
-          zIndex: 9998,
-          pointerEvents: "none",
-        }}
-      />
-    </>
-  );
-}
-
-// ─── PARTICLE FIELD ───────────────────────────────────────────────────────────
-function ParticleField({ dark }) {
+// ─── PARTICLE FIELD (disabled on mobile for perf) ────────────────────────────
+function ParticleField({ dark, isMobile }) {
   const ref = useRef(null),
     mouse = useRef({ x: -999, y: -999 });
   useEffect(() => {
+    if (isMobile) return;
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     let id, w, h;
-    const N = 80,
+    const N = 60,
       pts = [];
     const resize = () => {
       w = canvas.width = canvas.offsetWidth;
@@ -1020,7 +963,8 @@ function ParticleField({ dark }) {
       window.removeEventListener("mousemove", onM);
       window.removeEventListener("resize", resize);
     };
-  }, [dark]);
+  }, [dark, isMobile]);
+  if (isMobile) return null;
   return (
     <canvas
       ref={ref}
@@ -1107,9 +1051,10 @@ function Counter({ value, prefix = "", suffix = "" }) {
 }
 
 // ─── TILT CARD ────────────────────────────────────────────────────────────────
-function TiltCard({ children, dark, style, glow = "#00D4FF" }) {
+function TiltCard({ children, dark, style, glow = "#00D4FF", isMobile }) {
   const ref = useRef(null);
   const onMove = (e) => {
+    if (isMobile) return;
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
@@ -1175,7 +1120,7 @@ function Reveal({ children, delay = 0 }) {
   );
 }
 
-// ─── SKILL PILL ───────────────────────────────────────────────────────────────
+// ─── PILL ────────────────────────────────────────────────────────────────────
 function Pill({ label, color, dark }) {
   const [h, setH] = useState(false);
   return (
@@ -1184,9 +1129,9 @@ function Pill({ label, color, dark }) {
       onMouseLeave={() => setH(false)}
       style={{
         display: "inline-block",
-        padding: "4px 12px",
+        padding: "4px 10px",
         borderRadius: 6,
-        fontSize: 11.5,
+        fontSize: 11,
         fontWeight: 600,
         fontFamily: "'JetBrains Mono',monospace",
         letterSpacing: "0.02em",
@@ -1216,9 +1161,9 @@ function ThemeToggle({ dark, toggle }) {
       aria-label="Toggle theme"
       style={{
         position: "relative",
-        width: 52,
-        height: 26,
-        borderRadius: 13,
+        width: 48,
+        height: 24,
+        borderRadius: 12,
         background: dark ? "rgba(0,212,255,0.1)" : "rgba(124,58,237,0.08)",
         border: `1px solid ${c}40`,
         cursor: "pointer",
@@ -1231,9 +1176,9 @@ function ThemeToggle({ dark, toggle }) {
         style={{
           position: "absolute",
           top: 2,
-          left: dark ? 26 : 2,
-          width: 20,
-          height: 20,
+          left: dark ? 24 : 2,
+          width: 18,
+          height: 18,
           borderRadius: "50%",
           background: c,
           transition: "left 0.32s cubic-bezier(.34,1.56,.64,1)",
@@ -1250,15 +1195,15 @@ function ThemeToggle({ dark, toggle }) {
 }
 
 // ─── SECTION HEAD ─────────────────────────────────────────────────────────────
-function SectionHead({ num, title, accent, dark }) {
+function SectionHead({ num, title, accent, dark, isMobile }) {
   return (
-    <div style={{ marginBottom: 56 }}>
+    <div style={{ marginBottom: isMobile ? 36 : 56 }}>
       <div
         style={{
           display: "inline-flex",
           alignItems: "center",
           gap: 8,
-          marginBottom: 18,
+          marginBottom: 14,
         }}
       >
         <div
@@ -1267,7 +1212,7 @@ function SectionHead({ num, title, accent, dark }) {
         <span
           style={{
             fontFamily: "'JetBrains Mono',monospace",
-            fontSize: 11,
+            fontSize: 10,
             color: accent,
             letterSpacing: "0.2em",
             opacity: 0.85,
@@ -1280,7 +1225,7 @@ function SectionHead({ num, title, accent, dark }) {
         style={{
           fontFamily: "'Space Grotesk', sans-serif",
           fontWeight: 800,
-          fontSize: "clamp(32px,4.2vw,56px)",
+          fontSize: isMobile ? "28px" : "clamp(32px,4.2vw,56px)",
           color: dark ? "#dde6f0" : "#18253a",
           lineHeight: 1.05,
           letterSpacing: "-0.02em",
@@ -1318,6 +1263,7 @@ function IconBox({ iconKey, color, size = 40, dark }) {
 // ─── RESUME TOAST ─────────────────────────────────────────────────────────────
 function ResumeToast({ dark, show, onClose }) {
   const A = dark ? "#00D4FF" : "#6244e8";
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (show) {
       const t = setTimeout(onClose, 3500);
@@ -1329,12 +1275,13 @@ function ResumeToast({ dark, show, onClose }) {
       style={{
         position: "fixed",
         bottom: 90,
-        right: 24,
+        right: 16,
         zIndex: 8000,
         transform: show ? "translateY(0)" : "translateY(120%)",
         opacity: show ? 1 : 0,
         transition: "all 0.4s cubic-bezier(.34,1.56,.64,1)",
         pointerEvents: show ? "auto" : "none",
+        maxWidth: "calc(100vw - 32px)",
       }}
     >
       <div
@@ -1342,12 +1289,12 @@ function ResumeToast({ dark, show, onClose }) {
           display: "flex",
           alignItems: "center",
           gap: 10,
-          padding: "12px 18px",
+          padding: "12px 16px",
           borderRadius: 12,
           background: dark ? "rgba(5,0,22,0.92)" : "rgba(255,255,255,0.95)",
           border: `1px solid ${A}30`,
           backdropFilter: "blur(20px)",
-          boxShadow: `0 8px 32px rgba(0,0,0,0.3)`,
+          boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
         }}
       >
         {Icon.check(14, "#10B981")}
@@ -1378,12 +1325,12 @@ function ResumeToast({ dark, show, onClose }) {
   );
 }
 
-// ─── FLOATING RESUME BUTTON ───────────────────────────────────────────────────
+// ─── FLOATING RESUME ─────────────────────────────────────────────────────────
 function FloatingResume({ dark, onOpen }) {
-  const A = dark ? "#00D4FF" : "#6244e8";
-  const A2 = dark ? "#7C3AED" : "#d03a8c";
-  const [hov, setHov] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const A = dark ? "#00D4FF" : "#6244e8",
+    A2 = dark ? "#7C3AED" : "#d03a8c";
+  const [hov, setHov] = useState(false),
+    [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 300);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -1393,8 +1340,8 @@ function FloatingResume({ dark, onOpen }) {
     <div
       style={{
         position: "fixed",
-        bottom: 28,
-        right: 24,
+        bottom: 24,
+        right: 16,
         zIndex: 7000,
         transform: scrolled
           ? "translateY(0) scale(1)"
@@ -1414,12 +1361,12 @@ function FloatingResume({ dark, onOpen }) {
           display: "flex",
           alignItems: "center",
           gap: hov ? 9 : 0,
-          padding: hov ? "12px 20px" : "12px",
+          padding: hov ? "12px 18px" : "12px",
           borderRadius: 50,
           background: `linear-gradient(135deg,${A},${A2})`,
           color: "#fff",
           textDecoration: "none",
-          boxShadow: `0 6px 28px ${A}50, 0 0 0 ${hov ? "4px" : "0px"} ${A}20`,
+          boxShadow: `0 6px 28px ${A}50`,
           transition: "all 0.3s cubic-bezier(.34,1.56,.64,1)",
           overflow: "hidden",
           whiteSpace: "nowrap",
@@ -1444,15 +1391,288 @@ function FloatingResume({ dark, onOpen }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ─── HAMBURGER MENU ───────────────────────────────────────────────────────────
+function MobileMenu({
+  dark,
+  A,
+  A2,
+  T,
+  TS,
+  activeNav,
+  scrollTo,
+  toggle,
+  onResumeClick,
+}) {
+  const [open, setOpen] = useState(false);
+  const cardBg = dark ? "rgba(5,0,22,0.97)" : "rgba(240,244,255,0.97)";
+  const cardBorder = dark ? "rgba(0,212,255,0.1)" : "rgba(98,68,232,0.12)";
+
+  const handleNav = (item) => {
+    scrollTo(item);
+    setOpen(false);
+  };
+
+  return (
+    <>
+      {/* Hamburger button */}
+      <button
+        onClick={() => setOpen((o) => !o)}
+        aria-label="Toggle menu"
+        style={{
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          padding: 6,
+          color: T,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 8,
+          transition: "background 0.2s",
+        }}
+      >
+        {open ? Icon.x(22, T) : Icon.menu(22, T)}
+      </button>
+
+      {/* Overlay */}
+      <div
+        onClick={() => setOpen(false)}
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 400,
+          background: "rgba(0,0,0,0.5)",
+          backdropFilter: "blur(4px)",
+          opacity: open ? 1 : 0,
+          pointerEvents: open ? "auto" : "none",
+          transition: "opacity 0.3s ease",
+        }}
+      />
+
+      {/* Drawer */}
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 450,
+          width: "min(320px, 85vw)",
+          background: cardBg,
+          backdropFilter: "blur(40px)",
+          borderLeft: `1px solid ${cardBorder}`,
+          transform: open ? "translateX(0)" : "translateX(100%)",
+          transition: "transform 0.35s cubic-bezier(.22,1,.36,1)",
+          display: "flex",
+          flexDirection: "column",
+          boxShadow: "-20px 0 60px rgba(0,0,0,0.3)",
+        }}
+      >
+        {/* Drawer header */}
+        <div
+          style={{
+            padding: "20px 24px 16px",
+            borderBottom: `1px solid ${cardBorder}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: 9,
+                background: `linear-gradient(135deg,${A},${A2})`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "'Space Grotesk',sans-serif",
+                  fontWeight: 800,
+                  fontSize: 11,
+                  color: "#fff",
+                }}
+              >
+                AP
+              </span>
+            </div>
+            <div>
+              <div
+                style={{
+                  fontFamily: "'Space Grotesk',sans-serif",
+                  fontWeight: 700,
+                  fontSize: 13,
+                  color: T,
+                }}
+              >
+                Aditya Prakash
+              </div>
+              <div
+                style={{
+                  fontFamily: "'JetBrains Mono',monospace",
+                  fontSize: 8,
+                  color: TS,
+                  letterSpacing: "0.1em",
+                }}
+              >
+                SOFTWARE ENGINEER
+              </div>
+            </div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <ThemeToggle dark={dark} toggle={toggle} />
+            <button
+              onClick={() => setOpen(false)}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: TS,
+                padding: 4,
+              }}
+            >
+              {Icon.x(18, TS)}
+            </button>
+          </div>
+        </div>
+
+        {/* Nav links */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "12px 16px" }}>
+          {NAV.map((item) => {
+            const isActive = activeNav === item;
+            const isHire = item === "Freelance";
+            return (
+              <button
+                key={item}
+                onClick={() => handleNav(item)}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  padding: "13px 16px",
+                  marginBottom: 4,
+                  borderRadius: 12,
+                  background: isHire
+                    ? `linear-gradient(135deg,${A}20,${A2}15)`
+                    : isActive
+                      ? A + "12"
+                      : "transparent",
+                  border: isHire
+                    ? `1px solid ${A}35`
+                    : isActive
+                      ? `1px solid ${A}22`
+                      : "1px solid transparent",
+                  color: isHire ? A : isActive ? A : T,
+                  fontSize: 14,
+                  fontWeight: isHire ? 700 : isActive ? 600 : 500,
+                  fontFamily: "'Space Grotesk',sans-serif",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  transition: "all 0.18s",
+                }}
+              >
+                <div
+                  style={{
+                    width: 4,
+                    height: 4,
+                    borderRadius: "50%",
+                    background: isActive || isHire ? A : TS + "60",
+                    flexShrink: 0,
+                  }}
+                />
+                {isHire ? "Available for Work" : item}
+                {isActive && (
+                  <div
+                    style={{
+                      marginLeft: "auto",
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
+                      background: A,
+                    }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Resume button in drawer */}
+        <div
+          style={{ padding: "16px 20px", borderTop: `1px solid ${cardBorder}` }}
+        >
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              onResumeClick();
+              setOpen(false);
+            }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              padding: "13px 20px",
+              borderRadius: 12,
+              background: `linear-gradient(135deg,${A},${A2})`,
+              color: "#fff",
+              textDecoration: "none",
+              fontWeight: 700,
+              fontSize: 14,
+              fontFamily: "'Space Grotesk',sans-serif",
+              boxShadow: `0 4px 20px ${A}40`,
+            }}
+          >
+            {Icon.fileText(15, "#fff")} View Resume
+          </a>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 16,
+              marginTop: 16,
+            }}
+          >
+            <a
+              href={`https://github.com/${DATA.contact.github}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: TS, textDecoration: "none" }}
+            >
+              {Icon.github(20, TS)}
+            </a>
+            <a
+              href={`https://linkedin.com/in/${DATA.contact.linkedin}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: TS, textDecoration: "none" }}
+            >
+              {Icon.linkedin(20, TS)}
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ─── MAIN PORTFOLIO ───────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [dark, setDark] = useState(true);
   const [activeNav, setActiveNav] = useState("About");
   const [hovSvc, setHovSvc] = useState(null);
   const [showToast, setShowToast] = useState(false);
+  const isMobile = useIsMobile();
   const toggle = () => setDark((d) => !d);
 
-  // Active nav via IntersectionObserver
   useEffect(() => {
     const sections = NAV.map((n) =>
       document.getElementById(n.toLowerCase()),
@@ -1485,6 +1705,8 @@ export default function Portfolio() {
   const A2 = dark ? "#7C3AED" : "#d03a8c";
   const cardBg = dark ? "rgba(255,255,255,0.022)" : "rgba(255,255,255,0.85)";
   const cardBorder = dark ? "rgba(255,255,255,0.065)" : "rgba(100,80,220,0.1)";
+  const px = isMobile ? "16px" : "6vw";
+  const sectionPy = isMobile ? "72px 0 40px" : "108px 0 60px";
 
   return (
     <div
@@ -1493,7 +1715,7 @@ export default function Portfolio() {
         color: T,
         fontFamily: "'DM Sans',sans-serif",
         overflowX: "hidden",
-        cursor: "none",
+        cursor: isMobile ? "auto" : "none",
       }}
     >
       <style>{`
@@ -1513,22 +1735,23 @@ export default function Portfolio() {
         @keyframes pring{0%{transform:scale(1);opacity:.6;}100%{transform:scale(2);opacity:0;}}
         @keyframes drop{0%{height:0;opacity:0;}100%{height:56px;opacity:1;}}
         @keyframes shimmer-line{0%{transform:translateX(-100%);}100%{transform:translateX(300%);}}
-        @keyframes bar-fill{from{width:0;}to{width:var(--w);}}
-        @keyframes pulse-glow{0%,100%{box-shadow:0 0 8px var(--gc);}50%{box-shadow:0 0 20px var(--gc),0 0 40px var(--gc);}}
         .navbtn:hover{color:${A}!important;}
         .pbtn:hover{transform:translateY(-2px)!important;filter:brightness(1.1)!important;}
         .obtn:hover{background:${A}12!important;border-color:${A}60!important;}
         .chip:hover{border-color:${A}!important;background:${A}10!important;color:${A}!important;transform:translateY(-1px);}
         .cert-card:hover .cert-reveal{opacity:1!important;transform:translateX(0)!important;}
         .svc-card:hover{transform:translateY(-5px)!important;}
-        .proc-card:hover .proc-num{color:${A}!important;}
         .resume-nav-btn:hover{background:${A}18!important;border-color:${A}!important;color:${A}!important;}
-        .stat-bar{animation:bar-fill 1.4s cubic-bezier(.22,1,.36,1) forwards;}
       `}</style>
 
       <ScrollProgress dark={dark} />
       <AuroraBg dark={dark} />
-      <MagneticCursor dark={dark} />
+      {!isMobile && (
+        <>
+          {/* Magnetic Cursor only on desktop */}
+          <MagneticCursorDesktop dark={dark} />
+        </>
+      )}
       <FloatingResume dark={dark} onOpen={() => setShowToast(true)} />
       <ResumeToast
         dark={dark}
@@ -1544,11 +1767,11 @@ export default function Portfolio() {
           left: 0,
           right: 0,
           zIndex: 500,
-          height: 62,
+          height: 60,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0 5vw",
+          padding: `0 ${isMobile ? "16px" : "5vw"}`,
           background: dark ? "rgba(5,0,22,0.78)" : "rgba(240,244,255,0.78)",
           backdropFilter: "blur(32px) saturate(1.5)",
           borderBottom: `1px solid ${dark ? "rgba(0,212,255,0.06)" : "rgba(98,68,232,0.08)"}`,
@@ -1574,6 +1797,7 @@ export default function Portfolio() {
               alignItems: "center",
               justifyContent: "center",
               boxShadow: `0 0 16px ${A}40`,
+              flexShrink: 0,
             }}
           >
             <span
@@ -1588,107 +1812,137 @@ export default function Portfolio() {
               AP
             </span>
           </div>
-          <div>
+          {!isMobile && (
+            <div>
+              <div
+                style={{
+                  fontFamily: "'Space Grotesk',sans-serif",
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: T,
+                  lineHeight: 1.1,
+                }}
+              >
+                Aditya Prakash
+              </div>
+              <div
+                style={{
+                  fontFamily: "'JetBrains Mono',monospace",
+                  fontSize: 9,
+                  color: TS,
+                  letterSpacing: "0.1em",
+                }}
+              >
+                SOFTWARE ENGINEER
+              </div>
+            </div>
+          )}
+          {isMobile && (
             <div
               style={{
                 fontFamily: "'Space Grotesk',sans-serif",
                 fontWeight: 700,
-                fontSize: 14,
+                fontSize: 15,
                 color: T,
-                lineHeight: 1.1,
               }}
             >
               Aditya Prakash
             </div>
-            <div
+          )}
+        </div>
+
+        {/* Desktop links */}
+        {!isMobile && (
+          <div style={{ display: "flex", gap: 2, alignItems: "center" }}>
+            {NAV.map((l) => {
+              const isHire = l === "Freelance",
+                isActive = activeNav === l;
+              return (
+                <button
+                  key={l}
+                  className="navbtn"
+                  onClick={() => scrollTo(l)}
+                  style={{
+                    background: isHire
+                      ? isActive
+                        ? `linear-gradient(135deg,${A},${A2})`
+                        : "transparent"
+                      : isActive
+                        ? A + "10"
+                        : "transparent",
+                    border: isHire
+                      ? `1px solid ${A}35`
+                      : isActive
+                        ? `1px solid ${A}22`
+                        : "1px solid transparent",
+                    color: isHire ? A : isActive ? A : TS,
+                    padding: isHire ? "5px 13px" : "5px 11px",
+                    borderRadius: 8,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                    fontSize: 12,
+                    fontWeight: isHire ? 700 : 500,
+                    transition: "all 0.18s",
+                    letterSpacing: "0.01em",
+                  }}
+                >
+                  {isHire ? "For Hire" : l}
+                </button>
+              );
+            })}
+            <a
+              href={RESUME_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="resume-nav-btn"
+              onClick={() => setShowToast(true)}
               style={{
-                fontFamily: "'JetBrains Mono',monospace",
-                fontSize: 9,
-                color: TS,
-                letterSpacing: "0.1em",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 5,
+                marginLeft: 6,
+                padding: "5px 11px",
+                borderRadius: 8,
+                background: dark
+                  ? "rgba(0,212,255,0.06)"
+                  : "rgba(98,68,232,0.06)",
+                border: dark
+                  ? "1px solid rgba(0,212,255,0.22)"
+                  : "1px solid rgba(98,68,232,0.22)",
+                color: A,
+                fontSize: 12,
+                fontWeight: 700,
+                textDecoration: "none",
+                transition: "all 0.18s",
+                fontFamily: "inherit",
+                cursor: "pointer",
               }}
             >
-              SOFTWARE ENGINEER
+              {Icon.fileText(12, A)} Resume
+            </a>
+            <div style={{ marginLeft: 8 }}>
+              <ThemeToggle dark={dark} toggle={toggle} />
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Links */}
-        <div style={{ display: "flex", gap: 1, alignItems: "center" }}>
-          {NAV.map((l) => {
-            const isHire = l === "Freelance";
-            const isActive = activeNav === l;
-            return (
-              <button
-                key={l}
-                className="navbtn"
-                onClick={() => scrollTo(l)}
-                style={{
-                  background: isHire
-                    ? isActive
-                      ? `linear-gradient(135deg,${A},${A2})`
-                      : "transparent"
-                    : isActive
-                      ? A + "10"
-                      : "transparent",
-                  border: isHire
-                    ? `1px solid ${A}35`
-                    : isActive
-                      ? `1px solid ${A}22`
-                      : "1px solid transparent",
-                  color: isHire ? A : isActive ? A : TS,
-                  padding: isHire ? "5px 14px" : "5px 13px",
-                  borderRadius: 8,
-                  cursor: "pointer",
-                  fontFamily: "inherit",
-                  fontSize: 12.5,
-                  fontWeight: isHire ? 700 : 500,
-                  transition: "all 0.18s",
-                  letterSpacing: "0.01em",
-                }}
-              >
-                {isHire ? "Available for Work" : l}
-              </button>
-            );
-          })}
-
-          {/* Resume button in nav */}
-          <a
-            href={RESUME_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="resume-nav-btn"
-            onClick={() => setShowToast(true)}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              marginLeft: 8,
-              padding: "5px 13px",
-              borderRadius: 8,
-              background: dark
-                ? "rgba(0,212,255,0.06)"
-                : "rgba(98,68,232,0.06)",
-              border: dark
-                ? "1px solid rgba(0,212,255,0.22)"
-                : "1px solid rgba(98,68,232,0.22)",
-              color: A,
-              fontSize: 12.5,
-              fontWeight: 700,
-              textDecoration: "none",
-              transition: "all 0.18s",
-              fontFamily: "inherit",
-              letterSpacing: "0.01em",
-              cursor: "pointer",
-            }}
-          >
-            {Icon.fileText(13, A)} Resume
-          </a>
-
-          <div style={{ marginLeft: 8 }}>
+        {/* Mobile: theme + hamburger */}
+        {isMobile && (
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <ThemeToggle dark={dark} toggle={toggle} />
+            <MobileMenu
+              dark={dark}
+              A={A}
+              A2={A2}
+              T={T}
+              TS={TS}
+              activeNav={activeNav}
+              scrollTo={scrollTo}
+              toggle={toggle}
+              onResumeClick={() => setShowToast(true)}
+            />
           </div>
-        </div>
+        )}
       </nav>
 
       {/* ── HERO ── */}
@@ -1699,12 +1953,11 @@ export default function Portfolio() {
           minHeight: "100vh",
           display: "flex",
           alignItems: "center",
-          padding: "80px 6vw 0",
+          padding: `80px ${px} ${isMobile ? "60px" : "0"}`,
           overflow: "hidden",
         }}
       >
-        <ParticleField dark={dark} />
-
+        <ParticleField dark={dark} isMobile={isMobile} />
         <div
           style={{
             position: "relative",
@@ -1713,19 +1966,26 @@ export default function Portfolio() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            gap: 48,
-            flexWrap: "wrap",
+            gap: isMobile ? 40 : 48,
+            flexDirection: isMobile ? "column-reverse" : "row",
+            flexWrap: isMobile ? "nowrap" : "wrap",
           }}
         >
-          {/* Left */}
-          <div style={{ flex: "1 1 460px", maxWidth: 580 }}>
+          {/* Left text */}
+          <div
+            style={{
+              flex: "1 1 auto",
+              maxWidth: isMobile ? "100%" : 580,
+              textAlign: isMobile ? "center" : "left",
+            }}
+          >
             {/* Status badge */}
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 8,
-                marginBottom: 32,
+                marginBottom: 24,
                 padding: "5px 14px 5px 8px",
                 borderRadius: 30,
                 background: dark
@@ -1762,14 +2022,16 @@ export default function Portfolio() {
               </div>
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: 10,
                   fontWeight: 600,
                   color: "#10B981",
                   fontFamily: "'JetBrains Mono',monospace",
-                  letterSpacing: "0.08em",
+                  letterSpacing: "0.06em",
                 }}
               >
-                AVAILABLE · FREELANCE & FULL-TIME
+                {isMobile
+                  ? "AVAILABLE FOR WORK"
+                  : "AVAILABLE · FREELANCE & FULL-TIME"}
               </span>
             </div>
 
@@ -1785,7 +2047,7 @@ export default function Portfolio() {
               <span
                 style={{
                   display: "block",
-                  fontSize: "clamp(52px,7vw,94px)",
+                  fontSize: isMobile ? "52px" : "clamp(52px,7vw,94px)",
                   color: T,
                 }}
               >
@@ -1794,7 +2056,7 @@ export default function Portfolio() {
               <span
                 style={{
                   display: "block",
-                  fontSize: "clamp(52px,7vw,94px)",
+                  fontSize: isMobile ? "52px" : "clamp(52px,7vw,94px)",
                   color: A,
                   filter: dark ? `drop-shadow(0 0 30px ${A}45)` : "none",
                 }}
@@ -1809,15 +2071,16 @@ export default function Portfolio() {
                 display: "flex",
                 alignItems: "center",
                 gap: 7,
-                marginBottom: 24,
+                marginBottom: 20,
+                justifyContent: isMobile ? "center" : "flex-start",
               }}
             >
-              <span style={{ fontSize: 18, fontWeight: 300, color: TS }}>
+              <span style={{ fontSize: 16, fontWeight: 300, color: TS }}>
                 I'm a
               </span>
               <span
                 style={{
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: 700,
                   fontFamily: "'Space Grotesk',sans-serif",
                 }}
@@ -1828,31 +2091,31 @@ export default function Portfolio() {
 
             <p
               style={{
-                fontSize: 15,
+                fontSize: isMobile ? 14 : 15,
                 color: TS,
-                lineHeight: 1.95,
-                maxWidth: 480,
-                marginBottom: 40,
+                lineHeight: 1.9,
+                maxWidth: isMobile ? "100%" : 480,
+                marginBottom: 32,
                 fontWeight: 400,
               }}
             >
               {DATA.summary}
             </p>
 
-            {/* CTAs */}
             <div
               style={{
                 display: "flex",
-                gap: 12,
+                gap: 10,
                 flexWrap: "wrap",
-                marginBottom: 36,
+                marginBottom: 28,
+                justifyContent: isMobile ? "center" : "flex-start",
               }}
             >
               <button
                 className="pbtn"
                 onClick={() => scrollTo("Contact")}
                 style={{
-                  padding: "12px 28px",
+                  padding: isMobile ? "11px 22px" : "12px 28px",
                   borderRadius: 10,
                   fontWeight: 700,
                   fontSize: 13,
@@ -1872,7 +2135,7 @@ export default function Portfolio() {
                 className="obtn"
                 onClick={() => scrollTo("Projects")}
                 style={{
-                  padding: "12px 28px",
+                  padding: isMobile ? "11px 22px" : "12px 28px",
                   borderRadius: 10,
                   fontWeight: 600,
                   fontSize: 13,
@@ -1882,12 +2145,10 @@ export default function Portfolio() {
                   background: "transparent",
                   color: T,
                   border: `1px solid ${dark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.14)"}`,
-                  letterSpacing: "0.02em",
                 }}
               >
                 View Projects
               </button>
-              {/* ── RESUME BUTTON IN HERO ── */}
               <a
                 href={RESUME_URL}
                 target="_blank"
@@ -1897,8 +2158,8 @@ export default function Portfolio() {
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: 8,
-                  padding: "12px 24px",
+                  gap: 7,
+                  padding: isMobile ? "11px 20px" : "12px 24px",
                   borderRadius: 10,
                   fontWeight: 700,
                   fontSize: 13,
@@ -1910,18 +2171,24 @@ export default function Portfolio() {
                   color: A,
                   border: `1px solid ${A}35`,
                   textDecoration: "none",
-                  letterSpacing: "0.02em",
                 }}
               >
-                {Icon.fileText(14, A)} View Resume
+                {Icon.fileText(14, A)} Resume
               </a>
             </div>
 
             {/* Socials */}
-            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: 10,
+                alignItems: "center",
+                justifyContent: isMobile ? "center" : "flex-start",
+              }}
+            >
               <span
                 style={{
-                  fontSize: 10.5,
+                  fontSize: 10,
                   color: TS,
                   fontFamily: "'JetBrains Mono',monospace",
                   letterSpacing: "0.1em",
@@ -1977,118 +2244,108 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Right: Avatar */}
+          {/* Avatar */}
           <div
             style={{
-              flex: "0 0 auto",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              flexShrink: 0,
             }}
           >
             <div
               style={{
                 position: "relative",
-                width: 320,
-                height: 320,
+                width: isMobile ? 200 : 320,
+                height: isMobile ? 200 : 320,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 animation: "float 5.5s ease-in-out infinite",
               }}
             >
-              <div
-                style={{
-                  position: "absolute",
-                  inset: -28,
-                  borderRadius: "50%",
-                  border: dark
-                    ? "1px solid rgba(0,212,255,0.18)"
-                    : "1px solid rgba(98,68,232,0.14)",
-                  animation: "spin 24s linear infinite",
-                }}
-              >
+              {!isMobile && (
+                <>
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: -28,
+                      borderRadius: "50%",
+                      border: dark
+                        ? "1px solid rgba(0,212,255,0.18)"
+                        : "1px solid rgba(98,68,232,0.14)",
+                      animation: "spin 24s linear infinite",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "6%",
+                        left: "-5px",
+                        width: 10,
+                        height: 10,
+                        borderRadius: "50%",
+                        background: A,
+                        boxShadow: `0 0 10px ${A}`,
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: -56,
+                      borderRadius: "50%",
+                      border: dark
+                        ? "1px solid rgba(124,58,237,0.12)"
+                        : "1px solid rgba(208,58,140,0.1)",
+                      animation: "spin-rev 36s linear infinite",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        bottom: "18%",
+                        right: "-4px",
+                        width: 7,
+                        height: 7,
+                        borderRadius: "50%",
+                        background: A2,
+                        boxShadow: `0 0 8px ${A2}`,
+                      }}
+                    />
+                  </div>
+                </>
+              )}
+              {isMobile && (
                 <div
                   style={{
                     position: "absolute",
-                    top: "6%",
-                    left: "-5px",
-                    width: 10,
-                    height: 10,
+                    inset: -16,
                     borderRadius: "50%",
-                    background: A,
-                    boxShadow: `0 0 10px ${A}`,
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  position: "absolute",
-                  inset: -56,
-                  borderRadius: "50%",
-                  border: dark
-                    ? "1px solid rgba(124,58,237,0.12)"
-                    : "1px solid rgba(208,58,140,0.1)",
-                  animation: "spin-rev 36s linear infinite",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: "18%",
-                    right: "-4px",
-                    width: 7,
-                    height: 7,
-                    borderRadius: "50%",
-                    background: A2,
-                    boxShadow: `0 0 8px ${A2}`,
-                  }}
-                />
-              </div>
-              {/* Resume badge on avatar */}
-              <a
-                href={RESUME_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setShowToast(true)}
-                style={{
-                  position: "absolute",
-                  bottom: 6,
-                  right: -16,
-                  zIndex: 10,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  padding: "7px 14px",
-                  borderRadius: 30,
-                  background: dark
-                    ? "rgba(5,0,22,0.88)"
-                    : "rgba(255,255,255,0.92)",
-                  border: `1px solid ${A}40`,
-                  boxShadow: `0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px ${A}10`,
-                  textDecoration: "none",
-                  backdropFilter: "blur(16px)",
-                  animation: "float 5.5s ease-in-out infinite 1s",
-                }}
-              >
-                {Icon.fileText(12, A)}
-                <span
-                  style={{
-                    fontFamily: "'JetBrains Mono',monospace",
-                    fontSize: 10,
-                    fontWeight: 700,
-                    color: A,
-                    letterSpacing: "0.06em",
+                    border: dark
+                      ? "1px solid rgba(0,212,255,0.2)"
+                      : "1px solid rgba(98,68,232,0.15)",
+                    animation: "spin 20s linear infinite",
                   }}
                 >
-                  RESUME
-                </span>
-                {Icon.externalLink(9, A)}
-              </a>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "6%",
+                      left: "-4px",
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      background: A,
+                      boxShadow: `0 0 8px ${A}`,
+                    }}
+                  />
+                </div>
+              )}
               <div
                 style={{
-                  width: 270,
-                  height: 270,
+                  width: isMobile ? 168 : 270,
+                  height: isMobile ? 168 : 270,
                   borderRadius: "50%",
                   overflow: "hidden",
                   background: dark
@@ -2121,7 +2378,7 @@ export default function Portfolio() {
                     justifyContent: "center",
                     fontFamily: "'Space Grotesk',sans-serif",
                     fontWeight: 800,
-                    fontSize: 68,
+                    fontSize: isMobile ? 44 : 68,
                     color: A,
                   }}
                 >
@@ -2132,47 +2389,49 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Scroll cue */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 26,
-            left: "50%",
-            transform: "translateX(-50%)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
+        {/* Scroll cue — hide on mobile */}
+        {!isMobile && (
           <div
             style={{
-              width: 1,
-              height: 52,
-              background: `linear-gradient(${A},transparent)`,
-              animation: "drop 1s ease forwards",
-            }}
-          />
-          <span
-            style={{
-              fontSize: 8.5,
-              letterSpacing: "0.22em",
-              color: TS,
-              fontFamily: "'JetBrains Mono',monospace",
+              position: "absolute",
+              bottom: 26,
+              left: "50%",
+              transform: "translateX(-50%)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 8,
             }}
           >
-            SCROLL
-          </span>
-        </div>
+            <div
+              style={{
+                width: 1,
+                height: 52,
+                background: `linear-gradient(${A},transparent)`,
+                animation: "drop 1s ease forwards",
+              }}
+            />
+            <span
+              style={{
+                fontSize: 8.5,
+                letterSpacing: "0.22em",
+                color: TS,
+                fontFamily: "'JetBrains Mono',monospace",
+              }}
+            >
+              SCROLL
+            </span>
+          </div>
+        )}
       </section>
 
       {/* ── STATS ── */}
-      <div style={{ position: "relative", zIndex: 1, padding: "0 6vw" }}>
+      <div style={{ position: "relative", zIndex: 1, padding: `0 ${px}` }}>
         <Reveal>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(4,1fr)",
+              gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(4,1fr)",
               background: cardBg,
               border: `1px solid ${cardBorder}`,
               borderRadius: 18,
@@ -2184,28 +2443,36 @@ export default function Portfolio() {
               <div
                 key={i}
                 style={{
-                  padding: "32px 20px",
+                  padding: isMobile ? "20px 12px" : "32px 20px",
                   textAlign: "center",
-                  borderRight: i < 3 ? `1px solid ${cardBorder}` : "none",
+                  borderRight: isMobile
+                    ? i % 2 === 0
+                      ? `1px solid ${cardBorder}`
+                      : "none"
+                    : i < 3
+                      ? `1px solid ${cardBorder}`
+                      : "none",
+                  borderBottom:
+                    isMobile && i < 2 ? `1px solid ${cardBorder}` : "none",
                 }}
               >
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "center",
-                    marginBottom: 12,
+                    marginBottom: 10,
                   }}
                 >
                   <IconBox
                     iconKey={s.svgIcon}
                     color={A}
-                    size={36}
+                    size={isMobile ? 30 : 36}
                     dark={dark}
                   />
                 </div>
                 <div
                   style={{
-                    fontSize: 36,
+                    fontSize: isMobile ? 26 : 36,
                     fontWeight: 800,
                     fontFamily: "'Space Grotesk',sans-serif",
                     color: A,
@@ -2221,11 +2488,12 @@ export default function Portfolio() {
                 </div>
                 <div
                   style={{
-                    fontSize: 11.5,
+                    fontSize: 10.5,
                     color: TS,
-                    marginTop: 10,
+                    marginTop: 8,
                     fontWeight: 500,
-                    letterSpacing: "0.02em",
+                    letterSpacing: "0.01em",
+                    lineHeight: 1.3,
                   }}
                 >
                   {s.label}
@@ -2241,27 +2509,30 @@ export default function Portfolio() {
         style={{
           position: "relative",
           zIndex: 1,
-          padding: "0 6vw",
+          padding: `0 ${px}`,
           maxWidth: 1180,
           margin: "0 auto",
         }}
       >
         {/* SKILLS */}
-        <section id="skills" style={{ padding: "108px 0 60px" }}>
+        <section id="skills" style={{ padding: sectionPy }}>
           <Reveal>
             <SectionHead
               num="02 / SKILLS"
               title={["Technical", "Arsenal"]}
               accent={A}
               dark={dark}
+              isMobile={isMobile}
             />
           </Reveal>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(285px,1fr))",
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : "repeat(auto-fit,minmax(285px,1fr))",
               gridAutoRows: "1fr",
-              gap: 16,
+              gap: isMobile ? 12 : 16,
             }}
           >
             {DATA.skills.map((sk, i) => (
@@ -2269,20 +2540,24 @@ export default function Portfolio() {
                 <TiltCard
                   dark={dark}
                   glow={sk.color}
-                  style={{ padding: "24px 26px 20px", height: "100%" }}
+                  isMobile={isMobile}
+                  style={{
+                    padding: isMobile ? "18px 20px 16px" : "24px 26px 20px",
+                    height: "100%",
+                  }}
                 >
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
                       gap: 12,
-                      marginBottom: 16,
+                      marginBottom: 14,
                     }}
                   >
                     <IconBox
                       iconKey={sk.svgIcon}
                       color={sk.color}
-                      size={36}
+                      size={34}
                       dark={dark}
                     />
                     <div>
@@ -2308,7 +2583,7 @@ export default function Portfolio() {
                       />
                     </div>
                   </div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
                     {sk.items.map((it) => (
                       <Pill key={it} label={it} color={sk.color} dark={dark} />
                     ))}
@@ -2320,20 +2595,23 @@ export default function Portfolio() {
         </section>
 
         {/* EXPERIENCE */}
-        <section id="experience" style={{ padding: "60px 0" }}>
+        <section id="experience" style={{ padding: "40px 0" }}>
           <Reveal>
             <SectionHead
               num="03 / EXPERIENCE"
               title={["Work", "History"]}
               accent={A}
               dark={dark}
+              isMobile={isMobile}
             />
           </Reveal>
-          <div style={{ position: "relative", paddingLeft: 48 }}>
+          <div
+            style={{ position: "relative", paddingLeft: isMobile ? 28 : 48 }}
+          >
             <div
               style={{
                 position: "absolute",
-                left: 14,
+                left: isMobile ? 8 : 14,
                 top: 8,
                 bottom: 8,
                 width: 1,
@@ -2342,17 +2620,17 @@ export default function Portfolio() {
                   : `linear-gradient(180deg,${A}50,transparent)`,
               }}
             />
-            <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {DATA.experience.map((exp, i) => (
                 <Reveal key={exp.company} delay={i * 0.1}>
                   <div style={{ position: "relative" }}>
                     <div
                       style={{
                         position: "absolute",
-                        left: -42,
+                        left: isMobile ? -26 : -42,
                         top: 26,
-                        width: 16,
-                        height: 16,
+                        width: isMobile ? 14 : 16,
+                        height: isMobile ? 14 : 16,
                         borderRadius: "50%",
                         background: exp.color,
                         border: dark
@@ -2376,7 +2654,8 @@ export default function Portfolio() {
                     <TiltCard
                       dark={dark}
                       glow={exp.color}
-                      style={{ padding: "28px 32px" }}
+                      isMobile={isMobile}
+                      style={{ padding: isMobile ? "20px 18px" : "28px 32px" }}
                     >
                       <div
                         style={{
@@ -2384,20 +2663,20 @@ export default function Portfolio() {
                           justifyContent: "space-between",
                           flexWrap: "wrap",
                           gap: 10,
-                          marginBottom: 20,
+                          marginBottom: 16,
                         }}
                       >
                         <div
                           style={{
                             display: "flex",
-                            gap: 14,
+                            gap: 12,
                             alignItems: "flex-start",
                           }}
                         >
                           <IconBox
                             iconKey="briefcase"
                             color={exp.color}
-                            size={40}
+                            size={isMobile ? 34 : 40}
                             dark={dark}
                           />
                           <div>
@@ -2405,7 +2684,7 @@ export default function Portfolio() {
                               style={{
                                 fontFamily: "'Space Grotesk',sans-serif",
                                 fontWeight: 800,
-                                fontSize: 17,
+                                fontSize: isMobile ? 15 : 17,
                                 color: T,
                                 letterSpacing: "-0.01em",
                               }}
@@ -2428,16 +2707,16 @@ export default function Portfolio() {
                           style={{
                             display: "flex",
                             flexDirection: "column",
-                            gap: 6,
-                            alignItems: "flex-end",
+                            gap: 5,
+                            alignItems: isMobile ? "flex-start" : "flex-end",
                           }}
                         >
                           <span
                             style={{
                               fontFamily: "'JetBrains Mono',monospace",
-                              fontSize: 11,
+                              fontSize: 10.5,
                               color: TS,
-                              padding: "3px 10px",
+                              padding: "3px 8px",
                               borderRadius: 6,
                               background: dark
                                 ? "rgba(255,255,255,0.04)"
@@ -2451,9 +2730,9 @@ export default function Portfolio() {
                             <span
                               style={{
                                 fontFamily: "'JetBrains Mono',monospace",
-                                fontSize: 9.5,
+                                fontSize: 9,
                                 color: "#10B981",
-                                padding: "2px 8px",
+                                padding: "2px 7px",
                                 borderRadius: 6,
                                 background: "rgba(16,185,129,0.08)",
                                 border: "1px solid rgba(16,185,129,0.22)",
@@ -2471,14 +2750,14 @@ export default function Portfolio() {
                           background: dark
                             ? "rgba(255,255,255,0.05)"
                             : "rgba(0,0,0,0.05)",
-                          marginBottom: 18,
+                          marginBottom: 14,
                         }}
                       />
                       <div
                         style={{
                           display: "flex",
                           flexDirection: "column",
-                          gap: 8,
+                          gap: 7,
                         }}
                       >
                         {exp.bullets.map((b, bi) => (
@@ -2486,7 +2765,7 @@ export default function Portfolio() {
                             key={bi}
                             style={{
                               display: "flex",
-                              gap: 12,
+                              gap: 10,
                               alignItems: "flex-start",
                             }}
                           >
@@ -2496,15 +2775,15 @@ export default function Portfolio() {
                                 height: 5,
                                 borderRadius: "50%",
                                 background: exp.color,
-                                marginTop: 9,
+                                marginTop: 8,
                                 flexShrink: 0,
                               }}
                             />
                             <span
                               style={{
-                                fontSize: 13.5,
+                                fontSize: isMobile ? 12.5 : 13.5,
                                 color: TS,
-                                lineHeight: 1.78,
+                                lineHeight: 1.75,
                               }}
                             >
                               {b}
@@ -2521,59 +2800,70 @@ export default function Portfolio() {
         </section>
 
         {/* PROJECTS */}
-        <section id="projects" style={{ padding: "60px 0" }}>
+        <section id="projects" style={{ padding: "40px 0" }}>
           <Reveal>
             <SectionHead
               num="04 / PROJECTS"
               title={["Featured", "Work"]}
               accent={A}
               dark={dark}
+              isMobile={isMobile}
             />
           </Reveal>
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {DATA.projects.map((p, i) => (
               <Reveal key={p.name} delay={i * 0.08}>
                 <TiltCard
                   dark={dark}
                   glow={p.color}
+                  isMobile={isMobile}
                   style={{ overflow: "hidden", padding: 0 }}
                 >
-                  <div style={{ display: "flex", minHeight: 158 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: isMobile ? "column" : "row",
+                      minHeight: isMobile ? "auto" : 158,
+                    }}
+                  >
                     <div
                       style={{
-                        width: 4,
+                        width: isMobile ? "100%" : 4,
+                        height: isMobile ? 4 : "auto",
                         flexShrink: 0,
-                        background: `linear-gradient(180deg,${p.color},${p.accent})`,
+                        background: `linear-gradient(${isMobile ? "90deg" : "180deg"},${p.color},${p.accent})`,
                       }}
                     />
-                    <div
-                      style={{
-                        width: 72,
-                        flexShrink: 0,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRight: `1px solid ${cardBorder}`,
-                      }}
-                    >
-                      <span
+                    {!isMobile && (
+                      <div
                         style={{
-                          fontFamily: "'Space Grotesk',sans-serif",
-                          fontWeight: 800,
-                          fontSize: 40,
-                          color: dark
-                            ? "rgba(255,255,255,0.04)"
-                            : "rgba(0,0,0,0.05)",
-                          lineHeight: 1,
+                          width: 72,
+                          flexShrink: 0,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderRight: `1px solid ${cardBorder}`,
                         }}
                       >
-                        {p.num}
-                      </span>
-                    </div>
+                        <span
+                          style={{
+                            fontFamily: "'Space Grotesk',sans-serif",
+                            fontWeight: 800,
+                            fontSize: 40,
+                            color: dark
+                              ? "rgba(255,255,255,0.04)"
+                              : "rgba(0,0,0,0.05)",
+                            lineHeight: 1,
+                          }}
+                        >
+                          {p.num}
+                        </span>
+                      </div>
+                    )}
                     <div
                       style={{
                         flex: 1,
-                        padding: "22px 28px",
+                        padding: isMobile ? "18px 18px 16px" : "22px 28px",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "space-between",
@@ -2584,60 +2874,87 @@ export default function Portfolio() {
                           display: "flex",
                           justifyContent: "space-between",
                           alignItems: "flex-start",
-                          gap: 12,
+                          gap: 10,
                           marginBottom: 8,
+                          flexWrap: "wrap",
                         }}
                       >
                         <div>
-                          <h3
+                          <div
                             style={{
-                              fontFamily: "'Space Grotesk',sans-serif",
-                              fontWeight: 800,
-                              fontSize: 19,
-                              color: T,
-                              letterSpacing: "-0.01em",
-                              marginBottom: p.tags.length ? 8 : 0,
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 8,
+                              marginBottom: 6,
                             }}
                           >
-                            {p.name}
-                          </h3>
-                          {p.tags.length > 0 && (
-                            <div
+                            {isMobile && (
+                              <span
+                                style={{
+                                  fontFamily: "'Space Grotesk',sans-serif",
+                                  fontWeight: 800,
+                                  fontSize: 22,
+                                  color: dark
+                                    ? "rgba(255,255,255,0.07)"
+                                    : "rgba(0,0,0,0.06)",
+                                }}
+                              >
+                                {p.num}
+                              </span>
+                            )}
+                            <h3
                               style={{
-                                display: "flex",
-                                gap: 6,
-                                flexWrap: "wrap",
+                                fontFamily: "'Space Grotesk',sans-serif",
+                                fontWeight: 800,
+                                fontSize: isMobile ? 17 : 19,
+                                color: T,
+                                letterSpacing: "-0.01em",
                               }}
                             >
-                              {p.tags.map((t) => (
-                                <Pill
-                                  key={t}
-                                  label={t}
-                                  color={p.color}
-                                  dark={dark}
-                                />
-                              ))}
-                            </div>
-                          )}
+                              {p.name}
+                            </h3>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: 5,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            {p.tags.map((t) => (
+                              <Pill
+                                key={t}
+                                label={t}
+                                color={p.color}
+                                dark={dark}
+                              />
+                            ))}
+                          </div>
                         </div>
                         <div
                           style={{
-                            padding: "4px 13px",
+                            padding: "4px 11px",
                             borderRadius: 6,
                             background: p.color + "12",
                             border: `1px solid ${p.color}28`,
                             color: p.color,
-                            fontSize: 11,
+                            fontSize: 10.5,
                             fontWeight: 700,
                             fontFamily: "'JetBrains Mono',monospace",
                             whiteSpace: "nowrap",
-                            letterSpacing: "0.02em",
                           }}
                         >
                           {p.metric}
                         </div>
                       </div>
-                      <p style={{ fontSize: 13, color: TS, lineHeight: 1.78 }}>
+                      <p
+                        style={{
+                          fontSize: isMobile ? 12.5 : 13,
+                          color: TS,
+                          lineHeight: 1.78,
+                          marginTop: 8,
+                        }}
+                      >
                         {p.desc}
                       </p>
                     </div>
@@ -2649,13 +2966,14 @@ export default function Portfolio() {
         </section>
 
         {/* FREELANCE */}
-        <section id="freelance" style={{ padding: "60px 0" }}>
+        <section id="freelance" style={{ padding: "40px 0" }}>
           <Reveal>
             <SectionHead
               num="05 / FREELANCE"
               title={["Available", "for Work"]}
               accent={A}
               dark={dark}
+              isMobile={isMobile}
             />
           </Reveal>
 
@@ -2665,8 +2983,8 @@ export default function Portfolio() {
                 position: "relative",
                 borderRadius: 18,
                 overflow: "hidden",
-                marginBottom: 48,
-                padding: "48px 44px",
+                marginBottom: 40,
+                padding: isMobile ? "28px 22px" : "48px 44px",
               }}
             >
               <div
@@ -2717,17 +3035,17 @@ export default function Portfolio() {
                   justifyContent: "space-between",
                   alignItems: "center",
                   flexWrap: "wrap",
-                  gap: 28,
+                  gap: 24,
                 }}
               >
-                <div style={{ flex: "1 1 360px" }}>
+                <div style={{ flex: "1 1 280px" }}>
                   <div
                     style={{
                       fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 10,
+                      fontSize: 9.5,
                       color: A,
-                      letterSpacing: "0.18em",
-                      marginBottom: 12,
+                      letterSpacing: "0.15em",
+                      marginBottom: 10,
                     }}
                   >
                     FREELANCE · FULL-TIME · COLLABORATION
@@ -2736,9 +3054,9 @@ export default function Portfolio() {
                     style={{
                       fontFamily: "'Space Grotesk',sans-serif",
                       fontWeight: 800,
-                      fontSize: "clamp(20px,2.8vw,32px)",
+                      fontSize: isMobile ? "20px" : "clamp(20px,2.8vw,32px)",
                       color: T,
-                      marginBottom: 14,
+                      marginBottom: 12,
                       lineHeight: 1.2,
                       letterSpacing: "-0.01em",
                     }}
@@ -2747,7 +3065,7 @@ export default function Portfolio() {
                   </h3>
                   <p
                     style={{
-                      fontSize: 14,
+                      fontSize: isMobile ? 13 : 14,
                       color: TS,
                       lineHeight: 1.85,
                       maxWidth: 460,
@@ -2757,7 +3075,12 @@ export default function Portfolio() {
                   </p>
                 </div>
                 <div
-                  style={{ display: "flex", flexDirection: "column", gap: 10 }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                    minWidth: isMobile ? "100%" : "auto",
+                  }}
                 >
                   <a
                     href={`mailto:${DATA.contact.email}?subject=Let's%20Connect`}
@@ -2765,8 +3088,9 @@ export default function Portfolio() {
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
+                      justifyContent: "center",
                       gap: 9,
-                      padding: "13px 28px",
+                      padding: "13px 24px",
                       borderRadius: 10,
                       fontWeight: 700,
                       fontSize: 13,
@@ -2794,7 +3118,7 @@ export default function Portfolio() {
                       alignItems: "center",
                       justifyContent: "center",
                       gap: 8,
-                      padding: "11px 22px",
+                      padding: "11px 20px",
                       borderRadius: 10,
                       fontWeight: 600,
                       fontSize: 13,
@@ -2806,7 +3130,6 @@ export default function Portfolio() {
                       color: A,
                       border: `1px solid ${A}30`,
                       textDecoration: "none",
-                      letterSpacing: "0.02em",
                     }}
                   >
                     {Icon.fileText(14, A)} Download Resume
@@ -2820,10 +3143,10 @@ export default function Portfolio() {
             <div
               style={{
                 fontFamily: "'JetBrains Mono',monospace",
-                fontSize: 10,
+                fontSize: 9.5,
                 color: TS,
                 letterSpacing: "0.18em",
-                marginBottom: 22,
+                marginBottom: 18,
               }}
             >
               WHAT I CAN BUILD FOR YOU
@@ -2832,10 +3155,12 @@ export default function Portfolio() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(295px,1fr))",
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : "repeat(auto-fit,minmax(280px,1fr))",
               gridAutoRows: "1fr",
-              gap: 14,
-              marginBottom: 56,
+              gap: 12,
+              marginBottom: 44,
             }}
           >
             {DATA.freelance.services.map((svc, i) => (
@@ -2846,7 +3171,7 @@ export default function Portfolio() {
                   onMouseLeave={() => setHovSvc(null)}
                   style={{
                     height: "100%",
-                    padding: "24px 26px 22px",
+                    padding: isMobile ? "18px 18px 16px" : "24px 26px 22px",
                     borderRadius: 18,
                     backdropFilter: "blur(24px)",
                     background:
@@ -2867,13 +3192,13 @@ export default function Portfolio() {
                       display: "flex",
                       alignItems: "center",
                       gap: 12,
-                      marginBottom: 14,
+                      marginBottom: 12,
                     }}
                   >
                     <IconBox
                       iconKey={svc.svgIcon}
                       color={svc.color}
-                      size={38}
+                      size={34}
                       dark={dark}
                     />
                     <div>
@@ -2881,7 +3206,7 @@ export default function Portfolio() {
                         style={{
                           fontFamily: "'Space Grotesk',sans-serif",
                           fontWeight: 700,
-                          fontSize: 13.5,
+                          fontSize: 13,
                           color: T,
                         }}
                       >
@@ -2893,14 +3218,14 @@ export default function Portfolio() {
                           height: 2,
                           borderRadius: 1,
                           background: svc.color,
-                          marginTop: 5,
+                          marginTop: 4,
                           transition: "width 0.3s ease",
                           opacity: 0.7,
                         }}
                       />
                     </div>
                   </div>
-                  <p style={{ fontSize: 13, color: TS, lineHeight: 1.8 }}>
+                  <p style={{ fontSize: 12.5, color: TS, lineHeight: 1.8 }}>
                     {svc.desc}
                   </p>
                 </div>
@@ -2912,10 +3237,10 @@ export default function Portfolio() {
             <div
               style={{
                 fontFamily: "'JetBrains Mono',monospace",
-                fontSize: 10,
+                fontSize: 9.5,
                 color: TS,
                 letterSpacing: "0.18em",
-                marginBottom: 18,
+                marginBottom: 14,
               }}
             >
               BY THE NUMBERS
@@ -2925,7 +3250,7 @@ export default function Portfolio() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))",
+                gridTemplateColumns: "repeat(2,1fr)",
                 gap: 1,
                 background: dark
                   ? "rgba(0,212,255,0.05)"
@@ -2935,20 +3260,26 @@ export default function Portfolio() {
                   : "1px solid rgba(98,68,232,0.09)",
                 borderRadius: 16,
                 overflow: "hidden",
-                marginBottom: 52,
+                marginBottom: 44,
               }}
             >
               {DATA.freelance.whyMe.map((w, i) => (
                 <div
                   key={i}
                   style={{
-                    padding: "28px 16px",
+                    padding: isMobile ? "20px 12px" : "28px 16px",
                     textAlign: "center",
                     background: dark
                       ? "rgba(5,0,22,0.35)"
                       : "rgba(255,255,255,0.5)",
                     borderRight:
-                      i < DATA.freelance.whyMe.length - 1
+                      i % 2 === 0
+                        ? dark
+                          ? "1px solid rgba(0,212,255,0.07)"
+                          : "1px solid rgba(98,68,232,0.07)"
+                        : "none",
+                    borderBottom:
+                      i < 2
                         ? dark
                           ? "1px solid rgba(0,212,255,0.07)"
                           : "1px solid rgba(98,68,232,0.07)"
@@ -2957,12 +3288,12 @@ export default function Portfolio() {
                 >
                   <div
                     style={{
-                      fontSize: 28,
+                      fontSize: isMobile ? 22 : 28,
                       fontWeight: 800,
                       fontFamily: "'Space Grotesk',sans-serif",
                       color: A,
                       lineHeight: 1,
-                      marginBottom: 8,
+                      marginBottom: 6,
                       letterSpacing: "-0.02em",
                     }}
                   >
@@ -2970,7 +3301,7 @@ export default function Portfolio() {
                   </div>
                   <div
                     style={{
-                      fontSize: 11.5,
+                      fontSize: 11,
                       color: TS,
                       fontWeight: 500,
                       lineHeight: 1.4,
@@ -2987,10 +3318,10 @@ export default function Portfolio() {
             <div
               style={{
                 fontFamily: "'JetBrains Mono',monospace",
-                fontSize: 10,
+                fontSize: 9.5,
                 color: TS,
                 letterSpacing: "0.18em",
-                marginBottom: 22,
+                marginBottom: 18,
               }}
             >
               HOW WE WORK TOGETHER
@@ -2999,8 +3330,10 @@ export default function Portfolio() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
-              gap: 14,
+              gridTemplateColumns: isMobile
+                ? "1fr 1fr"
+                : "repeat(auto-fit,minmax(220px,1fr))",
+              gap: 12,
             }}
           >
             {DATA.freelance.process.map((step, i) => (
@@ -3008,72 +3341,75 @@ export default function Portfolio() {
                 <TiltCard
                   dark={dark}
                   glow={A}
+                  isMobile={isMobile}
                   style={{
-                    padding: "26px 22px",
+                    padding: isMobile ? "20px 16px" : "26px 22px",
                     height: "100%",
                     position: "relative",
                     overflow: "hidden",
                   }}
                 >
-                  <div className="proc-card">
-                    <div
-                      className="proc-num"
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: -8,
+                      right: 6,
+                      fontFamily: "'Space Grotesk',sans-serif",
+                      fontWeight: 800,
+                      fontSize: isMobile ? 44 : 60,
+                      color: dark
+                        ? "rgba(255,255,255,0.03)"
+                        : "rgba(0,0,0,0.04)",
+                      lineHeight: 1,
+                      pointerEvents: "none",
+                    }}
+                  >
+                    {step.step}
+                  </div>
+                  <div
+                    style={{
+                      width: 26,
+                      height: 26,
+                      borderRadius: 8,
+                      background: `linear-gradient(135deg,${A},${A2})`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: 12,
+                      position: "relative",
+                    }}
+                  >
+                    <span
                       style={{
-                        position: "absolute",
-                        top: -8,
-                        right: 6,
-                        fontFamily: "'Space Grotesk',sans-serif",
-                        fontWeight: 800,
-                        fontSize: 60,
-                        color: dark
-                          ? "rgba(255,255,255,0.03)"
-                          : "rgba(0,0,0,0.04)",
-                        lineHeight: 1,
-                        transition: "color 0.2s",
-                        pointerEvents: "none",
+                        fontFamily: "'JetBrains Mono',monospace",
+                        fontWeight: 700,
+                        fontSize: 9,
+                        color: "#fff",
                       }}
                     >
                       {step.step}
-                    </div>
-                    <div
-                      style={{
-                        width: 28,
-                        height: 28,
-                        borderRadius: 8,
-                        background: `linear-gradient(135deg,${A},${A2})`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginBottom: 14,
-                        position: "relative",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: "'JetBrains Mono',monospace",
-                          fontWeight: 700,
-                          fontSize: 10,
-                          color: "#fff",
-                        }}
-                      >
-                        {step.step}
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "'Space Grotesk',sans-serif",
-                        fontWeight: 700,
-                        fontSize: 14.5,
-                        color: T,
-                        marginBottom: 8,
-                      }}
-                    >
-                      {step.title}
-                    </div>
-                    <p style={{ fontSize: 12.5, color: TS, lineHeight: 1.78 }}>
-                      {step.desc}
-                    </p>
+                    </span>
                   </div>
+                  <div
+                    style={{
+                      fontFamily: "'Space Grotesk',sans-serif",
+                      fontWeight: 700,
+                      fontSize: isMobile ? 13 : 14.5,
+                      color: T,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {step.title}
+                  </div>
+                  <p
+                    style={{
+                      fontSize: isMobile ? 11.5 : 12.5,
+                      color: TS,
+                      lineHeight: 1.75,
+                    }}
+                  >
+                    {step.desc}
+                  </p>
                 </TiltCard>
               </Reveal>
             ))}
@@ -3081,46 +3417,53 @@ export default function Portfolio() {
         </section>
 
         {/* EDUCATION */}
-        <section id="education" style={{ padding: "60px 0" }}>
+        <section id="education" style={{ padding: "40px 0" }}>
           <Reveal>
             <SectionHead
               num="06 / EDUCATION"
               title={["Academic", "Background"]}
               accent={A}
               dark={dark}
+              isMobile={isMobile}
             />
           </Reveal>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(310px,1fr))",
-              gap: 20,
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : "repeat(auto-fit,minmax(310px,1fr))",
+              gap: 16,
             }}
           >
             <Reveal>
               <TiltCard
                 dark={dark}
                 glow={A}
-                style={{ padding: "32px 32px", height: "100%" }}
+                isMobile={isMobile}
+                style={{
+                  padding: isMobile ? "24px 22px" : "32px 32px",
+                  height: "100%",
+                }}
               >
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "flex-start",
-                    marginBottom: 20,
+                    marginBottom: 16,
                   }}
                 >
                   <IconBox
                     iconKey="graduation"
                     color={A}
-                    size={44}
+                    size={isMobile ? 38 : 44}
                     dark={dark}
                   />
                   <span
                     style={{
                       fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 10.5,
+                      fontSize: 10,
                       color: TS,
                     }}
                   >
@@ -3131,11 +3474,10 @@ export default function Portfolio() {
                   style={{
                     fontFamily: "'Space Grotesk',sans-serif",
                     fontWeight: 800,
-                    fontSize: 16,
+                    fontSize: isMobile ? 14 : 16,
                     color: T,
                     marginBottom: 5,
                     lineHeight: 1.3,
-                    letterSpacing: "-0.01em",
                   }}
                 >
                   {DATA.education.school}
@@ -3157,17 +3499,17 @@ export default function Portfolio() {
                     gap: 5,
                     fontSize: 12,
                     color: TS,
-                    marginBottom: 22,
+                    marginBottom: 18,
                   }}
                 >
-                  {Icon.mapPin(12, TS)}
-                  {DATA.education.field} · {DATA.education.location}
+                  {Icon.mapPin(12, TS)} {DATA.education.field} ·{" "}
+                  {DATA.education.location}
                 </div>
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 14,
+                    gap: 12,
                     padding: "14px 16px",
                     borderRadius: 10,
                     background: A + "07",
@@ -3179,7 +3521,7 @@ export default function Portfolio() {
                     style={{
                       fontFamily: "'Space Grotesk',sans-serif",
                       fontWeight: 800,
-                      fontSize: 28,
+                      fontSize: isMobile ? 24 : 28,
                       color: A,
                       letterSpacing: "-0.02em",
                     }}
@@ -3205,7 +3547,6 @@ export default function Portfolio() {
                       color: "#10B981",
                       fontSize: 10.5,
                       fontWeight: 700,
-                      fontFamily: "'JetBrains Mono',monospace",
                     }}
                   >
                     {Icon.check(10)} TOP
@@ -3220,7 +3561,7 @@ export default function Portfolio() {
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 7,
-                    fontSize: 12.5,
+                    fontSize: 12,
                     fontWeight: 600,
                     color: A,
                     textDecoration: "none",
@@ -3236,41 +3577,38 @@ export default function Portfolio() {
               </TiltCard>
             </Reveal>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {DATA.certifications.map((c, i) => (
                 <Reveal key={c.name} delay={i * 0.09}>
                   <div className="cert-card">
                     <TiltCard
                       dark={dark}
                       glow={c.color}
-                      style={{ padding: "18px 22px" }}
+                      isMobile={isMobile}
+                      style={{ padding: "16px 18px" }}
                     >
                       <div
                         style={{
                           display: "flex",
-                          gap: 14,
+                          gap: 12,
                           alignItems: "center",
                         }}
                       >
                         <IconBox
                           iconKey={c.svgIcon}
                           color={c.color}
-                          size={40}
+                          size={36}
                           dark={dark}
                         />
                         <div style={{ flex: 1 }}>
                           <div
-                            style={{
-                              fontWeight: 700,
-                              fontSize: 13.5,
-                              color: T,
-                            }}
+                            style={{ fontWeight: 700, fontSize: 13, color: T }}
                           >
                             {c.name}
                           </div>
                           <div
                             style={{
-                              fontSize: 12,
+                              fontSize: 11.5,
                               color: c.color,
                               marginTop: 2,
                               fontWeight: 500,
@@ -3285,16 +3623,16 @@ export default function Portfolio() {
                           rel="noopener noreferrer"
                           className="cert-reveal"
                           style={{
-                            opacity: 0,
-                            transform: "translateX(8px)",
+                            opacity: isMobile ? 1 : 0,
+                            transform: isMobile ? "none" : "translateX(8px)",
                             display: "inline-flex",
                             alignItems: "center",
                             gap: 6,
-                            fontSize: 11.5,
+                            fontSize: 11,
                             fontWeight: 600,
                             color: c.color,
                             textDecoration: "none",
-                            padding: "5px 12px",
+                            padding: "5px 10px",
                             borderRadius: 7,
                             background: c.color + "12",
                             border: `1px solid ${c.color}28`,
@@ -3314,30 +3652,31 @@ export default function Portfolio() {
                   <TiltCard
                     dark={dark}
                     glow="#10B981"
-                    style={{ padding: "15px 20px" }}
+                    isMobile={isMobile}
+                    style={{ padding: "14px 18px" }}
                   >
                     <div
                       style={{
                         display: "flex",
-                        gap: 14,
+                        gap: 12,
                         alignItems: "flex-start",
                       }}
                     >
                       <IconBox
                         iconKey={a.svgIcon}
                         color="#10B981"
-                        size={36}
+                        size={32}
                         dark={dark}
                       />
                       <div style={{ paddingTop: 1 }}>
                         <span
-                          style={{ fontSize: 13, color: TS, lineHeight: 1.72 }}
+                          style={{ fontSize: 12.5, color: TS, lineHeight: 1.7 }}
                         >
                           {a.text}{" "}
                         </span>
                         <span
                           style={{
-                            fontSize: 13,
+                            fontSize: 12.5,
                             fontWeight: 700,
                             color: "#10B981",
                           }}
@@ -3354,30 +3693,33 @@ export default function Portfolio() {
         </section>
 
         {/* CONTACT */}
-        <section id="contact" style={{ padding: "60px 0 120px" }}>
+        <section id="contact" style={{ padding: "40px 0 100px" }}>
           <Reveal>
             <SectionHead
               num="07 / CONTACT"
               title={["Get in", "Touch"]}
               accent={A}
               dark={dark}
+              isMobile={isMobile}
             />
           </Reveal>
-
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(310px,1fr))",
-              gap: 20,
-              marginBottom: 20,
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : "repeat(auto-fit,minmax(310px,1fr))",
+              gap: 16,
+              marginBottom: 16,
             }}
           >
             <Reveal>
               <TiltCard
                 dark={dark}
                 glow={A}
+                isMobile={isMobile}
                 style={{
-                  padding: "40px 36px",
+                  padding: isMobile ? "28px 22px" : "40px 36px",
                   height: "100%",
                   position: "relative",
                   overflow: "hidden",
@@ -3396,20 +3738,20 @@ export default function Portfolio() {
                   }}
                 />
                 <div style={{ position: "relative", zIndex: 1 }}>
-                  <div style={{ marginBottom: 18 }}>
+                  <div style={{ marginBottom: 16 }}>
                     <IconBox
                       iconKey="briefcase"
                       color={A}
-                      size={44}
+                      size={isMobile ? 38 : 44}
                       dark={dark}
                     />
                   </div>
                   <div
                     style={{
                       fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 10,
+                      fontSize: 9.5,
                       color: A,
-                      letterSpacing: "0.16em",
+                      letterSpacing: "0.15em",
                       marginBottom: 10,
                     }}
                   >
@@ -3419,21 +3761,20 @@ export default function Portfolio() {
                     style={{
                       fontFamily: "'Space Grotesk',sans-serif",
                       fontWeight: 800,
-                      fontSize: 20,
+                      fontSize: isMobile ? 18 : 20,
                       color: T,
                       marginBottom: 10,
                       lineHeight: 1.2,
-                      letterSpacing: "-0.01em",
                     }}
                   >
                     Have a Project in Mind?
                   </h3>
                   <p
                     style={{
-                      fontSize: 13.5,
+                      fontSize: 13,
                       color: TS,
                       lineHeight: 1.82,
-                      marginBottom: 28,
+                      marginBottom: 24,
                     }}
                   >
                     Need backend APIs, microservices, or cloud infrastructure
@@ -3448,14 +3789,13 @@ export default function Portfolio() {
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 8,
-                        padding: "11px 22px",
+                        padding: "11px 20px",
                         borderRadius: 9,
                         fontWeight: 700,
                         fontSize: 13,
                         background: `linear-gradient(135deg,${A},${A2})`,
                         color: "#fff",
                         textDecoration: "none",
-                        letterSpacing: "0.03em",
                         boxShadow: `0 4px 18px ${A}32`,
                         transition: "all 0.22s",
                       }}
@@ -3472,7 +3812,7 @@ export default function Portfolio() {
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 7,
-                        padding: "11px 18px",
+                        padding: "11px 16px",
                         borderRadius: 9,
                         fontWeight: 600,
                         fontSize: 13,
@@ -3496,8 +3836,9 @@ export default function Portfolio() {
               <TiltCard
                 dark={dark}
                 glow={A2}
+                isMobile={isMobile}
                 style={{
-                  padding: "40px 36px",
+                  padding: isMobile ? "28px 22px" : "40px 36px",
                   height: "100%",
                   position: "relative",
                   overflow: "hidden",
@@ -3516,20 +3857,20 @@ export default function Portfolio() {
                   }}
                 />
                 <div style={{ position: "relative", zIndex: 1 }}>
-                  <div style={{ marginBottom: 18 }}>
+                  <div style={{ marginBottom: 16 }}>
                     <IconBox
                       iconKey="messageSquare"
                       color={A2}
-                      size={44}
+                      size={isMobile ? 38 : 44}
                       dark={dark}
                     />
                   </div>
                   <div
                     style={{
                       fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 10,
+                      fontSize: 9.5,
                       color: A2,
-                      letterSpacing: "0.16em",
+                      letterSpacing: "0.15em",
                       marginBottom: 10,
                     }}
                   >
@@ -3539,28 +3880,27 @@ export default function Portfolio() {
                     style={{
                       fontFamily: "'Space Grotesk',sans-serif",
                       fontWeight: 800,
-                      fontSize: 20,
+                      fontSize: isMobile ? 18 : 20,
                       color: T,
                       marginBottom: 10,
                       lineHeight: 1.2,
-                      letterSpacing: "-0.01em",
                     }}
                   >
                     Let's Have a Conversation
                   </h3>
                   <p
                     style={{
-                      fontSize: 13.5,
+                      fontSize: 13,
                       color: TS,
                       lineHeight: 1.82,
-                      marginBottom: 28,
+                      marginBottom: 22,
                     }}
                   >
                     Open to full-time engineering roles, collaborations, and
                     interesting technical opportunities.
                   </p>
                   <div
-                    style={{ display: "flex", flexDirection: "column", gap: 9 }}
+                    style={{ display: "flex", flexDirection: "column", gap: 8 }}
                   >
                     {[
                       {
@@ -3597,12 +3937,13 @@ export default function Portfolio() {
                             : "rgba(0,0,0,0.03)",
                           border: `1px solid ${cardBorder}`,
                           color: TS,
-                          fontSize: 13,
+                          fontSize: isMobile ? 12.5 : 13,
                           fontWeight: 500,
                           transition: "all 0.18s",
+                          wordBreak: "break-all",
                         }}
                       >
-                        {c.icon}
+                        <span style={{ flexShrink: 0 }}>{c.icon}</span>
                         {c.text}
                       </a>
                     ))}
@@ -3616,21 +3957,21 @@ export default function Portfolio() {
           <Reveal delay={0.12}>
             <div
               style={{
-                marginTop: 56,
-                paddingTop: 28,
+                marginTop: 48,
+                paddingTop: 24,
                 borderTop: `1px solid ${cardBorder}`,
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 flexWrap: "wrap",
-                gap: 16,
+                gap: 14,
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <div
                   style={{
-                    width: 28,
-                    height: 28,
+                    width: 26,
+                    height: 26,
                     borderRadius: 8,
                     background: `linear-gradient(135deg,${A},${A2})`,
                     display: "flex",
@@ -3663,7 +4004,7 @@ export default function Portfolio() {
               <div
                 style={{
                   display: "flex",
-                  gap: 12,
+                  gap: 10,
                   alignItems: "center",
                   flexWrap: "wrap",
                 }}
@@ -3678,22 +4019,21 @@ export default function Portfolio() {
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 6,
-                    padding: "6px 12px",
+                    padding: "5px 11px",
                     borderRadius: 7,
                     background: dark
                       ? "rgba(0,212,255,0.06)"
                       : "rgba(98,68,232,0.06)",
                     border: `1px solid ${A}25`,
                     color: A,
-                    fontSize: 11.5,
+                    fontSize: 11,
                     fontWeight: 600,
                     textDecoration: "none",
                     transition: "all 0.18s",
                     fontFamily: "'JetBrains Mono',monospace",
-                    letterSpacing: "0.04em",
                   }}
                 >
-                  {Icon.fileText(12, A)} RESUME
+                  {Icon.fileText(11, A)} RESUME
                 </a>
                 {[
                   {
@@ -3730,7 +4070,7 @@ export default function Portfolio() {
                     letterSpacing: "0.08em",
                   }}
                 >
-                  © {new Date().getFullYear()} · BUILT WITH REACT
+                  © {new Date().getFullYear()} · REACT
                 </span>
               </div>
             </div>
@@ -3738,5 +4078,68 @@ export default function Portfolio() {
         </section>
       </div>
     </div>
+  );
+}
+
+// Desktop-only magnetic cursor (separate component to avoid mobile issues)
+function MagneticCursorDesktop({ dark }) {
+  const dot = useRef(null),
+    ring = useRef(null);
+  const pos = useRef({ x: 0, y: 0 }),
+    rpos = useRef({ x: 0, y: 0 });
+  useEffect(() => {
+    const onM = (e) => {
+      pos.current = { x: e.clientX, y: e.clientY };
+    };
+    window.addEventListener("mousemove", onM);
+    let id;
+    const tick = () => {
+      rpos.current.x += (pos.current.x - rpos.current.x) * 0.1;
+      rpos.current.y += (pos.current.y - rpos.current.y) * 0.1;
+      if (dot.current)
+        dot.current.style.transform = `translate(${pos.current.x - 4}px,${pos.current.y - 4}px)`;
+      if (ring.current)
+        ring.current.style.transform = `translate(${rpos.current.x - 16}px,${rpos.current.y - 16}px)`;
+      id = requestAnimationFrame(tick);
+    };
+    tick();
+    return () => {
+      window.removeEventListener("mousemove", onM);
+      cancelAnimationFrame(id);
+    };
+  }, []);
+  const c = dark ? "#00D4FF" : "#7C3AED";
+  return (
+    <>
+      <div
+        ref={dot}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: 8,
+          height: 8,
+          borderRadius: "50%",
+          background: c,
+          zIndex: 9999,
+          pointerEvents: "none",
+          mixBlendMode: dark ? "screen" : "multiply",
+        }}
+      />
+      <div
+        ref={ring}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: 32,
+          height: 32,
+          borderRadius: "50%",
+          border: `1px solid ${c}60`,
+          zIndex: 9998,
+          pointerEvents: "none",
+        }}
+      />
+    </>
   );
 }
