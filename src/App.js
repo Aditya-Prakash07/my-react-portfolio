@@ -1263,13 +1263,15 @@ function IconBox({ iconKey, color, size = 40, dark }) {
 // ─── RESUME TOAST ─────────────────────────────────────────────────────────────
 function ResumeToast({ dark, show, onClose }) {
   const A = dark ? "#00D4FF" : "#6244e8";
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (show) {
       const t = setTimeout(onClose, 3500);
       return () => clearTimeout(t);
     }
-  }, [show]);
+    // Added onClose here
+  }, [show, onClose]); 
+
   return (
     <div
       style={{
@@ -1661,6 +1663,118 @@ function MobileMenu({
         </div>
       </div>
     </>
+  );
+}
+
+// ─── PROCESS CARD (with ghost number hover highlight) ────────────────────────
+function ProcessCard({ dark, glow, A, A2, isMobile, step, T, TS }) {
+  const [hov, setHov] = useState(false);
+  const ref = useRef(null);
+  const onMove = (e) => {
+    if (isMobile) return;
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5,
+      y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(1000px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) scale(1.02)`;
+    el.style.boxShadow = `${x * -20}px ${y * -20}px 48px ${glow}14, 0 0 28px ${glow}08`;
+  };
+  const onLeave = () => {
+    setHov(false);
+    const el = ref.current;
+    if (!el) return;
+    el.style.transform = "perspective(1000px) rotateY(0) rotateX(0) scale(1)";
+    el.style.boxShadow = "none";
+  };
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={onLeave}
+      onMouseMove={onMove}
+      style={{
+        padding: isMobile ? "20px 16px" : "26px 22px",
+        height: "100%",
+        position: "relative",
+        overflow: "hidden",
+        background: dark ? "rgba(255,255,255,0.022)" : "rgba(255,255,255,0.85)",
+        border: dark
+          ? "1px solid rgba(255,255,255,0.065)"
+          : "1px solid rgba(100,80,220,0.1)",
+        borderRadius: 18,
+        backdropFilter: "blur(28px)",
+        transition: "transform 0.12s ease, box-shadow 0.12s ease",
+        willChange: "transform",
+      }}
+    >
+      {/* Ghost number — highlights on hover */}
+      <div
+        style={{
+          position: "absolute",
+          top: -8,
+          right: 6,
+          fontFamily: "'Space Grotesk',sans-serif",
+          fontWeight: 800,
+          fontSize: isMobile ? 44 : 60,
+          color: hov ? A : dark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.04)",
+          lineHeight: 1,
+          pointerEvents: "none",
+          transition: "color 0.25s ease",
+          filter: hov ? `drop-shadow(0 0 12px ${A}60)` : "none",
+        }}
+      >
+        {step.step}
+      </div>
+      {/* Badge */}
+      <div
+        style={{
+          width: 26,
+          height: 26,
+          borderRadius: 8,
+          background: `linear-gradient(135deg,${A},${A2})`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 12,
+          position: "relative",
+          boxShadow: hov ? `0 0 14px ${A}50` : "none",
+          transition: "box-shadow 0.25s ease",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono',monospace",
+            fontWeight: 700,
+            fontSize: 9,
+            color: "#fff",
+          }}
+        >
+          {step.step}
+        </span>
+      </div>
+      <div
+        style={{
+          fontFamily: "'Space Grotesk',sans-serif",
+          fontWeight: 700,
+          fontSize: isMobile ? 13 : 14.5,
+          color: hov ? A : T,
+          marginBottom: 6,
+          transition: "color 0.25s ease",
+        }}
+      >
+        {step.title}
+      </div>
+      <p
+        style={{
+          fontSize: isMobile ? 11.5 : 12.5,
+          color: TS,
+          lineHeight: 1.75,
+        }}
+      >
+        {step.desc}
+      </p>
+    </div>
   );
 }
 
@@ -3338,79 +3452,16 @@ export default function Portfolio() {
           >
             {DATA.freelance.process.map((step, i) => (
               <Reveal key={step.step} delay={i * 0.07}>
-                <TiltCard
+                <ProcessCard
                   dark={dark}
                   glow={A}
+                  A={A}
+                  A2={A2}
                   isMobile={isMobile}
-                  style={{
-                    padding: isMobile ? "20px 16px" : "26px 22px",
-                    height: "100%",
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: -8,
-                      right: 6,
-                      fontFamily: "'Space Grotesk',sans-serif",
-                      fontWeight: 800,
-                      fontSize: isMobile ? 44 : 60,
-                      color: dark
-                        ? "rgba(255,255,255,0.03)"
-                        : "rgba(0,0,0,0.04)",
-                      lineHeight: 1,
-                      pointerEvents: "none",
-                    }}
-                  >
-                    {step.step}
-                  </div>
-                  <div
-                    style={{
-                      width: 26,
-                      height: 26,
-                      borderRadius: 8,
-                      background: `linear-gradient(135deg,${A},${A2})`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: 12,
-                      position: "relative",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "'JetBrains Mono',monospace",
-                        fontWeight: 700,
-                        fontSize: 9,
-                        color: "#fff",
-                      }}
-                    >
-                      {step.step}
-                    </span>
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'Space Grotesk',sans-serif",
-                      fontWeight: 700,
-                      fontSize: isMobile ? 13 : 14.5,
-                      color: T,
-                      marginBottom: 6,
-                    }}
-                  >
-                    {step.title}
-                  </div>
-                  <p
-                    style={{
-                      fontSize: isMobile ? 11.5 : 12.5,
-                      color: TS,
-                      lineHeight: 1.75,
-                    }}
-                  >
-                    {step.desc}
-                  </p>
-                </TiltCard>
+                  step={step}
+                  T={T}
+                  TS={TS}
+                />
               </Reveal>
             ))}
           </div>
