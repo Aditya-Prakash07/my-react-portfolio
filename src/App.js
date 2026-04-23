@@ -1,4 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import myProfilePic from "./assets/profile.jpeg";
+import fresherInternImg from "./assets/FresherIntern.png";
+import fullStackDeveloperImg from "./assets/FullStackDeveloper.png";
+import softwareEngineerImg from "./assets/SoftwareEngineer.png";
 
 // ─── SVG ICON LIBRARY ────────────────────────────────────────────────────────
 const Icon = {
@@ -810,17 +814,17 @@ const DATA = {
     resumePreviews: [
       {
         label: "Software Engineer",
-        img: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80",
+        img: softwareEngineerImg, // <-- Updated here
         color: "#00D4FF",
       },
       {
         label: "Full Stack Developer",
-        img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80",
+        img: fullStackDeveloperImg, // <-- Updated here
         color: "#7C3AED",
       },
       {
         label: "Fresher / Intern",
-        img: "https://images.unsplash.com/photo-1664575602554-2087b04935a5?w=400&q=80",
+        img: fresherInternImg, // <-- Updated here
         color: "#10B981",
       },
     ],
@@ -2967,7 +2971,7 @@ export default function Portfolio() {
                 }}
               >
                 <img
-                  src="https://avatars.githubusercontent.com/Aditya-Prakash07"
+                  src={myProfilePic}
                   alt="Aditya Prakash"
                   onError={(e) => {
                     e.target.style.display = "none";
