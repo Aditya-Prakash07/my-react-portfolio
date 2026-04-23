@@ -1512,6 +1512,18 @@ function MobileMenu({
     setOpen(false);
   };
 
+  // Prevent background scrolling when menu is open for a better mobile feel
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [open]);
+
   return (
     <>
       {/* Hamburger button */}
@@ -1534,41 +1546,44 @@ function MobileMenu({
         {open ? Icon.x(22, T) : Icon.menu(22, T)}
       </button>
 
-      {/* Overlay */}
+      {/* Overlay - Increased background darkness and blur (12px) */}
       <div
         onClick={() => setOpen(false)}
         style={{
           position: "fixed",
           inset: 0,
           zIndex: 400,
-          background: "rgba(0,0,0,0.5)",
-          backdropFilter: "blur(4px)",
+          background: "rgba(0,0,0,0.6)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
           opacity: open ? 1 : 0,
           pointerEvents: open ? "auto" : "none",
           transition: "opacity 0.3s ease",
         }}
       />
 
-      {/* Drawer */}
+      {/* Drawer Container (Uses 100dvh for proper mobile height calculation) */}
       <div
         style={{
           position: "fixed",
           top: 0,
           right: 0,
           bottom: 0,
+          height: "100dvh",
           zIndex: 450,
           width: "min(320px, 85vw)",
           background: cardBg,
           backdropFilter: "blur(40px)",
+          WebkitBackdropFilter: "blur(40px)",
           borderLeft: `1px solid ${cardBorder}`,
           transform: open ? "translateX(0)" : "translateX(100%)",
           transition: "transform 0.35s cubic-bezier(.22,1,.36,1)",
           display: "flex",
           flexDirection: "column",
-          boxShadow: "-20px 0 60px rgba(0,0,0,0.3)",
+          boxShadow: "-20px 0 60px rgba(0,0,0,0.4)",
         }}
       >
-        {/* Drawer header */}
+        {/* 1. HEADER (Locked at top) */}
         <div
           style={{
             padding: "20px 24px 16px",
@@ -1633,9 +1648,14 @@ function MobileMenu({
           </div>
         </div>
 
-        {/* Nav links (Ensured Flex Area to strictly handle scrolling) */}
+        {/* 2. SCROLLABLE LINKS (minHeight: 0 prevents the squishing bug!) */}
         <div
-          style={{ flex: "1 1 auto", overflowY: "auto", padding: "12px 16px" }}
+          style={{
+            flex: 1,
+            minHeight: 0,
+            overflowY: "auto",
+            padding: "20px 16px",
+          }}
         >
           {NAV.map((item) => {
             const isActive = activeNav === item;
@@ -1697,12 +1717,13 @@ function MobileMenu({
           })}
         </div>
 
-        {/* Drawer Footer */}
+        {/* 3. FOOTER (Locked at bottom with safe-area padding for modern iPhones) */}
         <div
           style={{
             padding: "16px 20px",
             borderTop: `1px solid ${cardBorder}`,
             flexShrink: 0,
+            paddingBottom: "max(16px, env(safe-area-inset-bottom))",
           }}
         >
           <a
