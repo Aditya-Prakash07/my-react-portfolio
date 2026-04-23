@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 // ─── SVG ICON LIBRARY ────────────────────────────────────────────────────────
 const Icon = {
@@ -446,6 +446,24 @@ const Icon = {
     </svg>
   ),
 };
+
+// NextEndpoint Custom Brand Logo SVG
+const NextEndpointLogo = ({ size = 18, color = "#fff" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="18" cy="12" r="3" />
+    <path d="M4 8h5l4 4" />
+    <path d="M4 16h5l4-4" />
+  </svg>
+);
 
 const RESUME_URL =
   "https://drive.google.com/file/d/1TAYYm0UEs-mXcZ8ATtbT6v5keA_C578_/view?usp=sharing";
@@ -1345,13 +1363,13 @@ function IconBox({ iconKey, color, size = 40, dark }) {
 // ─── RESUME TOAST ─────────────────────────────────────────────────────────────
 function ResumeToast({ dark, show, onClose }) {
   const A = dark ? "#00D4FF" : "#6244e8";
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (show) {
       const t = setTimeout(onClose, 3500);
       return () => clearTimeout(t);
     }
-  }, [show]);
+  }, [show, onClose]);
   return (
     <div
       style={{
@@ -1558,6 +1576,7 @@ function MobileMenu({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            flexShrink: 0,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -1572,27 +1591,18 @@ function MobileMenu({
                 justifyContent: "center",
               }}
             >
-              <span
-                style={{
-                  fontFamily: "'Space Grotesk',sans-serif",
-                  fontWeight: 800,
-                  fontSize: 11,
-                  color: "#fff",
-                }}
-              >
-                AP
-              </span>
+              <NextEndpointLogo size={16} />
             </div>
             <div>
               <div
                 style={{
                   fontFamily: "'Space Grotesk',sans-serif",
                   fontWeight: 700,
-                  fontSize: 13,
+                  fontSize: 14,
                   color: T,
                 }}
               >
-                Aditya Prakash
+                NextEndpoint
               </div>
               <div
                 style={{
@@ -1602,7 +1612,7 @@ function MobileMenu({
                   letterSpacing: "0.1em",
                 }}
               >
-                SOFTWARE ENGINEER
+                ENGINEERING STUDIO
               </div>
             </div>
           </div>
@@ -1623,8 +1633,10 @@ function MobileMenu({
           </div>
         </div>
 
-        {/* Nav links */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "12px 16px" }}>
+        {/* Nav links (Ensured Flex Area to strictly handle scrolling) */}
+        <div
+          style={{ flex: "1 1 auto", overflowY: "auto", padding: "12px 16px" }}
+        >
           {NAV.map((item) => {
             const isActive = activeNav === item;
             const isHire = item === "Freelance";
@@ -1685,9 +1697,13 @@ function MobileMenu({
           })}
         </div>
 
-        {/* Resume button in drawer */}
+        {/* Drawer Footer */}
         <div
-          style={{ padding: "16px 20px", borderTop: `1px solid ${cardBorder}` }}
+          style={{
+            padding: "16px 20px",
+            borderTop: `1px solid ${cardBorder}`,
+            flexShrink: 0,
+          }}
         >
           <a
             href={RESUME_URL}
@@ -1746,8 +1762,7 @@ function MobileMenu({
   );
 }
 
-// ─── PROCESS CARD (with ghost number hover highlight) ────────────────────────
-// --- PRICING CARD -----------------------------------------------------------
+// ─── PRICING CARD ───────────────────────────────────────────────────────────
 function PricingCard({
   pkg,
   dark,
@@ -1793,7 +1808,6 @@ function PricingCard({
           position: "relative",
         }}
       >
-        {/* Top color bar */}
         <div
           style={{
             height: 3,
@@ -1821,7 +1835,6 @@ function PricingCard({
             flexDirection: "column",
           }}
         >
-          {/* Tag */}
           <div
             style={{
               display: "flex",
@@ -1853,7 +1866,6 @@ function PricingCard({
             />
           </div>
 
-          {/* Title */}
           <div
             style={{
               fontFamily: "'Space Grotesk',sans-serif",
@@ -1867,7 +1879,6 @@ function PricingCard({
             {pkg.title}
           </div>
 
-          {/* Price */}
           <div
             style={{
               display: "flex",
@@ -1900,7 +1911,6 @@ function PricingCard({
             {pkg.priceNote}
           </div>
 
-          {/* Pitch */}
           <p
             style={{
               fontSize: 12.5,
@@ -1913,7 +1923,6 @@ function PricingCard({
             {pkg.pitch}
           </p>
 
-          {/* Features */}
           <div
             style={{
               display: "flex",
@@ -1961,7 +1970,6 @@ function PricingCard({
             ))}
           </div>
 
-          {/* CTA */}
           <a
             href={
               "mailto:" +
@@ -2011,7 +2019,7 @@ function PricingCard({
   );
 }
 
-// --- RESUME PREVIEW CARD ----------------------------------------------------
+// ─── RESUME PREVIEW CARD ────────────────────────────────────────────────────
 function ResumePreviewCard({ rv, dark, T, TS, cardBorder, A }) {
   const [hov, setHov] = useState(false);
   return (
@@ -2032,7 +2040,6 @@ function ResumePreviewCard({ rv, dark, T, TS, cardBorder, A }) {
         cursor: "default",
       }}
     >
-      {/* Image with VIEW ONLY overlay */}
       <div
         style={{
           position: "relative",
@@ -2056,7 +2063,6 @@ function ResumePreviewCard({ rv, dark, T, TS, cardBorder, A }) {
             transition: "filter 0.3s ease",
           }}
         />
-        {/* Blur overlay on hover to reinforce non-downloadable */}
         <div
           style={{
             position: "absolute",
@@ -2067,7 +2073,6 @@ function ResumePreviewCard({ rv, dark, T, TS, cardBorder, A }) {
               " 100%)",
           }}
         />
-        {/* VIEW ONLY badge */}
         <div
           style={{
             position: "absolute",
@@ -2087,13 +2092,11 @@ function ResumePreviewCard({ rv, dark, T, TS, cardBorder, A }) {
         >
           VIEW ONLY
         </div>
-        {/* No screenshot overlay */}
         <div
           style={{ position: "absolute", inset: 0, background: "transparent" }}
           onContextMenu={(e) => e.preventDefault()}
         />
       </div>
-      {/* Label */}
       <div
         style={{
           padding: "14px 16px",
@@ -2155,6 +2158,7 @@ function ResumePreviewCard({ rv, dark, T, TS, cardBorder, A }) {
   );
 }
 
+// ─── PROCESS CARD ────────────────────────────────────────────────────────────
 function ProcessCard({ dark, glow, A, A2, isMobile, step, T, TS }) {
   const [hov, setHov] = useState(false);
   const ref = useRef(null);
@@ -2196,7 +2200,6 @@ function ProcessCard({ dark, glow, A, A2, isMobile, step, T, TS }) {
         willChange: "transform",
       }}
     >
-      {/* Ghost number - highlights on hover */}
       <div
         style={{
           position: "absolute",
@@ -2214,7 +2217,6 @@ function ProcessCard({ dark, glow, A, A2, isMobile, step, T, TS }) {
       >
         {step.step}
       </div>
-      {/* Badge */}
       <div
         style={{
           width: 26,
@@ -2272,6 +2274,7 @@ export default function Portfolio() {
   const [activeNav, setActiveNav] = useState("About");
   const [hovSvc, setHovSvc] = useState(null);
   const [showToast, setShowToast] = useState(false);
+  const closeToast = useCallback(() => setShowToast(false), []);
   const isMobile = useIsMobile();
   const toggle = () => setDark((d) => !d);
 
@@ -2348,18 +2351,9 @@ export default function Portfolio() {
 
       <ScrollProgress dark={dark} />
       <AuroraBg dark={dark} />
-      {!isMobile && (
-        <>
-          {/* Magnetic Cursor only on desktop */}
-          <MagneticCursorDesktop dark={dark} />
-        </>
-      )}
+      {!isMobile && <MagneticCursorDesktop dark={dark} />}
       <FloatingResume dark={dark} onOpen={() => setShowToast(true)} />
-      <ResumeToast
-        dark={dark}
-        show={showToast}
-        onClose={() => setShowToast(false)}
-      />
+      <ResumeToast dark={dark} show={showToast} onClose={closeToast} />
 
       {/* ── NAVBAR ── */}
       <nav
@@ -2379,7 +2373,7 @@ export default function Portfolio() {
           borderBottom: `1px solid ${dark ? "rgba(0,212,255,0.06)" : "rgba(98,68,232,0.08)"}`,
         }}
       >
-        {/* Logo */}
+        {/* NextEndpoint Logo */}
         <div
           style={{
             display: "flex",
@@ -2402,17 +2396,7 @@ export default function Portfolio() {
               flexShrink: 0,
             }}
           >
-            <span
-              style={{
-                fontFamily: "'Space Grotesk',sans-serif",
-                fontWeight: 800,
-                fontSize: 12,
-                color: "#fff",
-                letterSpacing: "0.02em",
-              }}
-            >
-              AP
-            </span>
+            <NextEndpointLogo size={18} />
           </div>
           {!isMobile && (
             <div>
@@ -2420,12 +2404,12 @@ export default function Portfolio() {
                 style={{
                   fontFamily: "'Space Grotesk',sans-serif",
                   fontWeight: 700,
-                  fontSize: 14,
+                  fontSize: 15,
                   color: T,
                   lineHeight: 1.1,
                 }}
               >
-                Aditya Prakash
+                NextEndpoint
               </div>
               <div
                 style={{
@@ -2435,7 +2419,7 @@ export default function Portfolio() {
                   letterSpacing: "0.1em",
                 }}
               >
-                SOFTWARE ENGINEER
+                ENGINEERING STUDIO
               </div>
             </div>
           )}
@@ -2444,11 +2428,11 @@ export default function Portfolio() {
               style={{
                 fontFamily: "'Space Grotesk',sans-serif",
                 fontWeight: 700,
-                fontSize: 15,
+                fontSize: 16,
                 color: T,
               }}
             >
-              Aditya Prakash
+              NextEndpoint
             </div>
           )}
         </div>
@@ -2581,7 +2565,6 @@ export default function Portfolio() {
               textAlign: isMobile ? "center" : "left",
             }}
           >
-            {/* Status badge */}
             <div
               style={{
                 display: "inline-flex",
@@ -2991,7 +2974,6 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Scroll cue - hide on mobile */}
         {!isMobile && (
           <div
             style={{
@@ -3579,7 +3561,6 @@ export default function Portfolio() {
             />
           </Reveal>
 
-          {/* Subtitle */}
           <Reveal>
             <p
               style={{
@@ -3595,7 +3576,6 @@ export default function Portfolio() {
             </p>
           </Reveal>
 
-          {/* Pricing Cards */}
           <div
             style={{
               display: "grid",
@@ -3623,7 +3603,6 @@ export default function Portfolio() {
             ))}
           </div>
 
-          {/* Resume Previews */}
           <Reveal>
             <div
               style={{
@@ -3664,7 +3643,7 @@ export default function Portfolio() {
                   background: A + "08",
                 }}
               >
-                ATS-OPTIMISED
+                VIEW ONLY
               </span>
             </div>
           </Reveal>
@@ -4673,16 +4652,7 @@ export default function Portfolio() {
                     justifyContent: "center",
                   }}
                 >
-                  <span
-                    style={{
-                      fontFamily: "'Space Grotesk',sans-serif",
-                      fontWeight: 800,
-                      fontSize: 10,
-                      color: "#fff",
-                    }}
-                  >
-                    AP
-                  </span>
+                  <NextEndpointLogo size={14} />
                 </div>
                 <span
                   style={{
@@ -4692,7 +4662,7 @@ export default function Portfolio() {
                     color: T,
                   }}
                 >
-                  Aditya Prakash
+                  NextEndpoint
                 </span>
               </div>
               <div
@@ -4775,7 +4745,7 @@ export default function Portfolio() {
   );
 }
 
-// Desktop-only magnetic cursor (separate component to avoid mobile issues)
+// Desktop-only magnetic cursor
 function MagneticCursorDesktop({ dark }) {
   const dot = useRef(null),
     ring = useRef(null);
