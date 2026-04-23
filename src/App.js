@@ -3668,7 +3668,7 @@ export default function Portfolio() {
                   background: A + "08",
                 }}
               >
-                VIEW ONLY
+                ATS OPTIMISED
               </span>
             </div>
           </Reveal>
