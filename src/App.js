@@ -560,27 +560,27 @@ const DATA = {
     {
       company: "System Infra Solutions",
       role: "Software Engineer",
-      period: "Jul 2024 – Present",
+      period: "Jul 2024 - Present",
       current: true,
       color: "#00D4FF",
       bullets: [
-        "APIs & frontend for sensor telemetry monitoring across 10+ sites — 99.9% uptime, sub-100ms response.",
-        "Microservices for 5+ independently deployable components — cut inter-service coupling 60%.",
-        "CI/CD via Azure DevOps — release cycle 40% faster, zero manual deployment errors.",
+        "APIs & frontend for sensor telemetry monitoring across 10+ sites - 99.9% uptime, sub-100ms response.",
+        "Microservices for 5+ independently deployable components - cut inter-service coupling 60%.",
+        "CI/CD via Azure DevOps - release cycle 40% faster, zero manual deployment errors.",
         "95% on-time delivery over 12+ consecutive Agile sprints.",
       ],
     },
     {
       company: "Nanomindz Technologies",
       role: "Software Engineer Intern",
-      period: "Mar 2024 – Jun 2024",
+      period: "Mar 2024 - Jun 2024",
       current: false,
       color: "#7C3AED",
       bullets: [
-        "Java backend with JDBC + MySQL — 10,000+ daily record ops, zero data-loss.",
-        "JWT auth + RBAC — zero unauthorized-access breaches post-launch.",
-        "Tuned 20+ SQL queries — 35% drop in p95 execution time under peak load.",
-        "15+ RESTful endpoints — cross-team defects down 50%, UI release 2 weeks faster.",
+        "Java backend with JDBC + MySQL - 10,000+ daily record ops, zero data-loss.",
+        "JWT auth + RBAC - zero unauthorized-access breaches post-launch.",
+        "Tuned 20+ SQL queries - 35% drop in p95 execution time under peak load.",
+        "15+ RESTful endpoints - cross-team defects down 50%, UI release 2 weeks faster.",
       ],
     },
   ],
@@ -617,7 +617,7 @@ const DATA = {
     school: "SRM Institute of Science and Technology",
     degree: "Master of Computer Applications",
     field: "Computer Science",
-    period: "2023 – 2025",
+    period: "2023 - 2025",
     gpa: "9.35",
     location: "Chennai, India",
     link: "https://drive.google.com/file/d/1Iw53IgAZ0OaO3nUz9-h3Q7AxjIb5xdDA/view?usp=sharing",
@@ -656,9 +656,9 @@ const DATA = {
     },
   ],
   freelance: {
-    tagline: "Open to freelance, full-time roles & collaborations.",
+    tagline: "Open to freelance, full-time roles and collaborations.",
     pitch:
-      "Whether you are a company looking to hire, or need a backend engineer for a project — I am available. I build APIs, microservices, and cloud infrastructure that are production-ready and built to last.",
+      "Whether you are a company looking to hire, or need a backend engineer for a project - I am available. I build APIs, microservices, and cloud infrastructure that are production-ready and built to last.",
     services: [
       {
         svgIcon: "link",
@@ -674,25 +674,25 @@ const DATA = {
       },
       {
         svgIcon: "database",
-        title: "Database Design & Tuning",
+        title: "Database Design and Tuning",
         color: "#10B981",
         desc: "Schema design, query optimization, Redis caching layers. Proven 35%+ performance gains on production workloads.",
       },
       {
         svgIcon: "cloud",
-        title: "Cloud & DevOps",
+        title: "Cloud and DevOps",
         color: "#F59E0B",
         desc: "CI/CD pipelines, Docker, Kubernetes, AWS/Azure deployments. Ship faster with zero manual errors.",
       },
       {
         svgIcon: "shield",
-        title: "Security & Auth",
+        title: "Security and Auth",
         color: "#EF4444",
         desc: "JWT, OAuth2, RBAC, HTTPS best practices. Zero security incidents across all production systems I have shipped.",
       },
       {
         svgIcon: "activity",
-        title: "Real-time & IoT Systems",
+        title: "Real-time and IoT Systems",
         color: "#EC4899",
         desc: "WebSocket dashboards, event-driven pipelines, IoT ingestion at 1M+ events/day with 99.8%+ uptime.",
       },
@@ -701,13 +701,13 @@ const DATA = {
       { stat: "2+", label: "Years in Production" },
       { stat: "99.9%", label: "Uptime Delivered" },
       { stat: "< 1 wk", label: "Kickoff Timeline" },
-      { stat: "∞", label: "Post-launch Support" },
+      { stat: "Free", label: "Post-launch Support" },
     ],
     process: [
       {
         step: "01",
         title: "Reach Out",
-        desc: "Email or LinkedIn — tell me what you are building or hiring for.",
+        desc: "Email or LinkedIn - tell me what you are building or hiring for.",
       },
       {
         step: "02",
@@ -716,13 +716,94 @@ const DATA = {
       },
       {
         step: "03",
-        title: "Build & Iterate",
+        title: "Build and Iterate",
         desc: "Agile sprints with regular updates and production-quality code.",
       },
       {
         step: "04",
-        title: "Ship & Hand Off",
+        title: "Ship and Hand Off",
         desc: "Production deploy, documentation, and clean knowledge transfer.",
+      },
+    ],
+  },
+  offerings: {
+    packages: [
+      {
+        id: "resume",
+        icon: "fileText",
+        color: "#00D4FF",
+        tag: "MOST POPULAR",
+        title: "Professional Resume",
+        price: "Rs. 499",
+        priceNote: "onwards",
+        pitch:
+          "ATS-optimised, visually stunning resumes that get callbacks. Tailored for software engineers, freshers, and experienced professionals.",
+        features: [
+          "ATS-friendly formatting",
+          "Custom design for your role",
+          "Keyword and SEO optimisation",
+          "PDF + editable source file",
+          "LinkedIn profile tips included",
+          "1 free revision round",
+        ],
+        cta: "Get Your Resume",
+      },
+      {
+        id: "portfolio",
+        icon: "layers",
+        color: "#7C3AED",
+        tag: "FREE DEPLOYMENT",
+        title: "Portfolio Website",
+        price: "Rs. 2,000",
+        priceNote: "onwards - excl. domain",
+        pitch:
+          "Stunning portfolio sites in React, Vue, WordPress or any tech you prefer. Free deployment on Vercel or Netlify included.",
+        features: [
+          "React, Vue, WordPress, any stack",
+          "Mobile-first, fully responsive",
+          "Dark / light mode toggle",
+          "Contact form and social links",
+          "Free deployment on Vercel / Netlify",
+          "Source code handover",
+        ],
+        cta: "Get Your Portfolio",
+      },
+      {
+        id: "business",
+        icon: "trending",
+        color: "#10B981",
+        tag: "AI + SEO",
+        title: "Business Website",
+        price: "Rs. 5,000",
+        priceNote: "onwards - excl. domain and hosting",
+        pitch:
+          "Grow your business online with an AI-powered, SEO-optimised website. Perfect for small businesses wanting more customers from Google.",
+        features: [
+          "AI-powered content generation",
+          "On-page SEO and meta optimisation",
+          "Google-ready sitemap and schema",
+          "Mobile-first performance tuning",
+          "WhatsApp and enquiry integration",
+          "Free deployment setup",
+        ],
+        cta: "Grow My Business",
+      },
+    ],
+    resumePreviews: [
+      {
+        label: "Software Engineer",
+        img: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80",
+        color: "#00D4FF",
+      },
+      {
+        label: "Full Stack Developer",
+        img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80",
+        color: "#7C3AED",
+      },
+      {
+        label: "Fresher / Intern",
+        img: "https://images.unsplash.com/photo-1664575602554-2087b04935a5?w=400&q=80",
+        color: "#10B981",
       },
     ],
   },
@@ -733,6 +814,7 @@ const NAV = [
   "Skills",
   "Experience",
   "Projects",
+  "Services",
   "Freelance",
   "Education",
   "Contact",
@@ -1263,15 +1345,13 @@ function IconBox({ iconKey, color, size = 40, dark }) {
 // ─── RESUME TOAST ─────────────────────────────────────────────────────────────
 function ResumeToast({ dark, show, onClose }) {
   const A = dark ? "#00D4FF" : "#6244e8";
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (show) {
       const t = setTimeout(onClose, 3500);
       return () => clearTimeout(t);
     }
-    // Added onClose here
-  }, [show, onClose]); 
-
+  }, [show]);
   return (
     <div
       style={{
@@ -1667,6 +1747,414 @@ function MobileMenu({
 }
 
 // ─── PROCESS CARD (with ghost number hover highlight) ────────────────────────
+// --- PRICING CARD -----------------------------------------------------------
+function PricingCard({
+  pkg,
+  dark,
+  A,
+  A2,
+  T,
+  TS,
+  cardBg,
+  cardBorder,
+  isMobile,
+  delay,
+}) {
+  const [hov, setHov] = useState(false);
+  const isPopular = pkg.tag === "MOST POPULAR";
+  return (
+    <Reveal delay={delay}>
+      <div
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        style={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          borderRadius: 20,
+          overflow: "hidden",
+          border:
+            hov || isPopular
+              ? "1px solid " + pkg.color + "55"
+              : "1px solid " + cardBorder,
+          background: hov
+            ? dark
+              ? pkg.color + "0c"
+              : pkg.color + "07"
+            : cardBg,
+          backdropFilter: "blur(28px)",
+          transition: "all 0.25s ease",
+          boxShadow: hov
+            ? "0 16px 48px " + pkg.color + "18"
+            : isPopular
+              ? "0 8px 32px " + pkg.color + "12"
+              : "none",
+          transform: hov ? "translateY(-4px)" : "none",
+          position: "relative",
+        }}
+      >
+        {/* Top color bar */}
+        <div
+          style={{
+            height: 3,
+            background:
+              "linear-gradient(90deg," +
+              pkg.color +
+              "," +
+              (pkg.color === "#00D4FF"
+                ? "#7C3AED"
+                : pkg.color === "#7C3AED"
+                  ? "#EC4899"
+                  : pkg.color === "#10B981"
+                    ? "#00D4FF"
+                    : "#EC4899") +
+              ")",
+            flexShrink: 0,
+          }}
+        />
+
+        <div
+          style={{
+            padding: isMobile ? "22px 20px 20px" : "26px 24px 22px",
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* Tag */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 16,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono',monospace",
+                fontSize: 9,
+                fontWeight: 700,
+                color: pkg.color,
+                letterSpacing: "0.15em",
+                padding: "3px 10px",
+                borderRadius: 20,
+                background: pkg.color + "15",
+                border: "1px solid " + pkg.color + "30",
+              }}
+            >
+              {pkg.tag}
+            </span>
+            <IconBox
+              iconKey={pkg.icon}
+              color={pkg.color}
+              size={34}
+              dark={dark}
+            />
+          </div>
+
+          {/* Title */}
+          <div
+            style={{
+              fontFamily: "'Space Grotesk',sans-serif",
+              fontWeight: 800,
+              fontSize: isMobile ? 17 : 19,
+              color: T,
+              letterSpacing: "-0.01em",
+              marginBottom: 8,
+            }}
+          >
+            {pkg.title}
+          </div>
+
+          {/* Price */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              gap: 6,
+              marginBottom: 6,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Space Grotesk',sans-serif",
+                fontWeight: 800,
+                fontSize: isMobile ? 26 : 30,
+                color: pkg.color,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              {pkg.price}
+            </span>
+          </div>
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono',monospace",
+              fontSize: 10,
+              color: TS,
+              marginBottom: 14,
+              letterSpacing: "0.04em",
+            }}
+          >
+            {pkg.priceNote}
+          </div>
+
+          {/* Pitch */}
+          <p
+            style={{
+              fontSize: 12.5,
+              color: TS,
+              lineHeight: 1.8,
+              marginBottom: 18,
+              flex: 1,
+            }}
+          >
+            {pkg.pitch}
+          </p>
+
+          {/* Features */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 7,
+              marginBottom: 20,
+            }}
+          >
+            {pkg.features.map((f, fi) => (
+              <div
+                key={fi}
+                style={{ display: "flex", alignItems: "flex-start", gap: 8 }}
+              >
+                <div
+                  style={{
+                    width: 16,
+                    height: 16,
+                    borderRadius: "50%",
+                    background: pkg.color + "18",
+                    border: "1px solid " + pkg.color + "35",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    marginTop: 1,
+                  }}
+                >
+                  <svg
+                    width="8"
+                    height="8"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke={pkg.color}
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <span style={{ fontSize: 12, color: TS, lineHeight: 1.55 }}>
+                  {f}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <a
+            href={
+              "mailto:" +
+              "toadityarajput@gmail.com" +
+              "?subject=" +
+              encodeURIComponent("Enquiry: " + pkg.title)
+            }
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              padding: "12px 18px",
+              borderRadius: 10,
+              fontFamily: "'Space Grotesk',sans-serif",
+              fontWeight: 700,
+              fontSize: 13,
+              textDecoration: "none",
+              background: hov
+                ? "linear-gradient(135deg," + pkg.color + "," + A2 + ")"
+                : pkg.color + "15",
+              color: hov ? "#fff" : pkg.color,
+              border: "1px solid " + pkg.color + (hov ? "00" : "40"),
+              transition: "all 0.25s ease",
+              boxShadow: hov ? "0 4px 20px " + pkg.color + "40" : "none",
+              letterSpacing: "0.02em",
+            }}
+          >
+            {pkg.cta}
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+// --- RESUME PREVIEW CARD ----------------------------------------------------
+function ResumePreviewCard({ rv, dark, T, TS, cardBorder, A }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        position: "relative",
+        borderRadius: 16,
+        overflow: "hidden",
+        border: hov
+          ? "1px solid " + rv.color + "55"
+          : "1px solid " + cardBorder,
+        transition: "all 0.25s ease",
+        transform: hov ? "translateY(-3px)" : "none",
+        boxShadow: hov ? "0 12px 40px " + rv.color + "20" : "none",
+        background: dark ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.8)",
+        cursor: "default",
+      }}
+    >
+      {/* Image with VIEW ONLY overlay */}
+      <div
+        style={{
+          position: "relative",
+          aspectRatio: "3/4",
+          overflow: "hidden",
+          background: dark ? "#0a0020" : "#eef0f8",
+        }}
+      >
+        <img
+          src={rv.img}
+          alt={rv.label + " Resume Preview"}
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            userSelect: "none",
+            pointerEvents: "none",
+            filter: "blur(0px) brightness(0.92)",
+            transition: "filter 0.3s ease",
+          }}
+        />
+        {/* Blur overlay on hover to reinforce non-downloadable */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(180deg, transparent 40%, " +
+              (dark ? "rgba(5,0,22,0.85)" : "rgba(240,244,255,0.85)") +
+              " 100%)",
+          }}
+        />
+        {/* VIEW ONLY badge */}
+        <div
+          style={{
+            position: "absolute",
+            top: 10,
+            right: 10,
+            fontFamily: "'JetBrains Mono',monospace",
+            fontSize: 8.5,
+            fontWeight: 700,
+            color: "#fff",
+            background: "rgba(0,0,0,0.55)",
+            backdropFilter: "blur(8px)",
+            padding: "3px 9px",
+            borderRadius: 20,
+            letterSpacing: "0.1em",
+            border: "1px solid rgba(255,255,255,0.15)",
+          }}
+        >
+          VIEW ONLY
+        </div>
+        {/* No screenshot overlay */}
+        <div
+          style={{ position: "absolute", inset: 0, background: "transparent" }}
+          onContextMenu={(e) => e.preventDefault()}
+        />
+      </div>
+      {/* Label */}
+      <div
+        style={{
+          padding: "14px 16px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <div>
+          <div
+            style={{
+              fontFamily: "'Space Grotesk',sans-serif",
+              fontWeight: 700,
+              fontSize: 13,
+              color: T,
+              marginBottom: 2,
+            }}
+          >
+            {rv.label}
+          </div>
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono',monospace",
+              fontSize: 9.5,
+              color: rv.color,
+            }}
+          >
+            RESUME STYLE
+          </div>
+        </div>
+        <div
+          style={{
+            width: 28,
+            height: 28,
+            borderRadius: "50%",
+            background: rv.color + "15",
+            border: "1px solid " + rv.color + "30",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={rv.color}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ProcessCard({ dark, glow, A, A2, isMobile, step, T, TS }) {
   const [hov, setHov] = useState(false);
   const ref = useRef(null);
@@ -1708,7 +2196,7 @@ function ProcessCard({ dark, glow, A, A2, isMobile, step, T, TS }) {
         willChange: "transform",
       }}
     >
-      {/* Ghost number — highlights on hover */}
+      {/* Ghost number - highlights on hover */}
       <div
         style={{
           position: "absolute",
@@ -1854,7 +2342,7 @@ export default function Portfolio() {
         .obtn:hover{background:${A}12!important;border-color:${A}60!important;}
         .chip:hover{border-color:${A}!important;background:${A}10!important;color:${A}!important;transform:translateY(-1px);}
         .cert-card:hover .cert-reveal{opacity:1!important;transform:translateX(0)!important;}
-        .svc-card:hover{transform:translateY(-5px)!important;}
+        .svc-card:hover{transform:translateY(-5px)!important;} img{-webkit-user-drag:none;} .no-dl{pointer-events:none;user-select:none;}
         .resume-nav-btn:hover{background:${A}18!important;border-color:${A}!important;color:${A}!important;}
       `}</style>
 
@@ -2503,7 +2991,7 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Scroll cue — hide on mobile */}
+        {/* Scroll cue - hide on mobile */}
         {!isMobile && (
           <div
             style={{
@@ -3079,11 +3567,166 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {/* SERVICES */}
+        <section id="services" style={{ padding: "40px 0" }}>
+          <Reveal>
+            <SectionHead
+              num="05 / SERVICES"
+              title={["What I", "Offer"]}
+              accent={A}
+              dark={dark}
+              isMobile={isMobile}
+            />
+          </Reveal>
+
+          {/* Subtitle */}
+          <Reveal>
+            <p
+              style={{
+                fontSize: isMobile ? 14 : 15,
+                color: TS,
+                lineHeight: 1.85,
+                maxWidth: 560,
+                marginBottom: 44,
+              }}
+            >
+              From crafting resumes that land callbacks to building businesses
+              online - powered by AI and SEO.
+            </p>
+          </Reveal>
+
+          {/* Pricing Cards */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : "repeat(auto-fit,minmax(260px,1fr))",
+              gap: 16,
+              marginBottom: 56,
+            }}
+          >
+            {DATA.offerings.packages.map((pkg, i) => (
+              <PricingCard
+                key={pkg.id}
+                pkg={pkg}
+                dark={dark}
+                A={A}
+                A2={A2}
+                T={T}
+                TS={TS}
+                cardBg={cardBg}
+                cardBorder={cardBorder}
+                isMobile={isMobile}
+                delay={i * 0.08}
+              />
+            ))}
+          </div>
+
+          {/* Resume Previews */}
+          <Reveal>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: 22,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'JetBrains Mono',monospace",
+                  fontSize: 9.5,
+                  color: TS,
+                  letterSpacing: "0.18em",
+                }}
+              >
+                SAMPLE RESUME STYLES
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  height: 1,
+                  background: dark
+                    ? "rgba(255,255,255,0.06)"
+                    : "rgba(0,0,0,0.06)",
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: "'JetBrains Mono',monospace",
+                  fontSize: 9,
+                  color: A,
+                  letterSpacing: "0.1em",
+                  padding: "3px 10px",
+                  borderRadius: 20,
+                  border: "1px solid " + A + "30",
+                  background: A + "08",
+                }}
+              >
+                ATS-OPTIMISED
+              </span>
+            </div>
+          </Reveal>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
+              gap: 16,
+              marginBottom: 20,
+            }}
+          >
+            {DATA.offerings.resumePreviews.map((rv, i) => (
+              <Reveal key={rv.label} delay={i * 0.1}>
+                <ResumePreviewCard
+                  rv={rv}
+                  dark={dark}
+                  T={T}
+                  TS={TS}
+                  cardBorder={cardBorder}
+                  A={A}
+                />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "12px 16px",
+                borderRadius: 10,
+                background: dark
+                  ? "rgba(255,255,255,0.025)"
+                  : "rgba(0,0,0,0.025)",
+                border: "1px solid " + cardBorder,
+                marginBottom: 56,
+              }}
+            >
+              <div
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: "#F59E0B",
+                  flexShrink: 0,
+                }}
+              />
+              <span style={{ fontSize: 12, color: TS, lineHeight: 1.6 }}>
+                These are preview images only - actual resumes are delivered as
+                ATS-optimised PDFs. Starting at{" "}
+                <span style={{ fontWeight: 700, color: A }}>Rs. 499</span>.
+              </span>
+            </div>
+          </Reveal>
+        </section>
+
         {/* FREELANCE */}
         <section id="freelance" style={{ padding: "40px 0" }}>
           <Reveal>
             <SectionHead
-              num="05 / FREELANCE"
+              num="06 / FREELANCE"
               title={["Available", "for Work"]}
               accent={A}
               dark={dark}
@@ -3471,7 +4114,7 @@ export default function Portfolio() {
         <section id="education" style={{ padding: "40px 0" }}>
           <Reveal>
             <SectionHead
-              num="06 / EDUCATION"
+              num="07 / EDUCATION"
               title={["Academic", "Background"]}
               accent={A}
               dark={dark}
@@ -3747,7 +4390,7 @@ export default function Portfolio() {
         <section id="contact" style={{ padding: "40px 0 100px" }}>
           <Reveal>
             <SectionHead
-              num="07 / CONTACT"
+              num="08 / CONTACT"
               title={["Get in", "Touch"]}
               accent={A}
               dark={dark}
