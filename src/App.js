@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import myProfilePic from "./assets/profile.jpeg";
 import fresherInternImg from "./assets/FresherIntern.png";
 import fullStackDeveloperImg from "./assets/FullStackDeveloper.png";
 import softwareEngineerImg from "./assets/SoftwareEngineer.png";
@@ -754,10 +753,11 @@ const DATA = {
         id: "resume",
         icon: "fileText",
         color: "#00D4FF",
-        tag: "MOST POPULAR",
+        tag: "SPECIAL OFFER",
         title: "Professional Resume",
-        price: "Rs. 499",
-        priceNote: "onwards",
+        oldPrice: "₹499",
+        price: "₹99",
+        priceNote: "limited time",
         pitch:
           "ATS-optimised, visually stunning resumes that get callbacks. Tailored for software engineers, freshers, and experienced professionals.",
         features: [
@@ -774,10 +774,11 @@ const DATA = {
         id: "portfolio",
         icon: "layers",
         color: "#7C3AED",
-        tag: "FREE DEPLOYMENT",
+        tag: "SPECIAL OFFER",
         title: "Portfolio Website",
-        price: "Rs. 2,000",
-        priceNote: "onwards - excl. domain",
+        oldPrice: "₹2,000",
+        price: "₹999",
+        priceNote: "excl. domain",
         pitch:
           "Stunning portfolio sites in React, Vue, WordPress or any tech you prefer. Free deployment on Vercel or Netlify included.",
         features: [
@@ -794,10 +795,11 @@ const DATA = {
         id: "business",
         icon: "trending",
         color: "#10B981",
-        tag: "AI + SEO",
+        tag: "SPECIAL OFFER",
         title: "Business Website",
-        price: "Rs. 5,000",
-        priceNote: "onwards - excl. domain and hosting",
+        oldPrice: "₹5,000",
+        price: "₹1,999",
+        priceNote: "excl. domain and hosting",
         pitch:
           "Grow your business online with an AI-powered, SEO-optimised website. Perfect for small businesses wanting more customers from Google.",
         features: [
@@ -814,17 +816,17 @@ const DATA = {
     resumePreviews: [
       {
         label: "Software Engineer",
-        img: softwareEngineerImg, // <-- Updated here
+        img: softwareEngineerImg,
         color: "#00D4FF",
       },
       {
         label: "Full Stack Developer",
-        img: fullStackDeveloperImg, // <-- Updated here
+        img: fullStackDeveloperImg,
         color: "#7C3AED",
       },
       {
         label: "Fresher / Intern",
-        img: fresherInternImg, // <-- Updated here
+        img: fresherInternImg,
         color: "#10B981",
       },
     ],
@@ -989,7 +991,7 @@ function AuroraBg({ dark }) {
   );
 }
 
-// ─── PARTICLE FIELD (disabled on mobile for perf) ────────────────────────────
+// ─── PARTICLE FIELD ──────────────────────────────────────────────────────────
 function ParticleField({ dark, isMobile }) {
   const ref = useRef(null),
     mouse = useRef({ x: -999, y: -999 });
@@ -1530,7 +1532,6 @@ function MobileMenu({
 
   return (
     <>
-      {/* Hamburger button */}
       <button
         onClick={() => setOpen((o) => !o)}
         aria-label="Toggle menu"
@@ -1550,7 +1551,6 @@ function MobileMenu({
         {open ? Icon.x(22, T) : Icon.menu(22, T)}
       </button>
 
-      {/* Overlay - Increased background darkness and blur (12px) */}
       <div
         onClick={() => setOpen(false)}
         style={{
@@ -1566,7 +1566,6 @@ function MobileMenu({
         }}
       />
 
-      {/* Drawer Container (Uses 100dvh for proper mobile height calculation) */}
       <div
         style={{
           position: "fixed",
@@ -1587,7 +1586,6 @@ function MobileMenu({
           boxShadow: "-20px 0 60px rgba(0,0,0,0.4)",
         }}
       >
-        {/* 1. HEADER (Locked at top) */}
         <div
           style={{
             padding: "20px 24px 16px",
@@ -1652,7 +1650,6 @@ function MobileMenu({
           </div>
         </div>
 
-        {/* 2. SCROLLABLE LINKS (minHeight: 0 prevents the squishing bug!) */}
         <div
           style={{
             flex: 1,
@@ -1721,7 +1718,6 @@ function MobileMenu({
           })}
         </div>
 
-        {/* 3. FOOTER (Locked at bottom with safe-area padding for modern iPhones) */}
         <div
           style={{
             padding: "16px 20px",
@@ -1801,7 +1797,7 @@ function PricingCard({
   delay,
 }) {
   const [hov, setHov] = useState(false);
-  const isPopular = pkg.tag === "MOST POPULAR";
+  const isOffer = pkg.tag === "SPECIAL OFFER";
   return (
     <Reveal delay={delay}>
       <div
@@ -1814,8 +1810,8 @@ function PricingCard({
           borderRadius: 20,
           overflow: "hidden",
           border:
-            hov || isPopular
-              ? "1px solid " + pkg.color + "55"
+            hov || isOffer
+              ? "1px solid " + pkg.color + "60"
               : "1px solid " + cardBorder,
           background: hov
             ? dark
@@ -1823,19 +1819,19 @@ function PricingCard({
               : pkg.color + "07"
             : cardBg,
           backdropFilter: "blur(28px)",
-          transition: "all 0.25s ease",
+          transition: "all 0.3s ease",
           boxShadow: hov
-            ? "0 16px 48px " + pkg.color + "18"
-            : isPopular
-              ? "0 8px 32px " + pkg.color + "12"
+            ? "0 20px 50px " + pkg.color + "25"
+            : isOffer
+              ? "0 8px 32px " + pkg.color + "18"
               : "none",
-          transform: hov ? "translateY(-4px)" : "none",
+          transform: hov ? "translateY(-6px)" : "none",
           position: "relative",
         }}
       >
         <div
           style={{
-            height: 3,
+            height: 4,
             background:
               "linear-gradient(90deg," +
               pkg.color +
@@ -1854,7 +1850,7 @@ function PricingCard({
 
         <div
           style={{
-            padding: isMobile ? "22px 20px 20px" : "26px 24px 22px",
+            padding: isMobile ? "22px 20px 20px" : "28px 24px 24px",
             flex: 1,
             display: "flex",
             flexDirection: "column",
@@ -1873,12 +1869,16 @@ function PricingCard({
                 fontFamily: "'JetBrains Mono',monospace",
                 fontSize: 9,
                 fontWeight: 700,
-                color: pkg.color,
+                color: isOffer ? "#fff" : pkg.color,
                 letterSpacing: "0.15em",
-                padding: "3px 10px",
+                padding: "4px 10px",
                 borderRadius: 20,
-                background: pkg.color + "15",
-                border: "1px solid " + pkg.color + "30",
+                background: isOffer
+                  ? `linear-gradient(135deg, ${pkg.color}, ${A2})`
+                  : pkg.color + "15",
+                border: isOffer ? "none" : "1px solid " + pkg.color + "30",
+                animation: isOffer ? "pulse-soft 2s infinite" : "none",
+                boxShadow: isOffer ? `0 0 12px ${pkg.color}50` : "none",
               }}
             >
               {pkg.tag}
@@ -1886,7 +1886,7 @@ function PricingCard({
             <IconBox
               iconKey={pkg.icon}
               color={pkg.color}
-              size={34}
+              size={36}
               dark={dark}
             />
           </div>
@@ -1895,28 +1895,43 @@ function PricingCard({
             style={{
               fontFamily: "'Space Grotesk',sans-serif",
               fontWeight: 800,
-              fontSize: isMobile ? 17 : 19,
+              fontSize: isMobile ? 18 : 20,
               color: T,
               letterSpacing: "-0.01em",
-              marginBottom: 8,
+              marginBottom: 10,
             }}
           >
             {pkg.title}
           </div>
 
+          {/* Pricing Section with Strikethrough */}
           <div
             style={{
               display: "flex",
               alignItems: "baseline",
-              gap: 6,
+              gap: 8,
               marginBottom: 6,
             }}
           >
+            {pkg.oldPrice && (
+              <span
+                style={{
+                  fontFamily: "'Space Grotesk',sans-serif",
+                  fontSize: isMobile ? 16 : 18,
+                  color: TS,
+                  textDecoration: "line-through",
+                  opacity: 0.7,
+                  fontWeight: 600,
+                }}
+              >
+                {pkg.oldPrice}
+              </span>
+            )}
             <span
               style={{
                 fontFamily: "'Space Grotesk',sans-serif",
                 fontWeight: 800,
-                fontSize: isMobile ? 26 : 30,
+                fontSize: isMobile ? 28 : 32,
                 color: pkg.color,
                 letterSpacing: "-0.02em",
               }}
@@ -1929,7 +1944,7 @@ function PricingCard({
               fontFamily: "'JetBrains Mono',monospace",
               fontSize: 10,
               color: TS,
-              marginBottom: 14,
+              marginBottom: 16,
               letterSpacing: "0.04em",
             }}
           >
@@ -1941,7 +1956,7 @@ function PricingCard({
               fontSize: 12.5,
               color: TS,
               lineHeight: 1.8,
-              marginBottom: 18,
+              marginBottom: 20,
               flex: 1,
             }}
           >
@@ -1952,14 +1967,14 @@ function PricingCard({
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 7,
-              marginBottom: 20,
+              gap: 8,
+              marginBottom: 24,
             }}
           >
             {pkg.features.map((f, fi) => (
               <div
                 key={fi}
-                style={{ display: "flex", alignItems: "flex-start", gap: 8 }}
+                style={{ display: "flex", alignItems: "flex-start", gap: 10 }}
               >
                 <div
                   style={{
@@ -1972,7 +1987,7 @@ function PricingCard({
                     alignItems: "center",
                     justifyContent: "center",
                     flexShrink: 0,
-                    marginTop: 1,
+                    marginTop: 2,
                   }}
                 >
                   <svg
@@ -1988,7 +2003,7 @@ function PricingCard({
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </div>
-                <span style={{ fontSize: 12, color: TS, lineHeight: 1.55 }}>
+                <span style={{ fontSize: 12.5, color: TS, lineHeight: 1.55 }}>
                   {f}
                 </span>
               </div>
@@ -2007,7 +2022,7 @@ function PricingCard({
               alignItems: "center",
               justifyContent: "center",
               gap: 8,
-              padding: "12px 18px",
+              padding: "13px 18px",
               borderRadius: 10,
               fontFamily: "'Space Grotesk',sans-serif",
               fontWeight: 700,
@@ -2019,7 +2034,7 @@ function PricingCard({
               color: hov ? "#fff" : pkg.color,
               border: "1px solid " + pkg.color + (hov ? "00" : "40"),
               transition: "all 0.25s ease",
-              boxShadow: hov ? "0 4px 20px " + pkg.color + "40" : "none",
+              boxShadow: hov ? "0 6px 20px " + pkg.color + "40" : "none",
               letterSpacing: "0.02em",
             }}
           >
@@ -2293,6 +2308,142 @@ function ProcessCard({ dark, glow, A, A2, isMobile, step, T, TS }) {
   );
 }
 
+// ─── ABSTRACT TECH VISUAL (Avatar Replacement) ──────────────────────────────
+function AbstractTechVisual({ A, A2, dark, isMobile }) {
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: isMobile ? 200 : 320,
+        height: isMobile ? 200 : 320,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        animation: "float 5.5s ease-in-out infinite",
+      }}
+    >
+      {!isMobile && (
+        <>
+          <div
+            style={{
+              position: "absolute",
+              inset: -28,
+              borderRadius: "50%",
+              border: dark
+                ? "1px solid rgba(0,212,255,0.18)"
+                : "1px solid rgba(98,68,232,0.14)",
+              animation: "spin 24s linear infinite",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: "6%",
+                left: "-5px",
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: A,
+                boxShadow: `0 0 10px ${A}`,
+              }}
+            />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              inset: -56,
+              borderRadius: "50%",
+              border: dark
+                ? "1px solid rgba(124,58,237,0.12)"
+                : "1px solid rgba(208,58,140,0.1)",
+              animation: "spin-rev 36s linear infinite",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                bottom: "18%",
+                right: "-4px",
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: A2,
+                boxShadow: `0 0 8px ${A2}`,
+              }}
+            />
+          </div>
+        </>
+      )}
+      {isMobile && (
+        <div
+          style={{
+            position: "absolute",
+            inset: -16,
+            borderRadius: "50%",
+            border: dark
+              ? "1px solid rgba(0,212,255,0.2)"
+              : "1px solid rgba(98,68,232,0.15)",
+            animation: "spin 20s linear infinite",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: "6%",
+              left: "-4px",
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              background: A,
+              boxShadow: `0 0 8px ${A}`,
+            }}
+          />
+        </div>
+      )}
+      <div
+        style={{
+          width: isMobile ? 168 : 270,
+          height: isMobile ? 168 : 270,
+          borderRadius: "50%",
+          background: dark
+            ? `linear-gradient(135deg,${A}15,${A2}10)`
+            : `linear-gradient(135deg,${A}10,${A2}05)`,
+          border: dark ? `2px solid ${A}28` : `2px solid ${A}20`,
+          boxShadow: dark
+            ? `0 0 70px ${A}18, 0 0 140px ${A2}10`
+            : `0 0 40px ${A}14`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 20,
+            border: `1px dashed ${A}40`,
+            borderRadius: "50%",
+            animation: "spin 30s linear infinite reverse",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            inset: 40,
+            border: `1px solid ${A2}30`,
+            borderRadius: "50%",
+            animation: "spin 20s linear infinite",
+          }}
+        />
+        <div style={{ filter: `drop-shadow(0 0 15px ${A}80)` }}>
+          <NextEndpointLogo size={isMobile ? 64 : 84} color={A} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── MAIN PORTFOLIO ───────────────────────────────────────────────────────────
 export default function Portfolio() {
   const [dark, setDark] = useState(true);
@@ -2365,6 +2516,7 @@ export default function Portfolio() {
         @keyframes pring{0%{transform:scale(1);opacity:.6;}100%{transform:scale(2);opacity:0;}}
         @keyframes drop{0%{height:0;opacity:0;}100%{height:56px;opacity:1;}}
         @keyframes shimmer-line{0%{transform:translateX(-100%);}100%{transform:translateX(300%);}}
+        @keyframes pulse-soft { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.85; transform: scale(1.03); } }
         .navbtn:hover{color:${A}!important;}
         .pbtn:hover{transform:translateY(-2px)!important;filter:brightness(1.1)!important;}
         .obtn:hover{background:${A}12!important;border-color:${A}60!important;}
@@ -2854,7 +3006,7 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Avatar */}
+          {/* Avatar Replacement (Abstract Tech Visual) */}
           <div
             style={{
               display: "flex",
@@ -2863,139 +3015,7 @@ export default function Portfolio() {
               flexShrink: 0,
             }}
           >
-            <div
-              style={{
-                position: "relative",
-                width: isMobile ? 200 : 320,
-                height: isMobile ? 200 : 320,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                animation: "float 5.5s ease-in-out infinite",
-              }}
-            >
-              {!isMobile && (
-                <>
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: -28,
-                      borderRadius: "50%",
-                      border: dark
-                        ? "1px solid rgba(0,212,255,0.18)"
-                        : "1px solid rgba(98,68,232,0.14)",
-                      animation: "spin 24s linear infinite",
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "6%",
-                        left: "-5px",
-                        width: 10,
-                        height: 10,
-                        borderRadius: "50%",
-                        background: A,
-                        boxShadow: `0 0 10px ${A}`,
-                      }}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: -56,
-                      borderRadius: "50%",
-                      border: dark
-                        ? "1px solid rgba(124,58,237,0.12)"
-                        : "1px solid rgba(208,58,140,0.1)",
-                      animation: "spin-rev 36s linear infinite",
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: "absolute",
-                        bottom: "18%",
-                        right: "-4px",
-                        width: 7,
-                        height: 7,
-                        borderRadius: "50%",
-                        background: A2,
-                        boxShadow: `0 0 8px ${A2}`,
-                      }}
-                    />
-                  </div>
-                </>
-              )}
-              {isMobile && (
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: -16,
-                    borderRadius: "50%",
-                    border: dark
-                      ? "1px solid rgba(0,212,255,0.2)"
-                      : "1px solid rgba(98,68,232,0.15)",
-                    animation: "spin 20s linear infinite",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "6%",
-                      left: "-4px",
-                      width: 8,
-                      height: 8,
-                      borderRadius: "50%",
-                      background: A,
-                      boxShadow: `0 0 8px ${A}`,
-                    }}
-                  />
-                </div>
-              )}
-              <div
-                style={{
-                  width: isMobile ? 168 : 270,
-                  height: isMobile ? 168 : 270,
-                  borderRadius: "50%",
-                  overflow: "hidden",
-                  background: dark
-                    ? `linear-gradient(135deg,${A}18,${A2}14)`
-                    : `linear-gradient(135deg,${A}12,${A2}10)`,
-                  border: dark ? `2px solid ${A}28` : `2px solid ${A}20`,
-                  boxShadow: dark
-                    ? `0 0 70px ${A}18, 0 0 140px ${A2}10`
-                    : `0 0 40px ${A}14`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <img
-                  src={myProfilePic}
-                  alt="Aditya Prakash"
-                  onError={(e) => {
-                    e.target.style.display = "none";
-                    e.target.nextSibling.style.display = "flex";
-                  }}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-                <div
-                  style={{
-                    display: "none",
-                    width: "100%",
-                    height: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontFamily: "'Space Grotesk',sans-serif",
-                    fontWeight: 800,
-                    fontSize: isMobile ? 44 : 68,
-                    color: A,
-                  }}
-                >
-                  AP
-                </div>
-              </div>
-            </div>
+            <AbstractTechVisual A={A} A2={A2} dark={dark} isMobile={isMobile} />
           </div>
         </div>
 
@@ -3720,7 +3740,7 @@ export default function Portfolio() {
               <span style={{ fontSize: 12, color: TS, lineHeight: 1.6 }}>
                 These are preview images only - actual resumes are delivered as
                 ATS-optimised PDFs. Starting at{" "}
-                <span style={{ fontWeight: 700, color: A }}>Rs. 499</span>.
+                <span style={{ fontWeight: 700, color: A }}>₹99</span>.
               </span>
             </div>
           </Reveal>
