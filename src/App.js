@@ -469,7 +469,7 @@ const NextEndpointLogo = ({ size = 18, color = "#fff" }) => (
 );
 
 const RESUME_URL =
-  "https://drive.google.com/file/d/1TAYYm0UEs-mXcZ8ATtbT6v5keA_C578_/view?usp=sharing";
+  "https://drive.google.com/file/d/1Kvj9x0wTIFLmoOs4u_nWJ4z5m3Mdx1jv/view?usp=sharing";
 
 const DATA = {
   name: "Aditya Prakash",
