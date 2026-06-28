@@ -131,6 +131,11 @@ const Icon = {
       <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
     </svg>
   ),
+  leetcode: (s = 16, c = "currentColor") => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill={c}>
+      <path d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.363c-.467-.467-.702-1.15-.702-1.863s.235-1.357.702-1.824l4.319-4.38c.467-.467 1.125-.645 1.837-.645s1.357.195 1.823.662l2.697 2.606c.514.515 1.365.497 1.9-.038.535-.536.553-1.387.039-1.901l-2.606-2.636c-1.404-1.366-3.414-2.025-5.59-2.025s-4.187.659-5.59 2.025l-4.319 4.38c-1.404 1.367-2.062 3.393-2.062 5.568s.658 4.202 2.062 5.568l4.332 4.363c1.404 1.367 3.414 2.025 5.59 2.025s4.186-.658 5.59-2.025l2.697-2.606c.514-.515.496-1.366-.039-1.901-.535-.535-1.386-.553-1.901-.038zM20.811 13.01H10.666c-.702 0-1.27.604-1.27 1.346s.568 1.346 1.27 1.346h10.145c.701 0 1.27-.604 1.27-1.346s-.569-1.346-1.27-1.346z" />
+    </svg>
+  ),
   arrowRight: (s = 14, c = "currentColor") => (
     <svg
       width={s}
@@ -389,6 +394,7 @@ const DATA = {
     email: "adityaprakash@gmail.com",
     linkedin: "aditya-prakash-996538170",
     github: "Aditya-Prakash07",
+    leetcode: "Aditya_Prakash07",
     portfolio: "https://my-portfolio-three-hazel-32.vercel.app/",
   },
   summary:
@@ -2240,26 +2246,12 @@ export default function Portfolio() {
                   icon: Icon.github(18, TS),
                 },
                 {
-                  href: `https://linkedin.com/in/${DATA.contact.linkedin}`,
-                  icon: Icon.linkedin(18, TS),
+                  href: `https://leetcode.com/u/${DATA.contact.leetcode}/`,
+                  icon: Icon.leetcode(18, TS),
                 },
                 {
-                  href: DATA.contact.portfolio,
-                  icon: (
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke={TS}
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="2" y1="12" x2="22" y2="12" />
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </svg>
-                  ),
+                  href: `https://linkedin.com/in/${DATA.contact.linkedin}`,
+                  icon: Icon.linkedin(18, TS),
                 },
               ].map((s, i) => (
                 <a
@@ -3396,9 +3388,9 @@ export default function Portfolio() {
                         href: `https://linkedin.com/in/${DATA.contact.linkedin}`,
                       },
                       {
-                        icon: Icon.github(15, TS),
-                        text: `github.com/${DATA.contact.github}`,
-                        href: `https://github.com/${DATA.contact.github}`,
+                        icon: Icon.leetcode(15, TS),
+                        text: `leetcode.com/u/${DATA.contact.leetcode}`,
+                        href: `https://leetcode.com/u/${DATA.contact.leetcode}/`,
                       },
                     ].map((c, i) => (
                       <a
@@ -3536,6 +3528,10 @@ export default function Portfolio() {
                   {
                     href: `https://github.com/${DATA.contact.github}`,
                     icon: Icon.github(15, TS),
+                  },
+                  {
+                    href: `https://leetcode.com/u/${DATA.contact.leetcode}/`,
+                    icon: Icon.leetcode(15, TS),
                   },
                   {
                     href: `https://linkedin.com/in/${DATA.contact.linkedin}`,
