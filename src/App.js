@@ -376,7 +376,9 @@ const CustomLogo = ({ size = 18, color = "#fff" }) => (
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 const RESUME_URL =
-  "https://drive.google.com/file/d/1Kvj9x0wTIFLmoOs4u_nWJ4z5m3Mdx1jv/view?usp=sharing";
+  "https://docs.google.com/document/d/1_7hWokBO5T_qY_p7mlKyTsPIYInhuGXV/edit?usp=sharing&ouid=112457387856955871460&rtpof=true&sd=true";
+const COVER_LETTER_URL =
+  "https://docs.google.com/document/d/1st17gzSPOTwX-msTjVDGnttvXuivpmVs/edit?usp=sharing&ouid=112457387856955871460&rtpof=true&sd=true";
 
 const DATA = {
   name: "Aditya Prakash",
@@ -1206,7 +1208,7 @@ function ResumeToast({ dark, show, onClose }) {
             color: dark ? "#dde6f0" : "#18253a",
           }}
         >
-          Resume opened in new tab
+          Document opened in new tab
         </span>
         <button
           onClick={onClose}
@@ -1302,7 +1304,7 @@ function MobileMenu({
   activeNav,
   scrollTo,
   toggle,
-  onResumeClick,
+  onDocClick,
 }) {
   const [open, setOpen] = useState(false);
   const cardBg = dark ? "rgba(5,0,22,0.97)" : "rgba(240,244,255,0.97)";
@@ -1502,6 +1504,9 @@ function MobileMenu({
             borderTop: `1px solid ${cardBorder}`,
             flexShrink: 0,
             paddingBottom: "max(16px, env(safe-area-inset-bottom))",
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
           }}
         >
           <a
@@ -1509,7 +1514,7 @@ function MobileMenu({
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
-              onResumeClick();
+              onDocClick();
               setOpen(false);
             }}
             style={{
@@ -1529,6 +1534,34 @@ function MobileMenu({
             }}
           >
             {Icon.fileText(15, "#fff")} View Resume
+          </a>
+          <a
+            href={COVER_LETTER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              onDocClick();
+              setOpen(false);
+            }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              padding: "13px 20px",
+              borderRadius: 12,
+              background: dark
+                ? "rgba(0,212,255,0.06)"
+                : "rgba(98,68,232,0.06)",
+              border: `1px solid ${A}30`,
+              color: A,
+              textDecoration: "none",
+              fontWeight: 700,
+              fontSize: 14,
+              fontFamily: "'Space Grotesk',sans-serif",
+            }}
+          >
+            {Icon.fileText(15, A)} Cover Letter
           </a>
         </div>
       </div>
@@ -1914,7 +1947,7 @@ export default function Portfolio() {
               activeNav={activeNav}
               scrollTo={scrollTo}
               toggle={toggle}
-              onResumeClick={() => setShowToast(true)}
+              onDocClick={() => setShowToast(true)}
             />
           </div>
         )}
@@ -2146,6 +2179,30 @@ export default function Portfolio() {
                 }}
               >
                 {Icon.fileText(14, A)} Resume
+              </a>
+              <a
+                href={COVER_LETTER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setShowToast(true)}
+                className="obtn"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 7,
+                  padding: isMobile ? "11px 20px" : "12px 24px",
+                  borderRadius: 10,
+                  fontWeight: 700,
+                  fontSize: 13,
+                  fontFamily: "inherit",
+                  transition: "all 0.22s",
+                  background: "transparent",
+                  color: A,
+                  border: `1px solid ${A}35`,
+                  textDecoration: "none",
+                }}
+              >
+                {Icon.fileText(14, A)} Cover Letter
               </a>
             </div>
 
@@ -3230,6 +3287,29 @@ export default function Portfolio() {
                     >
                       {Icon.fileText(13, A)} Resume
                     </a>
+                    <a
+                      href={COVER_LETTER_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setShowToast(true)}
+                      className="obtn"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 7,
+                        padding: "11px 16px",
+                        borderRadius: 9,
+                        fontWeight: 600,
+                        fontSize: 13,
+                        background: "transparent",
+                        color: A,
+                        border: `1px solid ${A}30`,
+                        textDecoration: "none",
+                        transition: "all 0.22s",
+                      }}
+                    >
+                      {Icon.fileText(13, A)} Cover Letter
+                    </a>
                   </div>
                 </div>
               </TiltCard>
@@ -3428,6 +3508,30 @@ export default function Portfolio() {
                 >
                   {Icon.fileText(11, A)} RESUME
                 </a>
+                <a
+                  href={COVER_LETTER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setShowToast(true)}
+                  className="chip"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "5px 11px",
+                    borderRadius: 7,
+                    background: "transparent",
+                    border: `1px solid ${A}25`,
+                    color: A,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    textDecoration: "none",
+                    transition: "all 0.18s",
+                    fontFamily: "'JetBrains Mono',monospace",
+                  }}
+                >
+                  {Icon.fileText(11, A)} COVER LETTER
+                </a>
                 {[
                   {
                     href: `https://github.com/${DATA.contact.github}`,
@@ -3461,6 +3565,7 @@ export default function Portfolio() {
                     color: TS,
                     opacity: 0.5,
                     letterSpacing: "0.08em",
+                    marginLeft: 8,
                   }}
                 >
                   © {new Date().getFullYear()} · REACT
