@@ -404,7 +404,7 @@ const DATA = {
   location: "Hajipur, Bihar, India",
   contact: {
     phone: "+91 9529338081",
-    email: "adityaprakash@gmail.com",
+    email: "mailtoadityaprakash@gmail.com",
     linkedin: "aditya-prakash-996538170",
     github: "Aditya-Prakash07",
     leetcode: "Aditya_Prakash07",
