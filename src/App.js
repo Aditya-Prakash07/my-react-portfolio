@@ -394,13 +394,13 @@ const CustomLogo = ({ size = 18, color = "#fff" }) => (
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 const RESUME_URL =
-  "https://docs.google.com/document/d/1_7hWokBO5T_qY_p7mlKyTsPIYInhuGXV/edit?usp=sharing&ouid=112457387856955871460&rtpof=true&sd=true";
+  "https://docs.google.com/document/d/1fHzdi6hI1BLoA7Il7ba4yToQNd5w3KQK/edit?usp=sharing&ouid=112457387856955871460&rtpof=true&sd=true";
 const COVER_LETTER_URL =
-  "https://docs.google.com/document/d/1st17gzSPOTwX-msTjVDGnttvXuivpmVs/edit?usp=sharing&ouid=112457387856955871460&rtpof=true&sd=true";
+  "https://docs.google.com/document/d/1_O_sgiMZ6k_vwc90tk8d4aCNdVlOFEOy/edit?usp=sharing&ouid=112457387856955871460&rtpof=true&sd=true";
 
 const DATA = {
   name: "Aditya Prakash",
-  title: "Backend Software Engineer",
+  title: "Senior Full-Stack Developer",
   location: "Hajipur, Bihar, India",
   contact: {
     phone: "+91 9529338081",
@@ -408,27 +408,27 @@ const DATA = {
     linkedin: "aditya-prakash-996538170",
     github: "Aditya-Prakash07",
     leetcode: "Aditya_Prakash07",
-    portfolio: "https://my-portfolio-three-hazel-32.vercel.app/",
+    portfolio: "https://nextendpoint.online",
   },
   summary:
-    "Specializing in Java & Spring Boot — building RESTful APIs, microservices, and high-availability systems that scale to 4,000+ remote sites and process 1M+ daily events.",
+    "Senior SENIOR SOFTWARE ENGINEER with 3+ years of experience delivering production-grade systems across frontend and backend. Specializes in Java, Spring Boot, Microservices, and database query tuning, alongside building interactive, responsive application layers with React.js.",
   roles: [
-    "Backend Engineer",
-    "API Specialist",
-    "Microservices Dev",
-    "Spring Boot Expert",
+    "SENIOR SOFTWARE ENGINEER",
+    "Senior Web Developer",
+    "Spring Boot & React Dev",
+    "System Architect",
   ],
   stats: [
     {
       value: 1000000,
       display: "1M+",
-      label: "Daily Events Processed",
+      label: "Daily Ingestion Events",
       icon: "zap",
     },
     {
       value: 35,
       display: "35%",
-      label: "Query Performance Gain",
+      label: "Query Performance Gains",
       icon: "trending",
     },
     {
@@ -440,7 +440,7 @@ const DATA = {
     {
       value: 4000,
       display: "4K+",
-      label: "Remote Sites Served",
+      label: "Active Remote Sites Served",
       icon: "briefcase",
     },
   ],
@@ -449,10 +449,10 @@ const DATA = {
       cat: "Languages",
       color: "#00D4FF",
       icon: "code",
-      items: ["Java 8/11/17/21", "SQL"],
+      items: ["Java 8 / 11 / 17 / 21", "SQL", "JavaScript (ES6+)"],
     },
     {
-      cat: "Core Frameworks",
+      cat: "Backend Frameworks",
       color: "#7C3AED",
       icon: "layers",
       items: [
@@ -462,7 +462,18 @@ const DATA = {
         "Spring Security",
         "JWT / OAuth2",
         "RBAC",
-        "Spring Data JPA",
+        "Microservices Architecture",
+      ],
+    },
+    {
+      cat: "Frontend Architecture",
+      color: "#EC4899",
+      icon: "layers",
+      items: [
+        "React.js",
+        "HTML5 & CSS3",
+        "REST API Integration",
+        "UI Visualization Components",
       ],
     },
     {
@@ -471,151 +482,147 @@ const DATA = {
       icon: "database",
       items: [
         "Hibernate ORM",
+        "Spring Data JPA",
         "JPQL",
         "Criteria API",
-        "Lazy/Eager Loading",
+        "Lazy/Eager Loading Strategies",
         "Transaction Management",
       ],
     },
     {
-      cat: "Databases",
+      cat: "Databases & Tuning",
       color: "#F59E0B",
       icon: "database",
       items: [
         "MySQL",
         "PostgreSQL",
-        "Redis",
-        "Query Optimisation",
+        "Query Optimization",
         "Index Tuning",
         "Schema Design",
+        "Redis (caching basics)",
       ],
     },
     {
-      cat: "API Design",
+      cat: "API & Event Design",
       color: "#EF4444",
       icon: "activity",
       items: [
-        "RESTful APIs",
+        "RESTful Web APIs",
         "Swagger / OpenAPI 3.0",
         "Postman",
-        "API Versioning",
-        "Exception Handling",
+        "Centralized Exception Handling",
+        "Event-Driven Architectures",
       ],
     },
     {
-      cat: "Architecture & Patterns",
-      color: "#EC4899",
-      icon: "cpu",
-      items: [
-        "Microservices",
-        "Event-Driven",
-        "SOLID",
-        "OOP",
-        "Builder",
-        "Factory",
-        "Strategy",
-      ],
-    },
-    {
-      cat: "Testing",
+      cat: "Software Testing",
       color: "#00D4FF",
       icon: "check",
-      items: ["JUnit 5", "Mockito", "Integration Testing", "TDD"],
+      items: ["JUnit 5", "Mockito", "Integration Testing", "TDD Methodologies"],
     },
     {
-      cat: "DevOps & Cloud",
+      cat: "DevOps & Infrastructure",
       color: "#7C3AED",
       icon: "cloud",
       items: [
         "Docker",
         "Kubernetes (exposure)",
-        "GitHub Actions",
-        "AWS EC2/S3",
+        "GitHub Actions (CI/CD)",
+        "AWS EC2 / S3",
         "Maven",
-        "Git",
+        "Git Automation",
       ],
     },
   ],
   experience: [
     {
-      company: "System Infra Solutions",
-      role: "Software Engineer",
+      company: "System Infra Solutions Pvt. Ltd.",
+      role: "Senior Software Engineer (Full Stack)",
       location: "New Delhi, India",
-      period: "Jul 2024 – May 2026",
+      period: "Mar 2023 – Apr 2026",
       current: true,
       color: "#00D4FF",
       bullets: [
         {
-          text: "Designed and developed core backend services for an enterprise IoT dashboard using ",
-          bold: "Spring Boot and Spring MVC",
-          rest: ", exposing RESTful APIs consumed by 4,000+ remote sites processing 50,000+ daily data points.",
+          text: "Designed and developed full-stack features for an enterprise IoT dashboard using a ",
+          bold: "Spring Boot backend and React.js frontend",
+          rest: ", establishing robust REST APIs consumed by 4,000+ remote sites for telemetry visualization.",
         },
         {
-          text: "Built a secure API layer using ",
+          text: "Built a secure, zero-trust API layer utilizing ",
           bold: "Spring Security with JWT authentication and RBAC",
-          rest: ", protecting all endpoints and enforcing fine-grained authorization across user roles.",
+          rest: ", successfully protecting granular authorization rules across explicit internal user roles.",
         },
         {
-          text: "Engineered the persistence layer using ",
+          text: "Engineered high-performance data queries through ",
           bold: "Spring Data JPA and Hibernate ORM",
-          rest: "; implemented N+1 query fixes, fetch strategy tuning, and MySQL index optimization — reducing query execution times by 35%.",
+          rest: "; resolved performance bottlenecks by executing N+1 query fixes, fetch strategy tuning, and MySQL index tuning to reduce latency by 35%.",
         },
         {
-          text: "Containerized application services using ",
-          bold: "Docker",
-          rest: " and automated build pipelines with GitHub Actions (CI/CD), maintaining 99.9% environment uptime.",
+          text: "Containerized cross-platform application services utilizing ",
+          bold: "Docker and Kubernetes",
+          rest: " environments, building declarative workflows and CI/CD automation pipelines via GitHub Actions.",
         },
         {
-          text: "Developed reusable service and repository components following ",
+          text: "Implemented structural code patterns following strict ",
           bold: "SOLID principles and OOP design patterns",
-          rest: " (Builder, Factory, Strategy), improving code maintainability.",
+          rest: " (Builder, Factory, Strategy), optimizing codebase abstraction and improving modularity.",
         },
         {
-          text: "Implemented comprehensive ",
-          bold: "unit and integration test suites with JUnit 5 and Mockito",
-          rest: ", achieving high coverage on critical service and repository classes.",
-        },
-        {
-          text: "Collaborated in ",
-          bold: "Agile/Scrum",
-          rest: " sprints achieving 95% on-time delivery across 12 consecutive cycles.",
+          text: "Enforced robust system resilience by creating rigorous ",
+          bold: "unit and integration tests through JUnit 5 and Mockito",
+          rest: " inside test-driven engineering frameworks.",
         },
       ],
     },
   ],
   projects: [
     {
-      name: "SISAXS — Enterprise IoT Ingestion Platform",
+      name: "SISAXS — Enterprise IoT Ingestion & Analytics Platform",
       color: "#00D4FF",
-      tags: ["Java 17", "Spring Boot", "Spring Data JPA", "MySQL", "Docker"],
-      metric: "1M+ events/day",
-      desc: "Designed a fault-tolerant Spring Boot data ingestion engine processing 1M+ daily telemetry events from distributed IoT sensors. Engineered async service layers for 99.8% uptime under peak load. Restructured MySQL schemas with composite indexes, reducing transaction bottlenecks by 30%. Centralized exception handling via @ControllerAdvice.",
+      tags: [
+        "Java 17",
+        "Spring Boot",
+        "Spring Data JPA",
+        "MySQL",
+        "React.js",
+        "Docker",
+      ],
+      metric: "1M+ telemetry events/day",
+      desc: "Designed a fault-tolerant data ingestion engine using async architecture to sustain 99.8% uptime under peak loads. Built real-time React.js monitoring dashboards mapped to authenticated backend endpoints. Restructured MySQL schemas using composite indexes and optimized queries to mitigate transactional blocks by 30%.",
     },
     {
-      name: "iProtect — Real-Time Security Monitoring",
+      name: "iProtect — Real-Time Hardware Health Monitoring",
       color: "#7C3AED",
-      tags: ["Spring Boot", "Spring Security", "PostgreSQL", "Hibernate ORM"],
-      metric: "45% latency drop",
-      desc: "Built the backend for a real-time hardware health monitoring platform serving 50+ remote locations. Reduced API latency by 45% by eliminating N+1 query patterns in Hibernate ORM, refactoring fetch strategies, and optimizing PostgreSQL query plans via EXPLAIN ANALYZE.",
+      tags: [
+        "Spring Boot",
+        "React.js",
+        "PostgreSQL",
+        "Hibernate ORM",
+        "Spring Security",
+      ],
+      metric: "45% API latency drop",
+      desc: "Built a secure B2B remote health tracking platform serving 50+ unique edge node locations. Eliminated severe N+1 access patterns inside Hibernate by refactoring operational fetch rules and auditing query maps via EXPLAIN ANALYZE. Delivered an interactive alert tracking dashboard layout utilizing React.js.",
     },
     {
-      name: "E-Commerce Platform — Microservices",
+      name: "E-Commerce Infrastructure — Scalable Microservices",
       color: "#10B981",
       tags: [
         "Java 17",
         "Spring Boot",
         "Microservices",
         "Spring Security",
+        "React.js",
         "MySQL",
       ],
-      metric: "25% p99 improvement",
-      desc: "Built a microservices-based backend using Spring Boot with inter-service REST communication. Implemented Spring Security (JWT + RBAC) supporting 500+ concurrent users. Reduced API p99 response times by 25% through JPA fetch strategy optimisation and DTO projections.",
+      metric: "25% p99 timeline improvement",
+      desc: "Created an distributed service application using isolated runtime context instances communicating via high-speed REST configurations. Protected service state configurations through JWT structures. Enhanced frontend response loops in React by moving component maps into granular DTO projections.",
     },
   ],
   education: {
     school: "SRM Institute of Science and Technology",
     degree: "Master of Computer Applications (MCA)",
-    field: "Computer Science",
+    field: "Computer Science & Application Engineering",
     period: "2023 – 2025",
     gpa: "9.35",
     location: "Chennai, India",
@@ -625,13 +632,13 @@ const DATA = {
   certifications: [
     {
       name: "Full Stack Java Developer",
-      issuer: "AccioJob · Core Java, DSA, Spring Boot",
+      issuer: "AccioJob · Core Java, DSA, Spring Boot, React.js Frameworks",
       color: "#F59E0B",
       icon: "code",
       link: "https://drive.google.com/file/d/17gc4Y3a4Wy2mx9EDOac25NqpWOL0fVEX/view?usp=sharing",
     },
     {
-      name: "Prompt Engineering & AI Fundamentals",
+      name: "Prompt Engineering & AI Model Architecture",
       issuer: "Anthropic",
       color: "#7C3AED",
       icon: "cpu",
@@ -640,13 +647,13 @@ const DATA = {
   ],
   achievements: [
     {
-      text: "Ranked top 5% globally on AccioJob",
-      highlight: "1,100+ DSA problems",
+      text: "Ranked top 5% globally on AccioJob Platform",
+      highlight: "1,100+ Advanced DSA Challenges Solved",
       icon: "award",
     },
     {
-      text: "100+ LeetCode problems solved",
-      highlight: "Graphs · Trees · DP",
+      text: "Solved 100+ algorithmic structures challenges on LeetCode",
+      highlight: "Advanced Optimization, Graphs & DP Maps",
       icon: "code",
     },
   ],
@@ -1437,7 +1444,7 @@ function MobileMenu({
                   letterSpacing: "0.1em",
                 }}
               >
-                BACKEND ENGINEER
+                SENIOR SOFTWARE ENGINEER
               </div>
             </div>
           </div>
@@ -1781,6 +1788,7 @@ export default function Portfolio() {
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap');
         *{box-sizing:border-box;margin:0;padding:0;}
         html{scroll-behavior:smooth;}
+        }
         ::selection{background:${A}28;color:${A};}
         ::-webkit-scrollbar{width:3px;}
         ::-webkit-scrollbar-track{background:transparent;}
@@ -1869,7 +1877,7 @@ export default function Portfolio() {
                   letterSpacing: "0.1em",
                 }}
               >
-                BACKEND ENGINEER
+                SENIOR SOFTWARE ENGINEER
               </div>
             </div>
           )}
@@ -2031,7 +2039,10 @@ export default function Portfolio() {
                 <div
                   style={{
                     position: "absolute",
-                    inset: 0,
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
                     borderRadius: "50%",
                     background: "#10B981",
                   }}
@@ -2242,7 +2253,7 @@ export default function Portfolio() {
                   letterSpacing: "0.1em",
                 }}
               >
-                CONNECT
+                CONNNECT
               </span>
               <div
                 style={{
@@ -3232,7 +3243,7 @@ export default function Portfolio() {
                       lineHeight: 1.2,
                     }}
                   >
-                    Looking for New Opportunities
+                    Looking for Senior Full-Stack Opportunities
                   </h3>
                   <p
                     style={{
@@ -3242,9 +3253,10 @@ export default function Portfolio() {
                       marginBottom: 24,
                     }}
                   >
-                    Backend Software Engineer with nearly 2 years of production
-                    experience in Java & Spring Boot. Open to full-time roles
-                    and technical collaborations.
+                    Full-Stack Software Engineer with 3+ years of production
+                    experience across Java, Spring Boot, SQL architectures, and
+                    React.js. Open to impactful full-time roles, system
+                    collaborations, and code design reviews.
                   </p>
                   <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                     <a
@@ -3634,7 +3646,6 @@ function MagneticCursorDesktop({ dark }) {
         }}
       />
       <div
-        ref={ring}
         style={{
           position: "fixed",
           top: 0,
