@@ -2290,7 +2290,7 @@ export default function Portfolio() {
                     borderRadius: 9,
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
+                    justify内Content: "center",
                     background: dark
                       ? "rgba(255,255,255,0.04)"
                       : "rgba(0,0,0,0.04)",
@@ -3646,6 +3646,7 @@ function MagneticCursorDesktop({ dark }) {
         }}
       />
       <div
+        ref={ring}
         style={{
           position: "fixed",
           top: 0,
