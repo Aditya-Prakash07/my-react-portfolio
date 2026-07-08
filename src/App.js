@@ -394,9 +394,9 @@ const CustomLogo = ({ size = 18, color = "#fff" }) => (
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 const RESUME_URL =
-  "https://docs.google.com/document/d/1fHzdi6hI1BLoA7Il7ba4yToQNd5w3KQK/edit?usp=sharing&ouid=112457387856955871460&rtpof=true&sd=true";
+  "https://drive.google.com/file/d/1Brs-USnb67KzrclQerMPxXizxDUwRr22/view?usp=sharing";
 const COVER_LETTER_URL =
-  "https://docs.google.com/document/d/1_O_sgiMZ6k_vwc90tk8d4aCNdVlOFEOy/edit?usp=sharing&ouid=112457387856955871460&rtpof=true&sd=true";
+  "https://drive.google.com/file/d/12VxPFZDw03YU5kJbqf8-wS7TT0d7F-PL/view?usp=sharing";
 
 const DATA = {
   name: "Aditya Prakash",
