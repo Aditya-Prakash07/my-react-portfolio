@@ -411,7 +411,7 @@ const DATA = {
     portfolio: "https://nextendpoint.online",
   },
   summary:
-    "Senior SENIOR SOFTWARE ENGINEER with 3+ years of experience delivering production-grade systems across frontend and backend. Specializes in Java, Spring Boot, Microservices, and database query tuning, alongside building interactive, responsive application layers with React.js.",
+    "SENIOR SOFTWARE ENGINEER with 3+ years of experience delivering production-grade systems across frontend and backend. Specializes in Java, Spring Boot, Microservices, and database query tuning, alongside building interactive, responsive application layers with React.js.",
   roles: [
     "SENIOR SOFTWARE ENGINEER",
     "Senior Web Developer",
