@@ -394,7 +394,7 @@ const CustomLogo = ({ size = 18, color = "#fff" }) => (
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 const RESUME_URL =
-  "https://drive.google.com/file/d/1Brs-USnb67KzrclQerMPxXizxDUwRr22/view?usp=sharing";
+  "https://drive.google.com/file/d/1RTRE6QwCtU83hxBGEUUunNtk7ceOUVKz/view?usp=sharing";
 const COVER_LETTER_URL =
   "https://drive.google.com/file/d/12VxPFZDw03YU5kJbqf8-wS7TT0d7F-PL/view?usp=sharing";
 
