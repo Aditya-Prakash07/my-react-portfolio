@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import profileImg from "./assets/profile.jpeg";
+import profileImg from "./assets/profile.png";
 import githubIcon from "./assets/github.svg";
 import linkedinIcon from "./assets/linkedin.svg";
 import leetcodeIcon from "./assets/leetcode.svg";
